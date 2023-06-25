@@ -32,7 +32,7 @@ require("lazy").setup
         },
         defaults =
         {
-            lazy = true, --插件默认为懒加载
+            lazy = true,     --插件默认为懒加载
             version = false, --使用最近的git提交，而不是带版本号的release版本，因为release版本可能是老旧的
         },
         install = { colorscheme = { "tokyonight", "habamax" } },
@@ -53,6 +53,18 @@ require("lazy").setup
                     "tutor",
                     "zipPlugin",
                 },
+            },
+        },
+        config =
+        {
+            compile_on_sync = true,
+            max_jobs = 16,
+            git = {}, --git-mirrors
+            display =
+            {
+                open_fn = function()
+                    return require('lazy.util').float({ border = 'single' })
+                end
             },
         },
     }
