@@ -15,15 +15,15 @@ vim.opt.termencoding = "utf-8"                       --终端的编码
 
 
 --编辑设置--
-vim.opt.number = true                            --显示行号
-vim.opt.relativenumber = false                   --不显示相对行号，虽然方便跳转
-vim.opt.cursorline = true                        --高亮当前行
-vim.opt.scrolloff = 8                            --如果光标的置移出了窗口，那么它会带动窗口的内容移动几行，即上下文的行数
-vim.opt.sidescrolloff = 8                        --如果光标位置移出了窗口，那么它会带动窗口的内容移动几列
-vim.opt.signcolumn = "yes"                       --始终显示 sign column（使用git时出现此列）
-vim.opt.whichwrap = "h,l,<,>,[,]"                --当光标在文本行的开头或结尾时，按下这些键可以换行。
-vim.opt.matchpairs = vim.opt.matchpairs .. "<:>" --将<和>作为一对匹配的括号字符, 高亮显示之
-vim.opt.virtualedit = "block,onemore"            --可以将光标移动到行末的下一个位置
+vim.opt.number = true                 --显示行号
+vim.opt.relativenumber = false        --虽然显示相对行号后方便跳转，但显示绝对行号更自然
+vim.opt.cursorline = true             --高亮当前行
+vim.opt.scrolloff = 8                 --如果光标的置移出了窗口，那么它会带动窗口的内容移动几行，即上下文的行数
+vim.opt.sidescrolloff = 8             --如果光标位置移出了窗口，那么它会带动窗口的内容移动几列
+vim.opt.signcolumn = "yes"            --始终显示 sign column（使用git时出现此列）
+vim.opt.whichwrap = "h,l,<,>,[,]"     --当光标在文本行的开头或结尾时，按下这些键可以换行。
+vim.opt.matchpairs:append { "<:>" }   --将<和>作为一对匹配的括号字符, 高亮显示之
+vim.opt.virtualedit = "block,onemore" --可以将光标移动到行末的下一个位置
 
 
 --折行--
@@ -43,7 +43,6 @@ vim.opt.shiftround = true         --使用> <等命令缩进时，缩进量自�
 vim.opt.autoindent = true         --换行时，复制上一行的缩进
 vim.opt.smartindent = true        --编写代码时智能缩进；而vim.opt.cindent启用c语言风格的缩进,比smartindent更严格
 vim.opt.smarttab = true           --根据已有的缩进来确定新行的缩进
-vim.opt.retab = true              --将文件中的\t替换为空格
 
 
 --查找--
@@ -91,8 +90,11 @@ vim.opt.clipboard = "unnamedplus" --使用+寄存器，即c-c c-v的系统剪切
 
 --显示不可见字符--
 vim.opt.list = true
-vim.opt.listchars = "space:·, tab:▸, trail:·,extends:❯,precedes:❮"
-
+vim.opt.listchars.space = "·"
+vim.opt.listchars.trail = "·"
+vim.opt.listchars.tab = "▸"
+vim.opt.listchars.extends = ">"
+vim.opt.listchars.precedes = "<"
 
 --补全--
 vim.opt.wildmenu = true                       -- 在命令模式中输出命令时，按Tab键自动补全命令和参数
@@ -125,9 +127,6 @@ vim.opt.shortmess:append({ W = true, I = true, c = true }) --不显示写入、�
 
 
 --vim.opt.foldmethod=indent --设置折叠方式
-
---vim.g.completeopt = 'menu,menuone,noselect,noinsert'
-
 
 --vim.opt.showmatch 输入右括号后，光标跳到左括号，持续0.5秒
 --vim.opt.matchtime=5

@@ -7,7 +7,7 @@ return
 
     dependencies = { 'nvim-lua/plenary.nvim' },
 
-    cmd = "telescope",
+    cmd = "Telescope",
 
     keys =
     {

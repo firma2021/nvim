@@ -1,10 +1,10 @@
---检查本地是否有一个名为 "lazy.nvim" 的文件，如果没有就通过 Git 下载最新的稳定版本，并将其添加到 Vim 的运行时路径中
+--插件管理
+
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim" --..用于连接字符串
-if not vim.loop.fs_stat(lazypath) then
-    vim.fn.system
-    (
-        {
-            "git",
+if not vim.loop.fs_stat(lazypath)                            --检查本地是否有"lazy.nvim"文件，没有则通过Git下载最新的稳定版本，添加到Vim运行时路径中
+then
+    vim.fn.system(
+        { "git",
             "clone",
             "--filter=blob:none",
             "https://github.com/folke/lazy.nvim.git",
@@ -13,22 +13,14 @@ if not vim.loop.fs_stat(lazypath) then
         }
     )
 end
+
 vim.opt.rtp:prepend(lazypath)
 
---管理插件
-require("lazy").setup
-(
+require("lazy").setup(
     {
-        spec =
+        spec =                      --规格，说明(specification)
         {
-            -- add LazyVim and import its plugins
-            { "LazyVim/LazyVim", import = "lazyvim.plugins" },
-            -- import any extras modules here
-            -- { import = "lazyvim.plugins.extras.lang.typescript" },
-            -- { import = "lazyvim.plugins.extras.lang.json" },
-            -- { import = "lazyvim.plugins.extras.ui.mini-animate" },
-            -- import/override with your plugins
-            { import = "plugins" },
+            { import = "plugins" }, --引入lua/plugins下的所有lua文件
         },
         defaults =
         {
