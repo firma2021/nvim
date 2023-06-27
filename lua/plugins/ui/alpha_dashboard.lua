@@ -46,8 +46,7 @@ return
             -- close Lazy and re-open when the dashboard is ready
             if vim.o.filetype == "lazy" then
                 vim.cmd.close()
-                vim.api.nvim_create_autocmd
-                (
+                vim.api.nvim_create_autocmd(
                     "User",
                     {
                         pattern = "AlphaReady",
@@ -60,8 +59,7 @@ return
 
             require("alpha").setup(dashboard.opts)
 
-            vim.api.nvim_create_autocmd
-            (
+            vim.api.nvim_create_autocmd(
                 "User",
                 {
                     pattern = "LazyVimStarted",

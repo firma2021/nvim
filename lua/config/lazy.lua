@@ -18,9 +18,11 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup(
     {
-        spec =                      --规格，说明(specification)
+        "akinsho/bufferline.nvim",
+        "nvim-lualine/lualine.nvim",
+        spec =                         --规格，说明(specification)
         {
-            { import = "plugins" }, --引入lua/plugins下的所有lua文件
+            { import = "plugins/ui" }, --引入lua/plugins下的所有lua文件
         },
         defaults =
         {

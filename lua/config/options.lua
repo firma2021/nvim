@@ -89,12 +89,10 @@ vim.opt.clipboard = "unnamedplus" --使用+寄存器，即c-c c-v的系统剪切
 
 
 --显示不可见字符--
+vim.opt.listchars = { trail = "·", tab = "▸-", extends = ">", precedes = "<" } --space = "-"; print(vim.inspect(vim.opt.listchars:get()))
 vim.opt.list = true
-vim.opt.listchars.space = "·"
-vim.opt.listchars.trail = "·"
-vim.opt.listchars.tab = "▸"
-vim.opt.listchars.extends = ">"
-vim.opt.listchars.precedes = "<"
+
+
 
 --补全--
 vim.opt.wildmenu = true                       -- 在命令模式中输出命令时，按Tab键自动补全命令和参数
