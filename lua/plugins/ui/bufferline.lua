@@ -16,7 +16,7 @@ return
     {
         options =
         {
-            always_show_bufferline = false,
+            always_show_bufferline = true,
 
             numbers = function(opts) return string.format('%s-%s', opts.ordinal, opts.id) end,
 
