@@ -1,21 +1,12 @@
 return
 {
     {
-        "folke/tokyonight.nvim",
-        lazy = true,
-        priority = 1000,
-        opts =
-        {
-            style = "moon"
-        },
-    },
-
-    {
         "catppuccin/nvim",
         lazy = true,
         priority = 1000,
 
         name = "catppuccin",
+
         opts =
         {
             flavour = "latte", -- latte, frappe, macchiato, mocha

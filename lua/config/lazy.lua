@@ -23,7 +23,7 @@ require("lazy").setup(
             { import = "plugins" }, --引入lua/plugins下的所有lua文件
             { import = "plugins.ui" },
             { import = "plugins.lsp" },
-            { import = "plugins.languages" },
+            --{ import = "plugins.languages" },
         },
         defaults =
         {

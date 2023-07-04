@@ -51,6 +51,7 @@ return
                 {
                     {
                         "diagnostics",
+                        sources = { "nvim_diagnostic" },
                         symbols =
                         {
                             error = " ",
@@ -125,13 +126,7 @@ return
                     },
                     {
                         "filename",
-                        path = 2,
-                        symbols =
-                        {
-                            modified = "  ",
-                            readonly = "",
-                            unnamed = "",
-                        }
+                        path = 0, --仅显示文件名
                     },
                     "filesize",
                     { "encoding",   separator = "",                   padding = { left = 1, right = 0 } },
@@ -147,19 +142,95 @@ return
 
             },
 
-            inactive_sections =
+            inactive_sections = --非活动窗口的状态栏。在之前的配置中，我们规定只使用一个全局状态栏，因此这项配置是多余的。
             {
                 lualine_a = {},
                 lualine_b = {},
-                lualine_c = { "filename" },
+                lualine_c =
+                {
+                    {
+                        "filename",
+                        file_status = true,     --显示文件状态
+                        newfile_status = false, --不显示新文件(创建后未写入的文件)的状态
+                        path = 3,               --绝对路径，使用波浪号表示家目录
+                        symbols =
+                        {
+                            modified = '[+]',
+                            readonly = '[-]',
+                            unnamed = '[No Name]',
+                            newfile = '[New]',
+                        }
+                    },
+                },
                 lualine_x = { "location" },
                 lualine_y = {},
                 lualine_z = {},
             },
-            tabline = {},
-            winbar = {},
-            inactive_winbar = {},
-            extensions = { "neo-tree", "lazy" },
+
+            winbar =
+            {
+                lualine_a = {},
+                lualine_b = {},
+                lualine_c =
+                {
+                    {
+                        "filename",
+                        file_status = true,     --显示文件状态
+                        newfile_status = false, --不显示新文件(创建后未写入的文件)的状态
+                        path = 3,               --绝对路径，使用波浪号表示家目录
+                        symbols =
+                        {
+                            modified = '[+]',
+                            readonly = '[-]',
+                            unnamed = '[No Name]',
+                            newfile = '[New]',
+                        }
+                    },
+
+                },
+                lualine_x = {},
+                lualine_y = {},
+                lualine_z = {}
+            },
+
+            inactive_winbar =
+            {
+                lualine_a = {},
+                lualine_b = {},
+                lualine_c =
+                {
+                    {
+                        "filename",
+                        path = 3, --绝对路径，使用波浪号表示家目录
+                    },
+                },
+                lualine_x = {},
+                lualine_y = {},
+                lualine_z = {}
+            },
+
+            extensions = --这些插件可以改变状态栏的样式
+            {
+                "neo-tree",
+                "lazy",
+                "nvim-dap-ui",
+                "toggleterm",
+                "nvim-dap-ui",
+                "trouble",
+            },
+
+            tabline =
+            {
+                lualine_a = { "buffers" },
+                lualine_b = { "branch" },
+                lualine_c = { "" },
+                lualine_x = {},
+                lualine_y = {},
+                lualine_z = { "tabs" },
+            },
+
         }
     end,
 }
+
+--todo:使用lualine自带的tabline

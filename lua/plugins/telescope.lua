@@ -11,10 +11,10 @@ return
 
     keys =
     {
-        { "<leader>p", ":Telescope find_files<CR>", desc = "telescope find files" },
-        { "<leader>p", ":Telescope live_grep<CR>",  desc = "telescope live_grep" },
-        { "<leader>p", ":Telescope resume<CR>",     desc = "telescope resume" },
-        { "<leader>p", ":Telescope oldfiles<CR>",   desc = "telescope oldfiles" },
+        { "<leader>pp1", ":Telescope find_files<CR>", desc = "telescope find files" },
+        { "<leader>pp2", ":Telescope live_grep<CR>",  desc = "telescope live_grep" },
+        { "<leader>pp3", ":Telescope resume<CR>",     desc = "telescope resume" },
+        { "<leader>pp4", ":Telescope oldfiles<CR>",   desc = "telescope oldfiles" },
     }
 
 }
