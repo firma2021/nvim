@@ -86,6 +86,7 @@ vim.opt.mousemodel = "popup_setpos" --点击鼠标右键后，弹出菜单，光
 
 --弹出式菜单--
 vim.opt.pumheight = 10 --高度，即菜单项的最大数目
+vim.o.pumwidth = 40
 vim.opt.pumblend = 30  --透明度为30%
 
 --剪切板--

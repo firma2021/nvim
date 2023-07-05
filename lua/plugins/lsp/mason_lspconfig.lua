@@ -7,8 +7,8 @@ return
 
     dependencies =
     {
-        "neovim/nvim-lspconfig",
         "williamboman/mason.nvim",
+        "neovim/nvim-lspconfig",
     },
 
     opts = function()
@@ -38,8 +38,12 @@ return
                             {
                                 diagnostics =
                                 {
-                                    globals = { "vim" }
-                                }
+                                    globals = { "vim" } --使语言服务器识别 vim global
+                                },
+                                workspace =
+                                {
+                                    library = vim.api.nvim_get_runtime_file("", true), --让语言服务器发现Neovim运行时文件
+                                },
                             }
                         }
                     }
@@ -48,6 +52,7 @@ return
                 ["clangd"] = function()
                     lspconfig.clangd.setup
                     {
+                        filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
                         cmd =
                         {
                             "clangd",

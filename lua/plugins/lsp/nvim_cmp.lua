@@ -7,17 +7,24 @@ return
 
     event = "InsertEnter",
 
-    dependencies =
+    dependencies = --补全源
     {
         "hrsh7th/cmp-nvim-lsp",
+        "saadparwaiz1/cmp_luasnip",
         "hrsh7th/cmp-buffer",
         "hrsh7th/cmp-path",
-        "saadparwaiz1/cmp_luasnip",
     },
 
     opts = function()
         vim.api.nvim_set_hl(0, "CmpGhostText", { link = "Comment", default = true })
         local cmp = require("cmp")
+
+        local border_opts =
+        {
+            border = "single",                                                                    --单线边框
+            winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:Visual,Search:None", --高亮样式
+        }
+
         return
         {
             snippet = --指定代码段引擎
@@ -29,8 +36,8 @@ return
 
             window =
             {
-                -- completion = cmp.config.window.bordered(),
-                -- documentation = cmp.config.window.bordered(),
+                completion = cmp.config.window.bordered(border_opts), --显示补全菜单的边框
+                documentation = cmp.config.window.bordered(border_opts),
             },
 
             completion =
@@ -50,8 +57,8 @@ return
                     ["<C-f>"] = cmp.mapping.scroll_docs(4),
                     ["<C-Space>"] = cmp.mapping.complete(),
                     ["<C-e>"] = cmp.mapping.abort(),
-                    ["<CR>"] = cmp.mapping.confirm({ select = true }),                                            -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-                    ["<S-CR>"] = cmp.mapping.confirm({ select = true, behavior = cmp.ConfirmBehavior.Replace, }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+                    ["<CR>"] = cmp.mapping.confirm({ select = true }),
+                    ["<S-CR>"] = cmp.mapping.confirm({ select = true, behavior = cmp.ConfirmBehavior.Replace, }),
                 }
             ),
 
@@ -59,16 +66,15 @@ return
                 {
                     { name = "nvim_lsp", priority = 1000 },
                     { name = "luasnip",  priority = 900 },
-                    { name = "path",     priority = 800 },
-                    { name = "buffer",   priority = 250 },
-
+                    { name = "buffer",   priority = 800 },
+                    { name = "path",     priority = 700 },
                 }
             ),
 
             formatting =
             {
-
-                format = function(_, item)
+                fields = { "kind", "abbr", "menu" },
+                format = function(entry, item)
                     local icons =
                     {
                         Array = " ",
@@ -108,8 +114,8 @@ return
                         Variable = " ",
                     }
 
-                    if icons[item.kind] then
-                        item.kind = icons[item.kind] .. item.kind
+                    if icons[item.kind] then --将Class修改为   Class [nvim-lsp]
+                        item.kind = icons[item.kind] .. item.kind .. " [" .. entry.source.name .. "]"
                     end
                     return item
                 end,

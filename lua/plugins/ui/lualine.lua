@@ -232,5 +232,3 @@ return
         }
     end,
 }
-
---todo:使用lualine自带的tabline
