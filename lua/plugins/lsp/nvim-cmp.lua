@@ -113,6 +113,33 @@ return
                         Value = " ",
                         Variable = " ",
                     }
+                    --local kind_icons = {
+                    --Text = "",
+                    --Method = "m",
+                    --Function = "",
+                    --Constructor = "",
+                    --Field = "",
+                    --Variable = "",
+                    --Class = "",
+                    --Interface = "",
+                    --Module = "",
+                    --Property = "",
+                    --Unit = "",
+                    --Value = "",
+                    --Enum = "",
+                    --Keyword = "",
+                    --Snippet = "",
+                    --Color = "",
+                    --File = "",
+                    --Reference = "",
+                    --Folder = "",
+                    --EnumMember = "",
+                    --Constant = "",
+                    --Struct = "",
+                    --Event = "",
+                    --Operator = "",
+                    --TypeParameter = "",
+                    --}
 
                     if icons[item.kind] then --将Class修改为   Class [nvim-lsp]
                         item.kind = icons[item.kind] .. item.kind .. " [" .. entry.source.name .. "]"
