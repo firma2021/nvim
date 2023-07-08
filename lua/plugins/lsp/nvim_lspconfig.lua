@@ -13,6 +13,56 @@ return
   },
 
   config = function(plugin, opts)
+    local lspconfig = require('lspconfig')
+
+    --clangd --help-hidden
+    lspconfig.clangd.setup
+    {
+      filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
+
+      cmd =
+      {
+          "clangd",
+          "--query-driver=/usr/bin/**/clang-*,/usr/bin/gcc,/usr/bin/g++",
+          "--background-index",
+          "--background-index-priority=background",
+          "--all-scopes-completion",
+          "--completion-style=detailed",
+          "--function-arg-placeholders",
+          "--header-insertion=iwyu",
+          "--header-insertion-decorators",
+          "--all-scopes-completion",
+          "-j=8",
+          "--pch-storage=memory",
+
+          "--log=info",
+          "--offset-encoding=utf-8",
+          "--pretty",
+
+          "--clang-tidy",
+
+          "--enable-config",
+      }
+    }
+
+    lspconfig.lua_ls.setup
+    {
+        settings =
+        {
+            Lua =
+            {
+                diagnostics =
+                {
+                    globals = { "vim" } --使语言服务器识别 vim global
+                },
+                workspace =
+                {
+                    library = vim.api.nvim_get_runtime_file("", true), --让语言服务器发现Neovim运行时文件
+                },
+            }
+        }
+    }
+
     vim.fn.sign_define("DiagnosticSignError", { text = " ", texthl = "DiagnosticSignError", numhl = "" })
     vim.fn.sign_define("DiagnosticSignWarn", { text = " ", texthl = "DiagnosticSignWarn", numhl = "" })
     vim.fn.sign_define("DiagnosticSignHint", { text = " ", texthl = "DiagnosticSignHint", numhl = "" })

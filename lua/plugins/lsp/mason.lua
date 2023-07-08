@@ -14,8 +14,8 @@ return
     cmd = { "Mason", "MasonLog" },
     keys =
     {
-        { "<leader>m",  "<cmd>Mason<cr>",    desc = "Mason(install and manage LSP servers)" },
-        { "<leader>ml", "<cmd>MasonLog<cr>", desc = "MasonLog(opens the mason.nvim log file)" }
+        { "<leader>pm",  "<cmd>Mason<cr>",    desc = "Mason (install and manage LSP servers)" },
+        { "<leader>pM", "<cmd>MasonUpdateAll<cr>", desc = "Mason update all" }
     },
 
     opts =
@@ -27,7 +27,20 @@ return
                 package_installed = "✓",
                 package_pending = "➜",
                 package_uninstalled = "✗"
-            }
+            },
+
+        keymaps =
+        {
+            toggle_package_expand = "<CR>",
+            install_package = "i",
+            update_package = "u",
+            check_package_version = "c",
+            update_all_packages = "U",
+            check_outdated_packages = "C",
+            uninstall_package = "X",
+            cancel_installation = "<C-c>",
+            apply_language_filter = "<C-f>",
+        },
         }
     }
 }

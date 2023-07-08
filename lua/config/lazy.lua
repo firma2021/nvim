@@ -26,13 +26,25 @@ require("lazy").setup(
             { import = "plugins.miscellaneous" },
             --{ import = "plugins.languages" },
         },
+
         defaults =
         {
             lazy = false,    --插件默认为懒加载
             version = false, --使用最近的git提交，而不是带版本号的release版本，因为release版本可能是老旧的
         },
+
+        keys =
+        {
+            {},
+            {},
+            {},
+            {},
+        },
+
         install = { colorscheme = { "tokyonight", "habamax" } },
+
         checker = { enabled = true }, --自动检查插件更新
+
         performance =
         {
             rtp =
