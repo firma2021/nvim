@@ -3,7 +3,7 @@ vim.g.mapleader = " "      --全局设置
 vim.g.maplocalleader = " " --只在当前缓冲区有效
 
 --时间--
-vim.opt.timeoutlen = 300 --输入延迟。在300毫秒内没有再次输入，Vim将认为输入完成并执行相应的操作
+vim.opt.timeoutlen = 500 --输入延迟。在500毫秒内没有再次输入，Vim将认为输入完成并执行相应的操作
 vim.opt.updatetime = 200 --这个时间内光标没有移动，会触发CursorHold事件；该时间内没有打字，将保存swap文件到硬盘
 
 

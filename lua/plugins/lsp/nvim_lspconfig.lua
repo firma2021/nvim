@@ -13,10 +13,39 @@ return
   },
 
   config = function(plugin, opts)
-    vim.keymap.set('n', '<space>e', vim.diagnostic.open_float) -- 全局键位映射。详见:help vim.diagnostic.*
-    vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
-    vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
-    vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist)
+    vim.fn.sign_define("DiagnosticSignError", { text = " ", texthl = "DiagnosticSignError", numhl = "" })
+    vim.fn.sign_define("DiagnosticSignWarn", { text = " ", texthl = "DiagnosticSignWarn", numhl = "" })
+    vim.fn.sign_define("DiagnosticSignHint", { text = " ", texthl = "DiagnosticSignHint", numhl = "" })
+    vim.fn.sign_define("DiagnosticSignInfo", { text = " ", texthl = "DiagnosticSignInfo", numhl = "" })
+
+    vim.diagnostic.config(
+      {
+        virtual_text = true,  --类似于vscode的error len插件，在出错行后面显示错误信息
+        severity_sort = true, --按照严重程度排序
+        signs = true,
+        update_in_insert = true,
+        underline = false,
+        float =
+        {
+          border = "rounded",
+          source = "always",
+          header = "",
+          prefix = "",
+        },
+      }
+    )
+
+    local opts = { noremap = true, silent = true }                   --禁用递归映射，不输出信息
+    -- 全局键位映射。详见:help vim.diagnostic.*
+    vim.keymap.set('n', '<space>E', vim.diagnostic.open_float, opts) --将光标定位到出错处后，按下此快捷键，在浮动窗口中显示错误信息
+    vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
+    vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
+    vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts) --在列表中显示所有错误信息
+
+
+
+    vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })                  --设置鼠标悬停窗口的边框
+    vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" }) --设置函数参数提示窗口的边框
 
 
     vim.api.nvim_create_autocmd( --当LSP服务器连接到当前缓冲区后，执行自动命令

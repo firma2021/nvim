@@ -2,7 +2,6 @@ return
 {
     {
         "catppuccin/nvim",
-        lazy = true,
         priority = 1000,
 
         name = "catppuccin",
@@ -71,9 +70,9 @@ return
                     underlines =
                     {
                         errors = { "underline" },
-                        hints = { "underline" },
-                        warnings = { "underline" },
-                        information = { "underline" },
+                        hints = { "undercurl" },
+                        warnings = { "undercurl" },
+                        information = { "undercurl" },
                     },
                     inlay_hints =
                     {
@@ -91,5 +90,11 @@ return
                 which_key = true,
             },
         },
+
+        config = function(plugin, opts)
+            require("catppuccin").setup(opts)
+            vim.cmd.colorscheme("catppuccin")
+            print("123")
+        end,
     },
 }

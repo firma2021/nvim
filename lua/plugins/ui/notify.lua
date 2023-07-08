@@ -11,7 +11,7 @@ return
             function()
                 require("notify").dismiss({ silent = true, pending = true })
             end,
-            desc = "Dismiss all Notifications",
+            desc = "Dismiss all Notifications", --在which-keys.nvim中显示的描述信息
         },
     },
     opts =

@@ -20,16 +20,20 @@ return
                     null_ls.builtins.formatting.stylua,       --lua
                     null_ls.builtins.formatting.clang_format, --c/c++
                     null_ls.builtins.formatting.black.with({ extra_args = { "--fast" } }),
+                    null_ls.builtins.diagnostics.clang_check,
+                    null_ls.builtins.diagnostics.shellcheck,
+
+                    null_ls.builtins.diagnostics.flake8,
+                    null_ls.builtins.diagnostics.pylint,
+
                     null_ls.builtins.completion.spell,
 
                     null_ls.builtins.code_actions.gitsigns,
 
-                    null_ls.builtins.diagnostics.clang_check,
-                    null_ls.builtins.diagnostics.shellcheck,
-                    null_ls.builtins.diagnostics.flake8,
+                    null_ls.builtins.hover.dictionary,
                 },
 
-                diagnostics_format = "[#{s}] #{m}",
+                diagnostics_format = "[#{s}] #{m}", --severity, message
 
                 on_attach = function(_)
                     vim.cmd([[ command! Format execute 'lua vim.lsp.buf.formatting_sync']]) --创建一个名为"Format"的命令，执行LSP format

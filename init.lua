@@ -5,5 +5,3 @@ require("config.lazy") --在加载lazy插件前，必须设置 mapleader，以�
 
 require("config.autocmds")
 require("config.keymaps")
-
-vim.cmd.colorscheme("catppuccin")
