@@ -229,13 +229,6 @@ return
             },
             mappings =
             {
-                -- ["<space>"] =
-                -- {
-                --     "toggle_node",
-                --     nowait = false,
-                -- },
-                ["<2-LeftMouse>"] = "open",
-
                 ["[b"] = "prev_source",
                 ["]b"] = "next_source",
                 o = "open",
@@ -243,13 +236,15 @@ return
                 h = "parent_or_close",
                 l = "child_or_open",
                 Y = "copy_selector",
+
+                ["?"] = "show_help",
             },
         },
     },
 
     config = function(_, opts)
         require("neo-tree").setup(opts)
-        vim.api.nvim_create_autocmd("TermClose",
+        vim.api.nvim_create_autocmd("TermClose", --关闭lazygit终端时，刷新 Neo Tree 插件中的 Git 状态。
             {
                 pattern = "*lazygit",
                 callback = function()

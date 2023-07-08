@@ -33,7 +33,7 @@ return
                 }
 
                 local ret = (diagnostics_dict.error and icons.Error .. diagnostics_dict.error .. " " or "") ..
-                (diagnostics_dict.warning and icons.Warn .. diagnostics_dict.warning or "")
+                    (diagnostics_dict.warning and icons.Warn .. diagnostics_dict.warning or "")
 
                 return vim.trim(ret)
             end,
@@ -53,7 +53,7 @@ return
                     filetype = "neo-tree",
                     text = "neo-tree",
                     highlight = "Directory",
-                    text_align = "left",
+                    text_align = "center",
                 },
             },
         },

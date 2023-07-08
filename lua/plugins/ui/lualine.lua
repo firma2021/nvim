@@ -1,6 +1,7 @@
 return
 {
     "nvim-lualine/lualine.nvim",
+
     event = "VeryLazy",
 
     opts = function()
@@ -11,7 +12,7 @@ return
                 icons_enabled = true,
                 theme = "auto",
                 component_separators = { left = "|", right = "|" },
-                section_separators = { left = "", right = "" },
+                section_separators = { left = "", right = "" },
                 disabled_filetypes =
                 {
                     statusline = { "dashboard", "alpha" },
@@ -29,9 +30,9 @@ return
                     winbar = 2000,
                 },
             },
+
             sections =
             {
-
                 lualine_a = { "mode" },
                 lualine_b =
                 {
@@ -59,29 +60,36 @@ return
                             info = " ",
                             hint = " ",
                         },
-                    }
+                    },
+                    {
+                        function()
+                            return "  " .. require("dap").status()
+                        end,
+
+                        cond = function()
+                            return package.loaded["dap"] and require("dap").status() ~= ""
+                        end,
+
+                        color = function()
+                            local hl = vim.api.nvim_get_hl(0, { name = "Debug" })
+                            local fg = hl and hl.fg
+                            return fg and { fg = string.format("#%06x", fg) } --如果fg不为空，返回6位16进制字符串
+                        end,
+                    },
                 },
 
                 lualine_x =
                 {
-                    {
-                        function() return "  " .. require("dap").status() end,
-                        cond = function()
-                            return package.loaded["dap"] and require("dap").status() ~= ""
-                        end,
-                        color = function()
-                            local hl = vim.api.nvim_get_hl(0, { name = "Debug" })
-                            local fg = hl and hl.fg
-                            return fg and { fg = string.format("#%06x", fg) }
-                        end,
-                    },
+
                     {
                         function()
                             return require("noice").api.status.command.get()
                         end,
+
                         cond = function()
                             return package.loaded["noice"] and require("noice").api.status.command.has()
                         end,
+
                         color = function()
                             local hl = vim.api.nvim_get_hl(0, { name = "Statement" })
                             local fg = hl and hl.fg
@@ -120,16 +128,11 @@ return
                     {
                         "filetype",
                         icon_only = true,
-                        separator = "",
-                        padding = {
-                            left = 1, right = 0 }
-                    },
-                    {
-                        "filename",
-                        path = 0, --仅显示文件名
+                        separator = " ",
+                        padding = { left = 1, right = 0 }
                     },
                     "filesize",
-                    { "encoding",   separator = "",                   padding = { left = 1, right = 0 } },
+                    { "encoding",   separator = " ",                  padding = { left = 1, right = 0 } },
                     { "fileformat", padding = { left = 0, right = 1 } },
 
                 },
@@ -217,6 +220,7 @@ return
                 "toggleterm",
                 "nvim-dap-ui",
                 "trouble",
+                "aerial"
             },
 
             -- tabline =

@@ -144,7 +144,6 @@ vim.opt.winblend = 0         --设置窗口透明度，100为全透明
 vim.opt.background = "light" --设置高亮行的背景色, 可设置为light或dark
 vim.opt.wildoptions = "pum"  --命令行补全时用弹出菜单显示候选项
 
-print("亲爱的同志，没有一条路无风无浪，会有孤独，会有悲伤，也会有无尽的希望。")
 --vim.opt.foldmethod=indent --设置折叠方式
 
 --vim.opt.showmatch 输入右括号后，光标跳到左括号，持续0.5秒
