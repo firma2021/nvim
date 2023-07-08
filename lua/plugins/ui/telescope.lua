@@ -19,92 +19,63 @@ return
     keys =
     {
         --git
-        { "<leader>gb",    "<cmd>Telescope git_branches<CR>", desc = "Git branches (telescope plugin)" },
-        { "<leader>gc",    "<cmd>Telescope git_commits<CR>",  desc = "Git commits (telescope plugin)" },
-        { "<leader>gs",    "<cmd>Telescope git_status<CR>", desc = "Git status (telescope plugin)" },
+        { "<leader>gb",    "<cmd>Telescope git_branches<CR>", desc = "Git branches" },
+        { "<leader>gc",    "<cmd>Telescope git_commits<CR>",  desc = "Git commits" },
+        { "<leader>gs",    "<cmd>Telescope git_status<CR>", desc = "Git status" },
 
-        --find
-        { "<leader>fb",    "<cmd>Telescope buffers<cr>", desc = "Find buffers (telescope plugin)" },
-        { "<leader>ff",    ":Telescope find_files<CR>", desc = "Find files (telescope plugin)" },
-        { "<leader>fg",    ":Telescope live_grep<CR>", desc = "telescope live_grep" },
-        { "<leader>fo",    ":Telescope oldfiles<CR>", desc = "telescope oldfiles" },
-        { "<leader>fr",    ":Telescope resume<CR>",                                    desc = "telescope resume" },
 
-        { "<leader>f<CR>", function() require("telescope.builtin").resume() end,       desc = "Resume previous search" },
-        { "<leader>f'",    function() require("telescope.builtin").marks() end,        desc = "Find marks" },
+        { "<leader>,", "<cmd>Telescope buffers show_all_buffers=true<cr>", desc = "Switch buffer" },
+        { "<leader>:", "<cmd>Telescope command_history<cr>", desc = "Command history" },
 
-        {
-            "<leader>fc",
-            function() require("telescope.builtin").grep_string() end,
-            desc =
-            "Find for word under cursor"
-        },
-        { "<leader>fC", function() require("telescope.builtin").commands() end,   desc = "Find commands" },
-        { "<leader>ff", function() require("telescope.builtin").find_files() end, desc = "Find files" },
+        { "<leader>ff",    "<cmd>Telescope find_files<CR>", desc = "Find files" },
         {
             "<leader>fF",
             function() require("telescope.builtin").find_files { hidden = true, no_ignore = true } end,
             desc = "Find all files",
         },
-        {
-            "<leader>fh",
-            function() require("telescope.builtin").help_tags() end,
-            desc =
-            "Find help"
-        },
-        {
-            "<leader>fk",
-            function() require("telescope.builtin").keymaps() end,
-            desc =
-            "Find keymaps"
-        },
-        {
-            "<leader>fm",
-            function() require("telescope.builtin").man_pages() end,
-            desc =
-            "Find man"
-        },
-        {
-            "<leader>fo",
-            function() require("telescope.builtin").oldfiles() end,
-            desc =
-            "Find history"
-        },
-        {
-            "<leader>fr",
-            function() require("telescope.builtin").registers() end,
-            desc =
-            "Find registers"
-        },
+        { "<leader>fg",    "<cmd>Telescope live_grep<CR>", desc = "telescope live_grep" },
+        { "<leader>fo",    "<cmd>Telescope oldfiles<CR>", desc = "telescope oldfiles" },
+        { "<leader>f<cr>",    "<cmd>Telescope resume<CR>", desc = "resume telescope search" },
+
+        { "<leader>fa", "<cmd>Telescope autocommands<cr>", desc = "Find auto commands" },
+        { "<leader>fb", "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = "Current fole fuzzy find" },
+        { "<leader>fc", "<cmd>Telescope command_history<cr>", desc = "Command history" },
+        { "<leader>fC", "<cmd>Telescope commands<cr>", desc = "Find commands" },
+
+        { "<leader>fw","<cmd>Telescope grep_string<cr>",desc ="Find for word under cursor"},
+
+
+
+
+        { "<leader>fh", "<cmd>Telescope help_tags<cr>", desc = "Find help pages" },
+        { "<leader>fH", "<cmd>Telescope highlights<cr>", desc = "Find highlight groups" },
+
+        { "<leader>fk", "<cmd>Telescope keymaps<cr>", desc = "Find keymaps" },
+        { "<leader>fm", "<cmd>Telescope man_pages<cr>", desc = "Find man pages" },
+        { "<leader>fM", "<cmd>Telescope marks<cr>", desc = "Jump to mark" },
+
+        { "<leader>fo", "<cmd>Telescope vim_options<cr>", desc = "Vim options" },
+
+
+        {"<leader>fr","<cmd>Telescope registers<cr>", desc = "Find registers"},
+
         {
             "<leader>ft",
             function() require("telescope.builtin").colorscheme { enable_preview = true } end,
             desc = "Find themes"
         },
 
-
-        { "<leader>fw", function() require("telescope.builtin").live_grep() end, desc = "Find words" },
-        {
-            "<leader>fW",
-            function()
-                require("telescope.builtin").live_grep {
-                    additional_args = function(args) return vim.list_extend(args, { "--hidden", "--no-ignore" }) end,
-                }
-            end,
-            desc = "Find words in all files",
-        },
-
         {
             "<leader>ls",
             function()
-                local aerial_avail, _ = pcall(require, "aerial")
-                if aerial_avail then
+                local status, _ = pcall(require, "aerial")
+                if status then
                     require("telescope").extensions.aerial.aerial()
                 else
                     require("telescope.builtin").lsp_document_symbols()
                 end
             end,
-            desc = "Search symbols",
+            desc = "Search symbols (telescope plugin)",
         }
     },
 
