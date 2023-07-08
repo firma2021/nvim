@@ -7,7 +7,7 @@ return
 
     init = function()
         vim.o.timeout = true
-        vim.o.timeoutlen = 500 --500毫秒后显示which-key
+        vim.o.timeoutlen = 300 --300毫秒后显示which-key
     end,
 
     opts =
@@ -121,14 +121,15 @@ return
             ["<leader><tab>"] = { name = "+tabs" },
             ["<leader>b"] = { name = "+buffer" },
             ["<leader>c"] = { name = "+code" },
-            ["<leader>f"] = { name = "+file/find" },
-            ["<leader>g"] = { name = "+git" },
-            ["<leader>gh"] = { name = "+hunks" },
-            ["<leader>q"] = { name = "+quit/session" },
-            ["<leader>s"] = { name = "+search" },
-            ["<leader>u"] = { name = "+ui" },
-            ["<leader>w"] = { name = "+windows" },
-            ["<leader>x"] = { name = "+diagnostics/quickfix" },
+            ["<leader>f"] = { name = "  " .. "Find" },
+            ["<leader>g"] = { name = "󰊢  " .. "Git" },
+            ["<leader>l"] = { name = "  " .. "LSP" },
+            ["<leader>gh"] = { name = "hunks" },
+            ["<leader>q"] = { name = "quit/session" },
+            ["<leader>s"] = { name = "search" },
+            ["<leader>u"] = { name = "ui" },
+            ["<leader>w"] = { name = "windows" },
+            ["<leader>x"] = { name = "diagnostics/quickfix" },
         },
     },
 

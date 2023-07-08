@@ -6,8 +6,11 @@ return
     "nvim-treesitter/nvim-treesitter",
 
     version = false,
-    build = ":TSUpdate",                                                            --当插件被安装或更新后，执行此命令，将所有安装好的解析器更新到最近的版本
+
+    build = ":TSUpdate", --当插件被安装或更新后，执行此命令，将所有安装好的解析器更新到最近的版本
+
     event = { "BufReadPost", "BufNewFile" },
+
     cmd = { "TSUpdateSync" },                                                       --执行此命令后，加载插件
 
     keys =                                                                          --按下这些键后，加载插件
@@ -22,6 +25,7 @@ return
         {
             "c",
             "cpp",
+            "make",
             "cmake",
             --"cuda",
             --"proto",
@@ -37,7 +41,10 @@ return
             "vim",
             "vimdoc",
 
+            "sql",
             "query",
+
+            "regex",
 
             "markdown",
             "markdown_inline",
@@ -49,7 +56,10 @@ return
             "tsx",
             "json",
 
+            "toml", --一种配置文件格式
             "yaml",
+
+            "gitignore",
         },
 
         sync_install = false,    -- 同步安装解析器，仅对ensure_installed选项有效
@@ -61,7 +71,14 @@ return
         highlight =
         {
             enable = true,
-            disable = {},                              --禁用语法高亮的语言对应的解析器，其值可以是一个回调函数function(lang, buf)
+            disable = function(lang, buf)       --禁用语法高亮的语言对应的解析器，其值可以是一个回调函数function
+                local max_filesize = 100 * 1024 -- 100 KB
+                local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+                if ok and stats and stats.size > max_filesize
+                then
+                    return true
+                end
+            end,
             additional_vim_regex_highlighting = false, --同时启用vim的语法高亮(:h syntax)，可能会影响性能并得到重复的高亮。
         },
 
@@ -70,10 +87,10 @@ return
             enable = true,
             keymaps =
             {
-                init_selection = '<C-space>', -- set to `false` to disable one of the mappings
-                node_incremental = '<C-space>',
-                scope_incremental = '<tab>',
-                node_decremental = '<bs>',
+                init_selection = "<cr>",
+                node_incremental = "<cr>",
+                node_decremental = "<bs>",
+                scope_incremental = "<tab>",
             }
         },
 
@@ -88,7 +105,3 @@ return
         require("nvim-treesitter.configs").setup(opts)
     end,
 }
-
--- set foldmethod=expr
--- set foldexpr=nvim_treesitter#foldexpr()
--- set nofoldenable                     " Disable folding at startup.
