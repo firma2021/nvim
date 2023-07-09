@@ -52,8 +52,8 @@ return
         icons =
         {
             breadcrumb = "»", -- symbol used in the command line area that shows your active key combo
-            separator = "➜", -- symbol used between a key and it's label
-            group = "+",      -- symbol prepended to a group
+            group = vim.g.icons_enabled and "" or "+", -- symbol prepended to a group
+            separator = ""-- symbol used between a key and it's label
         },
         popup_mappings =
         {
@@ -108,10 +108,16 @@ return
         disable =
         {
             buftypes = {},
-            filetypes = {},
+            filetypes = {"TelescopePrompt"},
         },
+    },
 
-        defaults =
+    config = function(plugin, opts)
+        local wk = require("which-key")
+        wk.setup(opts)
+
+
+        local defaults =
         {
             mode = { "n", "v" },
             ["g"] = { name = "goto" },
@@ -131,12 +137,8 @@ return
             ["<leader>w"] = { name = "windows" },
             ["<leader>x"] = { name = "diagnostics/quickfix" },
             ["<leader>p"] = { name = "package management" },
-        },
-    },
+        }
 
-    config = function(plugin, opts)
-        local wk = require("which-key")
-        wk.setup(opts)
-        wk.register(opts.defaults)
+        wk.register(defaults)
     end,
 }
