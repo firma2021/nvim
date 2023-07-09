@@ -94,7 +94,6 @@ return
         config = function(plugin, opts)
             require("catppuccin").setup(opts)
             vim.cmd.colorscheme("catppuccin")
-            print("123")
         end,
     },
 }
