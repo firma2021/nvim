@@ -5,6 +5,11 @@ return
 
     event = { "BufReadPre", "BufNewFile" },
 
+    keys =
+    {
+        {"<leader>lI", "<cmd>NullLsInfo<cr>", desc = "null-ls information"},
+    },
+
     dependencies = { "mason.nvim" },
 
     config = function()

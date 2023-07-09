@@ -42,6 +42,8 @@ return
         { "<leader>fc", "<cmd>Telescope command_history<cr>", desc = "Command history" },
         { "<leader>fC", "<cmd>Telescope commands<cr>", desc = "Find commands" },
 
+        { "<leader>fd", "<cmd>Telescope diagnostics<cr>", desc = "Find diagnostics" },
+
         { "<leader>fw","<cmd>Telescope grep_string<cr>",desc ="Find for word under cursor"},
 
 

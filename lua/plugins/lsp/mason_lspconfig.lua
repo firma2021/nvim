@@ -5,6 +5,8 @@ return
 
     event = { "BufReadPre", "BufNewFile" },
 
+    cmd = { "LspInstall", "LspUninstall" }, --mason-lspconfig内置命令
+
     dependencies =
     {
         "williamboman/mason.nvim",

@@ -2,9 +2,28 @@
 return
 {
     'windwp/nvim-autopairs',
+
     event = "InsertEnter",
+
     opts =
     {
+        check_ts = true,
+        ts_config = { java = false },
+
+        fast_wrap =
+        {
+            map = "<M-e>",
+            chars = { "{", "[", "(", '"', "'" },
+            pattern = string.gsub([[ [%'%"%)%>%]%)%}%,] ]], "%s+", ""),
+            offset = 0,
+            end_key = "$",
+            keys = "qwertyuiopzxcvbnmasdfghjkl",
+            check_comma = true,
+            highlight = "PmenuSel",
+            highlight_grey = "LineNr",
+        },
+
+
         disable_filetype = { "TelescopePrompt", "spectre_panel" },
         disable_in_macro = false,       --记录和执行宏的时候，禁用
         disable_in_visualblock = false, --开启可视块模式后插入时，禁用
@@ -16,10 +35,14 @@ return
         enable_bracket_in_quote = true,   --
         enable_abbr = false,              --触发缩写
         break_undo = true,                --切换break undo序列的基本规则
-        check_ts = false,
         map_cr = true,
         map_bs = true,   -- <BS>键
         map_c_h = false, -- <C-h>键删除一个括号对
         map_c_w = false, -- <c-w>尝试删除一个括号对
-    }
+    },
+
+    config = function(plugin, opts)
+        local npairs = require("nvim-autopairs")
+        npairs.setup(opts)
+    end,
 }

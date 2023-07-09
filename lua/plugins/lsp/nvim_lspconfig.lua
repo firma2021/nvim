@@ -6,6 +6,11 @@ return
 
   event = { "BufReadPre", "BufNewFile" },
 
+  keys =
+  {
+    {"<leader>li", "<cmd>LspInfo<cr>", desc = "LSP information"},
+  },
+
   dependencies =
   {
     "williamboman/mason.nvim",
@@ -15,14 +20,13 @@ return
   config = function(plugin, opts)
     local lspconfig = require('lspconfig')
 
-    --clangd --help-hidden
     lspconfig.clangd.setup
     {
       filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
 
       cmd =
       {
-          "clangd",
+          "clangd", --clangd --help-hidden
           "--query-driver=/usr/bin/**/clang-*,/usr/bin/gcc,/usr/bin/g++",
           "--background-index",
           "--background-index-priority=background",
@@ -63,39 +67,88 @@ return
         }
     }
 
+    --texthl ：标志文本的高亮组
+    --numhl ：标志行号的高亮组
     vim.fn.sign_define("DiagnosticSignError", { text = " ", texthl = "DiagnosticSignError", numhl = "" })
     vim.fn.sign_define("DiagnosticSignWarn", { text = " ", texthl = "DiagnosticSignWarn", numhl = "" })
     vim.fn.sign_define("DiagnosticSignHint", { text = " ", texthl = "DiagnosticSignHint", numhl = "" })
     vim.fn.sign_define("DiagnosticSignInfo", { text = " ", texthl = "DiagnosticSignInfo", numhl = "" })
 
-    vim.diagnostic.config(
+    vim.fn.sign_define("DapStopped", { text = "󰁕 ", texthl = "DiagnosticWarn", numhl = "" })
+    vim.fn.sign_define("DapBreakpoint", { text = " ", texthl = "DiagnosticInfo", numhl = "" })
+    vim.fn.sign_define("DapBreakpointRejected", { text = " ", texthl = "DiagnosticError", numhl = "" })
+    vim.fn.sign_define("DapBreakpointCondition", { text = " ", texthl = "DiagnosticInfo", numhl = "" })
+    vim.fn.sign_define("DapLogPoint", { text = ".>", texthl = "DiagnosticInfo", numhl = "" })
+
+    local diagnostics_on =
+    {
+      virtual_text = true,  --在诊断范围旁边显示虚拟文本
+      severity_sort = true, --按照严重程度排序
+      signs = { active = signs }, --左侧显示诊断标志
+      update_in_insert = true,
+      underline = true, --在诊断范围下方显示下划线
+      float =
       {
-        virtual_text = true,  --类似于vscode的error len插件，在出错行后面显示错误信息
-        severity_sort = true, --按照严重程度排序
-        signs = true,
-        update_in_insert = true,
-        underline = false,
-        float =
-        {
-          border = "rounded",
-          source = "always",
-          header = "",
-          prefix = "",
-        },
-      }
-    )
+        focused = false,
+        style = "minimal",
+        border = "rounded",
+        source = "always",
+        header = "",
+        prefix = "",
+      },
+    }
 
-    local opts = { noremap = true, silent = true }                   --禁用递归映射，不输出信息
-    -- 全局键位映射。详见:help vim.diagnostic.*
-    vim.keymap.set('n', '<space>E', vim.diagnostic.open_float, opts) --将光标定位到出错处后，按下此快捷键，在浮动窗口中显示错误信息
-    vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
-    vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
-    vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts) --在列表中显示所有错误信息
+    local text_off = extend_tbl(default_diagnostics, { virtual_text = false })
+    local text_and_sign_off = extend_tbl(diagnostics_on, { virtual_text = false, signs = false })
+    local diagnostics_off = extend_tbl(diagnostics_on,{ underline = false, update_in_insert = false, virtual_text = false, signs = false, })
+
+    vim.g.diagnostics_mode = 1
+
+    local function toggle_diagnostics()
+      vim.g.diagnostics_mode = (vim.g.diagnostics_mode + 1) % 4
+      if vim.g.diagnostics_mode == 4
+      then
+        vim.g.diagnostics_mode = 1
+      end
+
+      if vim.g.diagnostics_mode == 1 then
+        vim.diagnostic.config(diagnostics_on)
+        vim.notify("enable all diagnostics", "info", {title = "LSP diagnostics"})
+      elseif vim.g.diagnostics_mode == 2 then
+        vim.diagnostic.config(text_off)
+        vim.notify("text off", "info", {title = "LSP diagnostics"})
+      elseif vim.g.diagnostics_mode == 3 then
+        vim.diagnostic.config(text_and_sign_off)
+        vim.notify("text and sign off", "info", {title = "LSP diagnostics"})
+      else
+        vim.diagnostic.config(diagnostics_off)
+        vim.notify("disable all diagnostics", {title = "LSP diagnostics"})
+      end
+    end
 
 
+    vim.keymap.set("n", "<leader>ud", toggle_diagnostics, {desc = "toggle diagnostics"})
 
-    vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })                  --设置鼠标悬停窗口的边框
-    vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" }) --设置函数参数提示窗口的边框
+    vim.g.lsp_handlers_enabled = true
+
+    if vim.g.lsp_handlers_enabled then
+      vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded", silent = true }) --设置悬停窗口的边框
+      vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded", silent = true }) ----设置函数参数提示窗口的边框
+    end
+
+    local on_attach =
+    function(client, bufnr)
+      --:help vim.diagnostic.*
+      vim.keymap.set("n", "gl", vim.diagnostic.open_float(), { noremap = true, silent = true, desc = "hover diagnostics" }) --将光标定位到出错处后，按下此快捷键，在浮动窗口中显示错误信息
+      vim.keymap.set("n", "[d", vim.diagnostic.goto_prev(), { noremap = true, silent = true, desc = "previous diagnostic" })
+      vim.keymap.set("n", "]d", vim.diagnostic.goto_next(), { noremap = true, silent = true, desc = "next diagnostic" })
+      vim.keymap.set("n", "<leader>ld", vim.diagnostic.setloclist(), { noremap = true, silent = true, desc = "list diagnostics" }) --在列表中显示所有错误信息
+
+      if client.supports_method("textDocument/codeAction") then
+        vim.keymap.set({"n", "v"}, "<leader>la", vim.lsp.buf.code_action(), { noremap = true, silent = true, desc = "LSP code action" })
+      end
+
+    end
 
 
     vim.api.nvim_create_autocmd( --当LSP服务器连接到当前缓冲区后，执行自动命令
