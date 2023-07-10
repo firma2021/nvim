@@ -35,14 +35,6 @@ require("lazy").setup(
             version = false, --使用最近的git提交，而不是带版本号的release版本，因为release版本可能是老旧的
         },
 
-        keys =
-        {
-            {},
-            {},
-            {},
-            {},
-        },
-
         install = { colorscheme = { "tokyonight", "habamax" } },
 
         checker = { enabled = true }, --自动检查插件更新
@@ -65,6 +57,7 @@ require("lazy").setup(
                 },
             },
         },
+
         config =
         {
             compile_on_sync = true,
@@ -80,46 +73,8 @@ require("lazy").setup(
     }
 )
 
--- local api = vim.api
--- local M = {}
--- function M.show_colorschemes()
---     local bufnr = api.nvim_create_buf(false, true)
---     local winnr = api.nvim_open_win(bufnr, true, {
---         relative = 'cursor',
---         width = 30,
---         height = #vim.list_extend(vim.fn.getcompletion('', 'color'), 1),
---         row = 1,
---         col = 0,
---         style = 'minimal'
---     })
---     -- 设置窗口高亮
---     api.nvim_buf_set_option(bufnr, 'modifiable', true)
---     api.nvim_buf_set_lines(bufnr, 0, -1, false, vim.fn.getcompletion('', 'color'))
---     api.nvim_buf_set_option(bufnr, 'modifiable', false)
---     api.nvim_win_set_option(winnr, 'cursorline', true)
---     api.nvim_win_set_option(winnr, 'cursorcolumn', false)
---     api.nvim_win_set_option(winnr, 'wrap', false)
---     -- 设置窗口的映射
---     api.nvim_buf_set_keymap(bufnr, 'n', '<CR>', ':lua require("colorschemes").select_colorscheme()<CR>',
---         { nowait = true, noremap = true })
---     api.nvim_buf_set_keymap(bufnr, 'n', 'q', ':lua require("colorschemes").close_colorscheme_window()<CR>',
---         { nowait = true, noremap = true })
--- end
-
--- function M.select_colorscheme()
---     local colorscheme = api.nvim_get_current_line()
---     api.nvim_set_option('colorscheme', colorscheme)
---     M.close_colorscheme_window()
--- end
-
--- function M.close_colorscheme_window()
---     local bufnr = api.nvim_get_current_buf()
---     local winnr = api.nvim_get_current_win()
---     api.nvim_win_close(winnr, true)
---     api.nvim_buf_delete(bufnr, {})
--- end
-
--- return M
-
-
--- command! Colorschemes lua require('colorschemes').show_colorschemes()
+vim.keymap.set("n", "<leader>pi", function() require("lazy").install() end, {desc = "lazy install missing plugins"})
+vim.keymap.set("n", "<leader>ps", function() require("lazy").home() end, {desc = "lazy plugin list"})
+vim.keymap.set("n", "<leader>pS", function() require("lazy").sync() end, {desc = "lazy sync (install, clean, update)"})
+vim.keymap.set("n", "<leader>pu", function() require("lazy").check() end, {desc = "lazy check for updates, show git log"})
+vim.keymap.set("n", "<leader>pU", function() require("lazy").update() end, {desc = "lazy update plugins"})

@@ -1,6 +1,6 @@
 --前导键--
 vim.g.mapleader = " "      --全局设置
-vim.g.maplocalleader = " " --只在当前缓冲区有效
+vim.g.maplocalleader = "," --Local Leader key, 只在当前缓冲区有效
 
 --时间--
 vim.opt.timeoutlen = 300 --输入延迟。在500毫秒内没有再次输入，Vim将认为输入完成并执行相应的操作

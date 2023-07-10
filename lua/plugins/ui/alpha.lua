@@ -8,6 +8,21 @@ return
 
         dependencies = { 'nvim-tree/nvim-web-devicons' },
 
+        keys =
+        {
+            {"<leader>h",
+
+            function()
+                local wins = vim.api.nvim_tabpage_list_wins(0) --获取当前标签页的所有窗口
+                if #wins > 1 and vim.api.nvim_get_option_value("filetype", { win = wins[1] }) == "neo-tree" --如果当前窗口是neo-tree
+                then
+                  vim.fn.win_gotoid(wins[2]) ----在neo-tree窗口下，无法打开alpha。切换到非neo-tree窗口，以启动alpha
+                end
+                require("alpha").start(false, require("alpha").default_config) --alpha.start(on_vimenter, conf)
+              end,
+            desc = "home"}
+        },
+
         opts = function()
             local dashboard = require("alpha.themes.dashboard")
 
@@ -41,21 +56,6 @@ return
         config = function(_, dashboard)
             require("alpha").setup(dashboard.opts)
 
-            local fortune =
-            {
-                "暮色苍茫看劲松，乱云飞渡仍从容。",
-                "天生一个仙人洞，无限风光在险峰。",
-                "道路是曲折的，前途是光明的。",
-                "坐地日行八万里,巡天遥看一千河。",
-                "世上无难事，只要肯登攀。",
-                "物质不灭，不过粉碎。",
-                "亲爱的同志，没有一条路无风无浪，会有孤独，会有悲伤，也会有无尽的希望。",
-                "追备好了吗？这一程会短暂而漫长。",
-                "去学着他的样子坚定扬起远行的帆。",
-                "历史螺旋上升波浪前进，所以低谷时一定要微笑着信念放心中。",
-                "燃烧自己，追寻真理。",
-            }
-
             vim.api.nvim_create_autocmd(
                 "User",
                 {
@@ -65,7 +65,7 @@ return
                         local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
 
                         dashboard.section.footer.val =
-                            fortune[math.random(1, #fortune)] .. "\n" .. "⚡ Neovim loaded " ..
+                            "⚡ Neovim loaded " ..
                             stats.count .. " plugins in " .. ms .. "ms"
                         pcall(vim.cmd.AlphaRedraw)
                     end,
