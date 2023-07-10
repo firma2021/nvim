@@ -60,6 +60,7 @@ return
                 "User",
                 {
                     pattern = "LazyVimStarted",
+                    desc = "Add Alpha dashboard footer",
                     callback = function()
                         local stats = require("lazy").stats()
                         local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
