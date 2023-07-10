@@ -1,7 +1,9 @@
 --插件管理
 
+--检查本地是否有"lazy.nvim"文件，没有则通过Git下载最新的稳定版本，添加到Vim运行时路径中
+--:h rtp命令可以查看运行时路径
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim" --..用于连接字符串
-if not vim.loop.fs_stat(lazypath)                            --检查本地是否有"lazy.nvim"文件，没有则通过Git下载最新的稳定版本，添加到Vim运行时路径中
+if not vim.loop.fs_stat(lazypath)
 then
     vim.fn.system(
         { "git",
@@ -24,7 +26,7 @@ require("lazy").setup(
             { import = "plugins.ui" },
             { import = "plugins.lsp" },
             { import = "plugins.miscellaneous" },
-            --{ import = "plugins.languages" },
+            { import = "plugins.editor" },
         },
 
         defaults =

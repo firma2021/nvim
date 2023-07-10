@@ -23,7 +23,10 @@ return
     lspconfig.clangd.setup
     {
       filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
-
+      capabilities =
+      {
+        offsetEncoding = "utf-16",
+      },
       cmd =
       {
           "clangd", --clangd --help-hidden
@@ -40,7 +43,7 @@ return
           "--pch-storage=memory",
 
           "--log=info",
-          "--offset-encoding=utf-8",
+          "--offset-encoding=utf-16",
           "--pretty",
 
           "--clang-tidy",
@@ -98,9 +101,59 @@ return
       },
     }
 
-    local text_off = extend_tbl(default_diagnostics, { virtual_text = false })
-    local text_and_sign_off = extend_tbl(diagnostics_on, { virtual_text = false, signs = false })
-    local diagnostics_off = extend_tbl(diagnostics_on,{ underline = false, update_in_insert = false, virtual_text = false, signs = false, })
+    local text_off =
+    {
+      virtual_text = false,  --在诊断范围旁边显示虚拟文本
+      severity_sort = true, --按照严重程度排序
+      signs = { active = signs }, --左侧显示诊断标志
+      update_in_insert = true,
+      underline = true, --在诊断范围下方显示下划线
+      float =
+      {
+        focused = false,
+        style = "minimal",
+        border = "rounded",
+        source = "always",
+        header = "",
+        prefix = "",
+      },
+    }
+
+    local text_and_sign_off =
+    {
+      virtual_text = false,  --在诊断范围旁边显示虚拟文本
+      severity_sort = true, --按照严重程度排序
+      signs = false, --左侧显示诊断标志
+      update_in_insert = true,
+      underline = true, --在诊断范围下方显示下划线
+      float =
+      {
+        focused = false,
+        style = "minimal",
+        border = "rounded",
+        source = "always",
+        header = "",
+        prefix = "",
+      },
+    }
+
+    local text_and_sign_off =
+    {
+      virtual_text = false,  --在诊断范围旁边显示虚拟文本
+      severity_sort = true, --按照严重程度排序
+      signs = false, --左侧显示诊断标志
+      update_in_insert = false,
+      underline = false, --在诊断范围下方显示下划线
+      float =
+      {
+        focused = false,
+        style = "minimal",
+        border = "rounded",
+        source = "always",
+        header = "",
+        prefix = "",
+      },
+    }
 
     vim.g.diagnostics_mode = 1
 
@@ -172,9 +225,6 @@ return
           vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, opts)
           vim.keymap.set({ 'n', 'v' }, '<space>ca', vim.lsp.buf.code_action, opts)
           vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
-          vim.keymap.set('n', '<space>f', function()
-            vim.lsp.buf.format { async = true }
-          end, opts)
         end,
       }
     )
@@ -207,7 +257,7 @@ end
 
 --获取当前缓冲区上，所有支持格式化的LSP客户端
 local function get_formatters(buffer_number)
-    local file_type = vim.bo[buffer_number].file_type
+    local file_type = vim.bo[buffer_number].filetype
     local lsp_clients = vim.lsp.get_active_clients({ bufnr = buffer_number })
 
     local null_ls = package.loaded["null-ls"] and
@@ -224,11 +274,11 @@ local function get_formatters(buffer_number)
 
     for index, lsp_client in ipairs(lsp_clients)
     do
-        if is_lsp_client_formatting_supported(lsp_client)
+        if is_lsp_client_support_format(lsp_client)
         then
             if lsp_client.name ~= "null-ls"
             then
-                table.insert(support, lsp_client)
+                table.insert(ret.support, lsp_client)
             end
         else
             table.insert(ret.not_support, lsp_client)
@@ -261,6 +311,8 @@ function format()
     local buf_num = vim.api.nvim_get_current_buf() --获取当前缓冲区的编号
     local formatters = get_formatters(buf_num)
 
+    notify(formatters)
+
     local client_ids = vim.tbl_map(function(client) return client.id end, formatters.support) --vim.tbl_map将一个函数应用于表中的每个元素，返回一个新表
 
 
@@ -272,6 +324,7 @@ function format()
         end,
         formatting_options = nil,
         timeout_ms = nil,
+        async = true,
     }
 
     vim.lsp.buf.format(ftable)
@@ -282,6 +335,8 @@ vim.api.nvim_create_autocmd("BufWritePre",
     callback = function() format() end
   }
 )
+
+  vim.keymap.set('n', '<space>f', function() format()end)
 
   end,
 }

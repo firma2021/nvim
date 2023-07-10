@@ -64,7 +64,7 @@ return
 
         sync_install = false,    -- 同步安装解析器，仅对ensure_installed选项有效
 
-        auto_install = true,     --在进入缓冲区时，自动安装缺失的解析器;如果没有在本地安装tree-sitter命令行界面，建议设置为false
+        auto_install = true,     --在进入缓冲区时，自动安装缺失的解析器; 如果没有在本地安装tree-sitter命令行界面，建议设置为false
 
         ignore_install = { "" }, --列出忽略安装的解析器 (for "all")
 
@@ -105,3 +105,5 @@ return
         require("nvim-treesitter.configs").setup(opts)
     end,
 }
+
+--use plugin: nvim-treesitter/playground to show concrete syntax tree

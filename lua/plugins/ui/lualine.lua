@@ -63,6 +63,34 @@ return
                     },
                     {
                         function()
+
+                            local clients = vim.lsp.get_active_clients() --获取活跃的LSP客户端
+                            if next(clients) == nil then return "no active lsp" end
+
+                            local msg = ""
+
+                            local buf_ft = vim.api.nvim_buf_get_option(0, 'filetype') --获取当前缓冲区文件类型
+
+                            for index, client in ipairs(clients) do
+                              local filetypes = client.config.filetypes
+                              if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 --检查当前缓冲区的文件类型是否在lSP支持的文件类型列表中
+                              then
+                                 msg = msg .. "[+" .. client.name .. "]"
+                              else
+                                msg = msg .. "[-" .. client.name .. "]"
+                              end
+                            end
+
+                            return msg
+
+                          end,
+
+                          icon = " LSP",
+
+                          color = { fg = '#ec5f67', gui = 'bold' },
+                    },
+                    {
+                        function()
                             return "  " .. require("dap").status()
                         end,
 
@@ -140,7 +168,7 @@ return
                 {
                     { "location", separator = " ",                  padding = { left = 1, right = 0 } },
                     { "progress", padding = { left = 0, right = 1 } },
-                    function() return " " .. os.date("%R") end
+                    {"datetime", style = "%H:%M"}
                 },
 
             },
