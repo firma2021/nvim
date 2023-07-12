@@ -6,7 +6,6 @@ return
 
     event = "VeryLazy",
 
-
     keys =
     {
         {
@@ -14,13 +13,18 @@ return
             function()
                 require("notify").dismiss({ silent = true, pending = true })
             end,
-            desc = "Dismiss all Notifications",
+            desc = "dismiss all notifications",
+        },
+        {
+            "<leader>uh",
+            "<cmd>Notifications<cr>",
+            desc = "notifications history",
         },
     },
 
     opts =
     {
-        timeout = 3000,
+        timeout = 8000,
         max_height = function()
             return math.floor(vim.o.lines * 0.75)
         end,

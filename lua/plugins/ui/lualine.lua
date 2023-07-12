@@ -4,6 +4,11 @@ return
 
     event = "VeryLazy",
 
+    dependencies =
+    {
+        "arkav/lualine-lsp-progress",
+    },
+
     opts = function()
         return
         {
@@ -89,6 +94,7 @@ return
 
                           color = { fg = '#ec5f67', gui = 'bold' },
                     },
+                    "lsp_progress",
                     {
                         function()
                             return "  " .. require("dap").status()

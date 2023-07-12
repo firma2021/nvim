@@ -23,13 +23,17 @@ return
                 {
                     null_ls.builtins.formatting.shfmt,        --shell
                     null_ls.builtins.formatting.stylua,       --lua
-                    null_ls.builtins.formatting.clang_format, --c/c++
-                    null_ls.builtins.formatting.black.with({ extra_args = { "--fast" } }),
+
+                    -- null_ls.builtins.diagnostics.cppcheck,
+                    -- null_ls.builtins.diagnostics.cpplint,
                     null_ls.builtins.diagnostics.clang_check,
+                    null_ls.builtins.formatting.clang_format, --c/c++
+
                     null_ls.builtins.diagnostics.shellcheck,
 
                     null_ls.builtins.diagnostics.flake8,
                     null_ls.builtins.diagnostics.pylint,
+                    null_ls.builtins.formatting.black.with({ extra_args = { "--fast" } }),
 
                     null_ls.builtins.completion.spell,
 

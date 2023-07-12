@@ -3,7 +3,7 @@ vim.g.mapleader = " "      --全局设置
 vim.g.maplocalleader = "," --Local Leader key, 只在当前缓冲区有效
 
 --时间--
-vim.opt.timeoutlen = 300 --输入延迟。在500毫秒内没有再次输入，Vim将认为输入完成并执行相应的操作
+vim.opt.timeoutlen = 300 --输入延迟。快捷键连击的判定时间。在300毫秒内没有再次输入，Vim将认为输入完成并执行相应的操作
 vim.opt.updatetime = 200 --这个时间内光标没有移动，会触发CursorHold事件；该时间内没有打字，将保存swap文件到硬盘
 
 
@@ -20,11 +20,11 @@ vim.opt.relativenumber = false        --虽然显示相对行号后方便跳转�
 vim.opt.cursorline = true             --高亮当前行
 vim.opt.scrolloff = 8                 --如果光标的置移出了窗口，那么它会带动窗口的内容移动几行，即上下文的行数
 vim.opt.sidescrolloff = 8             --如果光标位置移出了窗口，那么它会带动窗口的内容移动几列
-vim.opt.signcolumn = "yes"            --始终显示 sign column（使用git时出现此列）
+vim.opt.signcolumn = "yes"            --始终显示 sign column（最左侧的提升性图标）
 vim.opt.whichwrap = "h,l,<,>,[,]"     --当光标在文本行的开头或结尾时，按下这些键可以换行。
 vim.opt.matchpairs:append { "<:>" }   --将<和>作为一对匹配的括号字符, 高亮显示之
 vim.opt.virtualedit = "block,onemore" --可以将光标移动到行末的下一个位置
-
+vim.wo.colorcolumn = "80" --在第80列显示垂直辅助线
 
 --折行--
 vim.opt.wrap = false    --全局设置：文本超出屏幕宽度时不换行；之后我们会设置某些类型的文件换行
@@ -57,14 +57,14 @@ vim.opt.grepformat = "%f:%l:%c:%m"               --文件名，行号，列号�
 vim.opt.inccommand = "split"                     --增量搜索时，既在当前窗口高亮显示匹配项，又在新窗口中显示所有匹配项
 vim.opt.path:append { "**" }                     --使用:find、:edit命令时，在该路径（当前目录及子目录）中搜索文件
 vim.opt.wildignore:append { "*/node_modules/*" } --在文件名补全和文件浏览时忽略的目录
-
 vim.opt.formatoptions:append { "r" }             --自动识别和处理反引号
+vim.opt.history = 200 --保存200条命令历史
 
 --文件保存--
 vim.opt.autoread = true              --文件被外部程序修改后, 自动重新读取文件
 vim.opt.autowrite = true             --切换缓冲区或退出Vim时, 自动保存当前文件
 vim.opt.confirm = true               --在用户执行一些可能会导致数据丢失或不可逆操作时，提示用户进行确认
-vim.opt.writebackup = true           --在写入文件前创建备份文件(以~结尾，包含了文件的上一次保存状态)，
+vim.opt.writebackup = true           --在写入文件前创建备份文件(以~结尾，包含了文件的上一次保存状态)
 vim.opt.backup = false               --成功写入后删除备份文件
 vim.opt.backupskip = "/tmp/*, *.log" --这些文件将不被备份
 vim.opt.swapfile = false             --禁止创建交换文件，它通常以.swp结尾, 在编辑器正常关闭时自动删除, 在Vim崩溃或编辑器意外关闭时恢复文件
@@ -123,18 +123,17 @@ vim.g.markdown_recommended_style = 0 --不使用建议的语法高亮风格
 vim.opt.formatoptions = "jcroqlnt"
 
 
---状态栏--
+--状态栏与命令栏--
 vim.opt.laststatus = 0 --不显示内置状态栏，我们会启动第三方插件
---vim.opt.showcmd = true                                     --在底部状态栏显示正在执行的命令，如选中几行后，显示选中的行数
--- vim.opt.cmdheight=1 --底部状态栏最多可以显示1行
 vim.opt.showmode = false
-vim.opt.shortmess:append({ W = true, I = true, c = true }) --不显示写入、插入、补全消息提示
-
+vim.opt.shortmess:append({ W = true, I = true, c = true }) --在执行某些操作时不显示的短消息：不显示写入、插入、补全消息提示
+--vim.opt.showcmd = true --在底部命令栏显示正在执行的命令，如选中几行后，显示选中的行数
+-- vim.opt.cmdheight=1 --底部命令栏最多可以显示1行
+--vim.opt.ruler = true --在底部命令栏显示光标位置
 
 --标题栏--
 vim.opt.title = true                       --在终端模拟器中显示vim标题
 vim.opt.titlestring = "%<%F%=%l/%L - nvim" --尽可能多得显示文件名、显示文件名、后续文本居中显示、显示当前行号、总行数
-
 
 --内置终端使用的shell--
 vim.opt.shell = "zsh"
@@ -144,14 +143,7 @@ vim.opt.winblend = 0         --设置窗口透明度，100为全透明
 vim.opt.background = "light" --设置高亮行的背景色, 可设置为light或dark
 vim.opt.wildoptions = "pum"  --命令行补全时用弹出菜单显示候选项
 
---vim.opt.foldmethod=indent --设置折叠方式
+--vim.opt.foldmethod=indent --根据代码的缩进层级自动折叠和展开代码块
 
 --vim.opt.showmatch 输入右括号后，光标跳到左括号，持续0.5秒
 --vim.opt.matchtime=5
-
--- vim.opt.nocompatible --关闭与Vi兼容的模式,可以使用更多的 Vim 命令和功能，以及更多的插件和脚本
--- syntax on --在vim启动时自动启用语法高亮
--- filetype on --根据后缀名或内容识别文件类型，自动加载相应的语法高亮、自动缩进等
--- filetype plugin on --自动加载与文件类型相关的插件，如代码补全、调试
-
--- vim.opt.ruler --总在底部状态栏显示光标位置

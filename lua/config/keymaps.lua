@@ -1,5 +1,10 @@
---lazy.nvim能够在加载插件时，设置插件的键位映射。
---如果已经设置了插件的键位映射，则不再重复设置相同的键位映射。
+-- modes
+--   normal_mode = "n",
+--   insert_mode = "i",
+--   visual_mode = "v",
+--   visual_block_mode = "x",
+--   term_mode = "t",
+--   command_mode = "c",
 
 vim.keymap.set({ "n", "v", "o" }, "H", "^", { desc = "map 'H' to '^'" }) --normal, visual, operator模式下的映射
 vim.keymap.set({ "n", "v", "o" }, "L", "$", { desc = "map 'L' to '$'" })
