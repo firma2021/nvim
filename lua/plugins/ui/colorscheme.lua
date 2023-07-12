@@ -144,7 +144,7 @@ return
 
         config = function(plugin, opts)
             require("tokyonight").setup(opts)
-            vim.cmd("colorscheme tokyonight")
+            -- vim.cmd("colorscheme tokyonight")
         end
     }
 }
