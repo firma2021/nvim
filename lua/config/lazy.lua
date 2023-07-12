@@ -25,8 +25,10 @@ require("lazy").setup(
             { import = "plugins" }, --引入lua/plugins下的所有lua文件
             { import = "plugins.ui" },
             { import = "plugins.lsp" },
-            { import = "plugins.miscellaneous" },
+            { import = "plugins.dap" },
+            { import = "plugins.git" },
             { import = "plugins.editor" },
+            { import = "plugins.neovim_dev" },
         },
 
         defaults =

@@ -15,6 +15,9 @@ return
 
             numbers = function(opts) return string.format('%s-%s', opts.ordinal, opts.id) end,
 
+            close_command = 'Bdelete! %d',
+            right_mouse_command = 'Bdelete! %d',
+
             diagnostics = "nvim_lsp",
 
             separator_style = "thin", --"slant","slope","thick","thin", 右下倾斜，右上倾斜，厚竖线，瘦竖线
@@ -61,8 +64,9 @@ return
 
     config = function(plugin, opts)
         require("bufferline").setup(opts)
-        vim.api.nvim_set_keymap("n", "gb", "<Cmd>BufferLinePick<CR>", { noremap = true, silent = true })
-        vim.api.nvim_set_keymap("n", "gD", "<Cmd>BufferLinePickClose<CR>", { noremap = true, silent = true })
+        --有冲突
+        -- vim.api.nvim_set_keymap("n", "gb", "<Cmd>BufferLinePick<CR>", { noremap = true, silent = true })
+        -- vim.api.nvim_set_keymap("n", "gD", "<Cmd>BufferLinePickClose<CR>", { noremap = true, silent = true })
         vim.api.nvim_set_keymap("n", "<leader>1", "<Cmd>BufferLineGoToBuffer 1<CR>", { noremap = true, silent = true })
         vim.api.nvim_set_keymap("n", "<leader>2", "<Cmd>BufferLineGoToBuffer 2<CR>", { noremap = true, silent = true })
         vim.api.nvim_set_keymap("n", "<leader>3", "<Cmd>BufferLineGoToBuffer 3<CR>", { noremap = true, silent = true })
