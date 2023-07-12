@@ -5,9 +5,12 @@ return
 
     event = "VeryLazy",
 
-    config = function()
-        require("nvim-surround").setup({
-            -- Configuration here, or leave empty to use defaults
-        })
+    opts =
+    {
+        mappings_style = "nvim-surround",
+    },
+
+    config = function(plugin, opts)
+        require("nvim-surround").setup(opts)
     end
 }

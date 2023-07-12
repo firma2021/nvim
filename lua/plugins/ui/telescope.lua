@@ -30,7 +30,7 @@ return
         { "<leader>ff",    "<cmd>Telescope find_files<CR>", desc = "Find files" },
         {
             "<leader>fF",
-            function() require("telescope.builtin").find_files { hidden = true, no_ignore = true } end,
+            function() require("telescope.builtin").find_files { hidden = true, no_ignore = true, } end,
             desc = "Find all files",
         },
         { "<leader>fg",    "<cmd>Telescope live_grep<CR>", desc = "telescope live_grep" },
@@ -64,7 +64,7 @@ return
         {
             "<leader>ft",
             function() require("telescope.builtin").colorscheme { enable_preview = true } end,
-            desc = "Find themes"
+            desc = "find themes"
         },
 
         {
@@ -88,6 +88,8 @@ return
         {
             defaults =
             {
+                initial_mode = "insert", --insert
+
                 prompt_prefix = "❯",
                 selection_caret = "❯",
 
@@ -110,8 +112,16 @@ return
                     {
                         ["<C-n>"] = actions.cycle_history_next,
                         ["<C-p>"] = actions.cycle_history_prev,
+                        ["<down>"] = actions.cycle_history_next,
+                        ["<up>"] = actions.cycle_history_prev,
+
                         ["<C-j>"] = actions.move_selection_next,
                         ["<C-k>"] = actions.move_selection_previous,
+
+                        ['<C-c>'] = actions.close,
+
+                        ['<C-u>'] = actions.preview_scrolling_up,
+                        ['<C-d>'] = actions.preview_scrolling_down,
                     },
                     n = { q = actions.close },
                 },

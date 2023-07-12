@@ -7,8 +7,13 @@ return
 
     opts =
     {
-        check_ts = true,
-        ts_config = { java = false },
+        check_ts = true, --check treesitter
+        ts_config =
+        {
+            java = false, --don't check treesitter on java
+            lua = { "string" }, --do not add a pair on that treesitter node
+            javascript = { "template_string" },
+        },
 
         fast_wrap =
         {

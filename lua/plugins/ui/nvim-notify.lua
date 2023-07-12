@@ -25,6 +25,7 @@ return
     opts =
     {
         timeout = 8000,
+
         max_height = function()
             return math.floor(vim.o.lines * 0.75)
         end,
@@ -32,7 +33,7 @@ return
             return math.floor(vim.o.columns * 0.75)
         end,
 
-        stages = "static", -- 使用最朴素的特效 "fade", "slide", "fade_in_slide_out", "static"
+        stages = "static", -- 使用最朴素的特效。其它可选项为 "fade", "slide", "fade_in_slide_out", "static"
         fps = 1,
         on_close = nil,
 
@@ -42,8 +43,6 @@ return
 
         on_open = function(win)
             vim.api.nvim_win_set_config(win, { zindex = 1000 }) --把窗口的堆叠顺序设置为最前面，覆盖其他窗口
-            --if not vim.g.ui_notifications_enabled then vim.api.nvim_win_close(win, true) end
-            --如果禁用消息通知，立刻关闭通知，g.ui_notifications_enabled在options.lua中定义
         end,
     },
 
