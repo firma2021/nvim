@@ -68,6 +68,12 @@ return
         }
     }
 
+    lspconfig.pyright.setup(
+    {
+         filetypes = {"python"},
+    }
+            )
+
     --texthl ：标志文本的高亮组; numhl ：标志行号的高亮组
     vim.fn.sign_define("DiagnosticSignError", { text = " ", texthl = "DiagnosticSignError", numhl = "" })
     vim.fn.sign_define("DiagnosticSignWarn", { text = " ", texthl = "DiagnosticSignWarn", numhl = "" })
@@ -181,10 +187,10 @@ return
 
     vim.g.lsp_handlers_enabled = true
 
-    if vim.g.lsp_handlers_enabled then
-      vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded", silent = true }) --设置悬停窗口的边框
-      vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded", silent = true }) ----设置函数参数提示窗口的边框
-    end
+    -- if vim.g.lsp_handlers_enabled then
+    --   vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded", silent = true }) --设置悬停窗口的边框
+    --   vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded", silent = true }) ----设置函数参数提示窗口的边框
+    -- end
 
 
 

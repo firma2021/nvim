@@ -1,44 +1,43 @@
 --mason-lspconfig是 mason.nvim 和 lspconfig 之间的桥梁，使得后两个插件的使用更容易
-return
-{
-    "williamboman/mason-lspconfig",
+return {
+	"williamboman/mason-lspconfig",
 
-    event = { "BufReadPre", "BufNewFile" },
+	event = { "BufReadPre", "BufNewFile" },
 
-    cmd = { "LspInstall", "LspUninstall" }, --mason-lspconfig内置命令
+	cmd = { "LspInstall", "LspUninstall" }, --mason-lspconfig内置命令
 
-    dependencies =
-    {
-        "williamboman/mason.nvim",
-        "neovim/nvim-lspconfig",
-    },
+	dependencies =
+	{
+		"williamboman/mason.nvim",
+		"neovim/nvim-lspconfig",
+	},
 
-    opts =
-    {
-        ensure_installed = --如果这些服务器并没有被安装，则自动安装
-        {
-            "clangd",
-            "cmake",
-            "neocmake",
+	opts = {
+		--https://github.com/williamboman/mason-lspconfig.nvim/blob/main/doc/server-mapping.md
+		--如果这些服务器并没有被安装，则自动安装
+		ensure_installed = {
+			"clangd",
+			"cmake",
+			"neocmake",
 
-            "pyright",
+			"pyright",
 
-            "lua_ls",
+			"lua_ls", --short for lua language server
 
-            "cssls",
-            "html",
-            "jsonls",
-            "quick_lint_js",
+			"cssls",
+			"html",
+			"jsonls",
+			"quick_lint_js",
 
-            "marksman",
+			"marksman",
 
-            "sqlls",
+			"sqlls",
 
-            "vimls",
+			"vimls",
 
-            "yamlls",
-        },
+			"yamlls",
+		},
 
-        automatic_installation = true, --通过lspconfig设置的服务器，如果没有安装，是否要自动安装
-    }
+		automatic_installation = true, --通过lspconfig设置的服务器，如果没有安装，是否要自动安装
+	},
 }

@@ -1,0 +1,24 @@
+{
+    "workspace.library": [
+        "/home/firma/.config/nvim",
+        "/home/firma/.local/share/nvim/lazy/lazy.nvim",
+        "/home/firma/.local/share/nvim/lazy/mason-lspconfig.nvim",
+        "/home/firma/.local/share/nvim/lazy/mason.nvim",
+        "/home/firma/.local/share/nvim/lazy/nvim-lspconfig",
+        "/home/firma/.local/share/nvim/lazy/neodev.nvim",
+        "/home/firma/.local/share/nvim/lazy/hop.nvim",
+        "/home/firma/.local/share/nvim/lazy/nvim-web-devicons",
+        "/home/firma/.local/share/nvim/lazy/nvim-treesitter",
+        "/home/firma/.local/share/nvim/lazy/lspsaga.nvim",
+        "/home/firma/.local/share/nvim/lazy/friendly-snippets",
+        "/home/firma/.local/share/nvim/lazy/LuaSnip",
+        "/home/firma/.local/share/nvim/lazy/catppuccin",
+        "/home/firma/.local/share/nvim/lazy/tokyonight.nvim",
+        "/usr/share/nvim/runtime",
+        "/usr/lib/nvim",
+        "/home/firma/.local/state/nvim/lazy/readme",
+        "/home/firma/.local/share/nvim/lazy/catppuccin/after",
+        "${3rd}/luassert/library",
+        "${3rd}/luv/library"
+    ]
+}

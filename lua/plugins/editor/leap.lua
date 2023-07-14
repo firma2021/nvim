@@ -1,6 +1,9 @@
+--hop.nvim是类似的插件，功能更强大。
 return
 {
     "ggandor/leap.nvim",
+
+    lazy = true,
 
     keys =
     {

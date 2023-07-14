@@ -42,6 +42,15 @@ return
                 cancel_installation = "<C-c>",
                 apply_language_filter = "<C-f>",
             },
+
+            ensure_installed =
+            {
+                "pyright",
+                "mypy",
+                "ruff",
+                "black",
+                "debugpy",
+            }
         }
     }
 }

@@ -38,13 +38,5 @@ return
             { "<leader>lv", "<cmd>:VenvSelect<cr>", desc = "Select VirtualEnv" }
         },
     },
-    {
-        "mfussenegger/nvim-dap-python",
-        dependencies = { "mfussenegger/nvim-dap" },
-        ft = "python", --lazy-load on filetype
-        event = "User AstroFile",
-        config = function()
-            require("dap-python").setup("python", {})
-        end,
-    },
+    
 }

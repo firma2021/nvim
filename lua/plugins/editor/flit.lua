@@ -3,6 +3,10 @@ return
 {
     "ggandor/flit.nvim",
 
+    lazy = true,
+
+    dependencies = { "ggandor/leap.nvim" },
+
     keys = function()
       local ret = {}
       for index, key in ipairs({ "f", "F", "t", "T" }) do

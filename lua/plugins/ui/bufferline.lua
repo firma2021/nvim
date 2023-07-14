@@ -15,8 +15,8 @@ return
 
             numbers = function(opts) return string.format('%s-%s', opts.ordinal, opts.id) end,
 
-            close_command = 'Bdelete! %d',
-            right_mouse_command = 'Bdelete! %d',
+            -- close_command = 'Bdelete! %d',
+            -- right_mouse_command = 'Bdelete! %d',
 
             diagnostics = "nvim_lsp",
 

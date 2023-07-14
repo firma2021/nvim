@@ -1,3 +1,5 @@
+--vim.keymap.set的第一个参数可以是模式列表，比老式的，只能指定一种模式的vim.api.nvim_set_keymap更易用。
+
 -- modes
 --   normal_mode = "n",
 --   insert_mode = "i",
