@@ -50,6 +50,9 @@ return
                 "ruff",
                 "black",
                 "debugpy",
+
+                "clangd",
+                "codelldb",
             }
         }
     }

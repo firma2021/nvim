@@ -27,10 +27,10 @@ return
           highlights = { border = "Normal", background = "Normal" },
         },
 
-        start_in_insert = true,
+        start_in_insert = false,
     },
 
-    --cout是终端的id,用来触发终端。
+    --count是终端的id,用来触发终端。
     --输入:5ToggleTerm<CR> 触发5号终端，且vim.v.count的值被设置为5。
     config = function(plugin, opts)
       require("toggleterm").setup(opts)

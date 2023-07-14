@@ -103,23 +103,26 @@ return
     keys =
     {
         {
+            "<leader>db",
+            function() require("dap").toggle_breakpoint() end,
+            desc = "toggle breakpoint at line"
+
+        },
+
+        {
+            "<leader>dr",
+            function() require("dap").continue() end,
+            desc = "start or continue the debugger"
+        },
+
+        {
             "<leader>dB",
             function() require("dap").set_breakpoint(vim.fn.input('Breakpoint condition: ')) end,
             desc =
             "Breakpoint Condition"
         },
-        {
-            "<leader>db",
-            function() require("dap").toggle_breakpoint() end,
-            desc =
-            "Toggle Breakpoint"
-        },
-        {
-            "<leader>dc",
-            function() require("dap").continue() end,
-            desc =
-            "Continue"
-        },
+
+
         {
             "<leader>dC",
             function() require("dap").run_to_cursor() end,
@@ -170,7 +173,7 @@ return
             "Pause"
         },
         {
-            "<leader>dr",
+            "<leader>dR",
             function() require("dap").repl.toggle() end,
             desc =
             "Toggle REPL(Read-Eval-Print Loop)"
@@ -215,51 +218,5 @@ return
                 { text = sign[1], texthl = sign[2] or "DiagnosticInfo", linehl = sign[3], numhl = sign[3] }
             )
         end
-
-        local dap = require("dap")
-
-        dap.adapters.cppdbg =
-        {
-            id = 'cppdbg',
-            type = 'executable',
-            command = 'D:\\CppApp\\VSCodetools\\extensions\\opendebug\\OpenDebugAD7.exe',
-            options = {
-              detached = false
-            }
-          }
-
-          dap.configurations.cpp =
-          {
-
-              name = "Launch file",
-              type = "cppdbg",
-              request = "launch",
-              -- program = function()
-              --   return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '\\', 'file')
-              -- end,
-              program = "${workspaceFolder}\\a.exe",
-              cwd = '${workspaceFolder}',
-              stopAtEntry = true,
-              externalConsole = false,
-              MIMode = "gdb",
-          }
-
-        dap.adapters.python =
-        {
-            type = 'executable'; --DAP客户端需要自行启动DAP服务器
-            command = '/usr/bin/python';
-            args = { '-m', 'debugpy.adapter' };
-        }
-
-        dap.configurations.python =
-        {
-            {
-                type = "python"; --使用dap.adapters.python
-                request = "launch"; --启动新的调试进程
-                name = "launch file"; --配置名
-                program = "${file}"; --被调试的代码为当前buffer
-                pythonPath = "/usr/bin/python"
-            },
-        }
     end,
 }
