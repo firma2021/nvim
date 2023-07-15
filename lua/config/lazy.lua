@@ -29,6 +29,7 @@ require("lazy").setup(
             { import = "plugins.git" },
             { import = "plugins.editor" },
             { import = "plugins.neovim_dev" },
+            { import = "plugins.task_runner" },
         },
 
         defaults =
