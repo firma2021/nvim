@@ -1,4 +1,5 @@
---插件管理
+--插件管理器
+--see :help lazy.nvim.txt
 
 --检查本地是否有"lazy.nvim"文件，没有则通过Git下载最新的稳定版本，添加到Vim运行时路径中
 --:h rtp命令可以查看运行时路径
@@ -34,7 +35,7 @@ require("lazy").setup(
 
         defaults =
         {
-            lazy = false,    --插件默认为懒加载
+            lazy = false,    --插件是否要懒加载
             version = false, --使用最近的git提交，而不是带版本号的release版本，因为release版本可能是老旧的
         },
 

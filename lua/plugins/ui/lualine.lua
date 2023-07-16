@@ -1,3 +1,5 @@
+--状态栏
+--see :help lualine.txt
 return
 {
     "nvim-lualine/lualine.nvim",
@@ -204,47 +206,50 @@ return
                 lualine_z = {},
             },
 
-            -- winbar =
-            -- {
-            --     lualine_a = {},
-            --     lualine_b = {},
-            --     lualine_c =
-            --     {
-            --         {
-            --             "filename",
-            --             file_status = true,     --显示文件状态
-            --             newfile_status = false, --不显示新文件(创建后未写入的文件)的状态
-            --             path = 3,               --绝对路径，使用波浪号表示家目录
-            --             symbols =
-            --             {
-            --                 modified = '[+]',
-            --                 readonly = '[-]',
-            --                 unnamed = '[No Name]',
-            --                 newfile = '[New]',
-            --             }
-            --         },
-            --
-            --     },
-            --     lualine_x = {},
-            --     lualine_y = {},
-            --     lualine_z = {}
-            -- },
-            --
-            -- inactive_winbar =
-            -- {
-            --     lualine_a = {},
-            --     lualine_b = {},
-            --     lualine_c =
-            --     {
-            --         {
-            --             "filename",
-            --             path = 3, --绝对路径，使用波浪号表示家目录
-            --         },
-            --     },
-            --     lualine_x = {},
-            --     lualine_y = {},
-            --     lualine_z = {}
-            -- },
+            winbar =
+            {
+                lualine_a = {},
+                lualine_b = {},
+                lualine_c =
+                {
+                    {
+                        "filename",
+                        file_status = true,     --显示文件状态
+                        newfile_status = false, --不显示新文件(创建后未写入的文件)的状态
+                        path = 3,               --绝对路径，使用波浪号表示家目录
+                        symbols =
+                        {
+                            modified = '[+]',
+                            readonly = '[-]',
+                            unnamed = '[No Name]',
+                            newfile = '[New]',
+                        },
+
+                        cond = function()
+                            return not package.loaded["lspsaga"]
+                        end,
+                    },
+                },
+                lualine_x = {},
+                lualine_y = {},
+                lualine_z = {}
+            },
+
+            inactive_winbar =
+            {
+                lualine_a = {},
+                lualine_b = {},
+                lualine_c =
+                {
+                    {
+                        "filename",
+                        path = 3, --绝对路径，使用波浪号表示家目录
+                    },
+                },
+                lualine_x = {},
+                lualine_y = {},
+                lualine_z = {}
+            },
 
             extensions = --这些插件可以改变状态栏的样式
             {

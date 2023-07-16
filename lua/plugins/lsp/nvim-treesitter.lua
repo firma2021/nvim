@@ -1,5 +1,5 @@
---提供一个简单易用的方法，以在neovim中使用tree-sitter的接口；
---提供一些基于tree-sitter的基本功能，例如语法高亮。
+--提供一些基于tree-sitter的基本功能, 如语法高亮
+--see :help nvim-treesitter
 
 return
 {
@@ -8,6 +8,11 @@ return
     version = false,
 
     build = ":TSUpdate", --当插件被安装或更新后，执行此命令，将所有安装好的解析器更新到最近的版本
+
+    dependencies =
+    {
+        'nvim-treesitter/nvim-treesitter-textobjects',
+    },
 
     event = { "BufReadPost", "BufNewFile" },
 
@@ -33,8 +38,8 @@ return
             "python",
 
             "lua",
-            "luadoc",
-            "luap",
+            "luadoc", --用于生成Lua代码文档的工具
+            "luap", --在Lua中进行模式匹配的库
 
             "bash",
 
@@ -60,6 +65,9 @@ return
             "yaml",
 
             "gitignore",
+
+            --"rust",
+            --"go",
         },
 
         sync_install = false,    -- 同步安装解析器，仅对ensure_installed选项有效
@@ -87,10 +95,10 @@ return
             enable = true,
             keymaps =
             {
-                init_selection = "<cr>",
-                node_incremental = "<cr>",
-                node_decremental = "<bs>",
-                scope_incremental = "<tab>",
+                init_selection = "<c-space>",
+                node_incremental = "<c-space>",
+                node_decremental = "<M-space>", --M为Meta键，即 "Alt" 键或 "Option" 键
+                scope_incremental = "<c-s>",
             }
         },
 
@@ -99,6 +107,61 @@ return
             enable = true,
             disable = {},
         },
+
+        textobjects =
+        {
+            select =
+            {
+              enable = true,
+              lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
+              keymaps = {
+                -- You can use the capture groups defined in textobjects.scm
+                ['aa'] = '@parameter.outer',
+                ['ia'] = '@parameter.inner',
+                ['af'] = '@function.outer',
+                ['if'] = '@function.inner',
+                ['ac'] = '@class.outer',
+                ['ic'] = '@class.inner',
+              },
+            },
+            move =
+            {
+              enable = true,
+              set_jumps = true, -- whether to set jumps in the jumplist
+              goto_next_start =
+              {
+                [']m'] = '@function.outer',
+                [']]'] = '@class.outer',
+              },
+              goto_next_end =
+              {
+                [']M'] = '@function.outer',
+                [']['] = '@class.outer',
+              },
+              goto_previous_start =
+              {
+                ['[m'] = '@function.outer',
+                ['[['] = '@class.outer',
+              },
+              goto_previous_end =
+              {
+                ['[M'] = '@function.outer',
+                ['[]'] = '@class.outer',
+              },
+            },
+            swap =
+            {
+              enable = true,
+              swap_next =
+              {
+                ['<leader>a'] = '@parameter.inner',
+              },
+              swap_previous =
+              {
+                ['<leader>A'] = '@parameter.inner',
+              },
+            },
+          },
     },
 
     config = function(plugin, opts)

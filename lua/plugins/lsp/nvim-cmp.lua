@@ -1,4 +1,6 @@
 --补全引擎插件。补全源需要从外部仓库安装。
+--see :help cmp
+
 return
 {
     "hrsh7th/nvim-cmp", --https://github.com/hrsh7th/nvim-cmp
@@ -7,18 +9,19 @@ return
 
     event = "InsertEnter",
 
-    dependencies = --补全源
+    dependencies = --补全引擎和与之关联的补全源
     {
         "hrsh7th/cmp-nvim-lsp",
-        "saadparwaiz1/cmp_luasnip",
         "hrsh7th/cmp-buffer",
         "hrsh7th/cmp-path",
         "hrsh7th/cmp-cmdline",
         "hrsh7th/cmp-nvim-lua", --nvim lua API补全
         "f3fora/cmp-spell",     --在拼写检查模式下提供补全
         "hrsh7th/cmp-calc",     --数学表达式补全
+
+        "saadparwaiz1/cmp_luasnip", --snippets补全源
         {
-            "L3MON4D3/LuaSnip",
+            "L3MON4D3/LuaSnip", --snippets补全引擎
             dependencies =
             {
                 { "rafamadriz/friendly-snippets" },
@@ -38,11 +41,15 @@ return
                 )
             end,
         },
+
+
+
     },
 
     opts = function()
         vim.api.nvim_set_hl(0, "CmpGhostText", { link = "Comment", default = true })
         local cmp = require("cmp")
+        local luasnip = require("luasnip")
 
         local border_opts =
         {
@@ -55,10 +62,10 @@ return
         {
             preselect = cmp.PreselectMode.None,
 
-            snippet = --指定代码段引擎
+            snippet = --指定snippet引擎
             {
                 expand = function(args)
-                    require("luasnip").lsp_expand(args.body) --使用luasnip
+                    luasnip.lsp_expand(args.body) --使用luasnip
                 end,
             },
 
@@ -77,7 +84,7 @@ return
                 {
                     --cmp.SelectBehavior.Select 选择补全项
                     --cmp.SelectBehavior.Insert 选择补全项并插入
-                    --cmp.SelectBehavior.Insert 选择补全项，并用补全项替换原有的文本
+                    --cmp.SelectBehavior.Replace 选择补全项，并用补全项替换原有的文本
 
                     ["<Up>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
                     ["<Down>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
@@ -87,12 +94,11 @@ return
                     ["<C-d>"] = cmp.mapping.scroll_docs(-4),
                     ["<C-u>"] = cmp.mapping.scroll_docs(4),
 
-                    ["<C-l>"] = cmp.mapping.complete(), --弹出补全框
-                    ["<C-e>"] = cmp.mapping.abort(),    --中止补全，不显示补全框
+                    ["<C-Space>"] = cmp.mapping.complete(), --弹出补全框
+                    ["<C-c>"] = cmp.mapping.abort(),    --中止补全，不显示补全框
 
-                    ["<tab>"] = cmp.mapping(function(fallback)
-                        local luasnip = require("luasnip")
-
+                    ["<tab>"] = cmp.mapping(
+                    function(fallback)
                         local char_exists = function() --检查光标前是否存在非空白字符
                             local line_and_col = vim.api.nvim_win_get_cursor(0)
                             local line = line_and_col[1]
@@ -102,19 +108,28 @@ return
                                 nil             --取当前光标位置所在行的文本内容，然后使用  sub  函数提取指定列位置的字符
                         end
 
-                        if cmp.visible()
-                        then
+                        if cmp.visible() then
                             cmp.select_next_item()
-                        elseif luasnip.expand_or_jumpable()
-                        then
+                        elseif luasnip.expand_or_locally_jumpable() then
                             luasnip.expand_or_jump()
-                        elseif char_exists()
-                        then
+                        elseif char_exists() then
                             cmp.complete()
                         else
                             fallback()
                         end
                     end, { "i", "s" }),
+
+                    ['<S-Tab>'] = cmp.mapping(function(fallback)
+                        if cmp.visible() then
+                          cmp.select_prev_item()
+                        elseif luasnip.locally_jumpable(-1) then
+                          luasnip.jump(-1)
+                        elseif char_exists() then
+                            cmp.complete()
+                        else
+                          fallback()
+                        end
+                      end, { 'i', 's' }),
                 }
             ),
 
@@ -268,9 +283,5 @@ return
                 ),
             }
         )
-
-        local capabilities = require("cmp_nvim_lsp").default_capabilities()
-        local cap = require("lspconfig").util.default_config.capabilities
-        cap = vim.tbl_deep_extend("force", cap, capabilities)
     end,
 }

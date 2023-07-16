@@ -1,4 +1,5 @@
---vim.keymap.set的第一个参数可以是模式列表，比老式的，只能指定一种模式的vim.api.nvim_set_keymap更易用。
+--vim.keymap.set()的第一个参数可以是模式列表，比老式的，只能指定一种模式的vim.api.nvim_set_keymap更易用。
+-- see :help vim.keymap.set()
 
 -- modes
 --   normal_mode = "n",
@@ -7,6 +8,14 @@
 --   visual_block_mode = "x",
 --   term_mode = "t",
 --   command_mode = "c",
+
+
+vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true }) --将空格映射为不执行任何操作
+
+--处理单词折行：
+vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
+vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+
 
 vim.keymap.set({ "n", "v", "o" }, "H", "^", { desc = "map 'H' to '^'" }) --normal, visual, operator模式下的映射
 vim.keymap.set({ "n", "v", "o" }, "L", "$", { desc = "map 'L' to '$'" })

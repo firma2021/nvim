@@ -1,10 +1,19 @@
+-- see :help vim.o
+--vim.opt是比vim.o更方便的lua接口
+
+
+
 --前导键--
+--在加载lazy插件前，必须设置 mapleader，以确保键位映射是正确的
+--See :help mapleader
 vim.g.mapleader = " "      --全局设置
-vim.g.maplocalleader = "," --Local Leader key, 只在当前缓冲区有效
+vim.g.maplocalleader = " " --Local Leader key, 只在当前缓冲区有效
+
 
 --时间--
+vim.o.timeout = true
 vim.opt.timeoutlen = 300 --输入延迟。快捷键连击的判定时间。在300毫秒内没有再次输入，Vim将认为输入完成并执行相应的操作
-vim.opt.updatetime = 200 --这个时间内光标没有移动，会触发CursorHold事件；该时间内没有打字，将保存swap文件到硬盘
+vim.opt.updatetime = 250 --这个时间内光标没有移动，会触发CursorHold事件；该时间内没有打字，将保存swap文件到硬盘
 
 
 --编码--
@@ -69,7 +78,7 @@ vim.opt.backup = false               --成功写入后删除备份文件
 vim.opt.backupskip = "/tmp/*, *.log" --这些文件将不被备份
 vim.opt.swapfile = false             --禁止创建交换文件，它通常以.swp结尾, 在编辑器正常关闭时自动删除, 在Vim崩溃或编辑器意外关闭时恢复文件
 vim.opt.undofile = true
-vim.opt.undolevels = 10000
+vim.opt.undolevels = 1000
 
 --缓冲区--
 vim.opt.hidden = true                                                   --切换缓冲区时，隐藏而不是关闭旧缓冲区
@@ -90,7 +99,7 @@ vim.o.pumwidth = 40
 vim.opt.pumblend = 30  --透明度为30%
 
 --剪切板--
-vim.opt.clipboard = "unnamedplus" --使用+寄存器，即c-c c-v的系统剪切版作为vim剪切板
+vim.opt.clipboard = "unnamedplus" --使用+寄存器，以同步操作系统和neovim的剪切板。 See :help clipboard
 
 
 --显示不可见字符--

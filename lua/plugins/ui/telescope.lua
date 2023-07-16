@@ -1,4 +1,5 @@
 --根据文件名或文件中的内容，模糊搜索文件；会调用ripgrep程序
+--see :help telescope and :help telescope.setup()
 
 return
 {
@@ -11,7 +12,13 @@ return
     dependencies =
     {
         'nvim-lua/plenary.nvim',
-        { "nvim-telescope/telescope-fzf-native.nvim", enabled = vim.fn.executable "make" == 1, build = "make" },
+        {
+            "nvim-telescope/telescope-fzf-native.nvim", --模糊搜索算法
+            cond = function()
+                return vim.fn.executable "make" == 1
+            end,
+            build = "make",
+        },
     },
 
     cmd = "Telescope",
@@ -42,15 +49,15 @@ return
         { "<leader>fc", "<cmd>Telescope command_history<cr>", desc = "Command history" },
         { "<leader>fC", "<cmd>Telescope commands<cr>", desc = "Find commands" },
 
-        { "<leader>fd", "<cmd>Telescope diagnostics<cr>", desc = "Find diagnostics" },
+        { "<leader>fd", "<cmd>Telescope diagnostics<cr>", desc = "find diagnostics" },
 
         { "<leader>fw","<cmd>Telescope grep_string<cr>",desc ="Find for word under cursor"},
 
 
 
 
-        { "<leader>fh", "<cmd>Telescope help_tags<cr>", desc = "Find help pages" },
-        { "<leader>fH", "<cmd>Telescope highlights<cr>", desc = "Find highlight groups" },
+        { "<leader>fh", "<cmd>Telescope help_tags<cr>", desc = "find nvim help tags" },
+        { "<leader>fH", "<cmd>Telescope highlights<cr>", desc = "find highlight groups" },
 
         { "<leader>fk", "<cmd>Telescope keymaps<cr>", desc = "Find keymaps" },
         { "<leader>fm", "<cmd>Telescope man_pages<cr>", desc = "Find man pages" },
@@ -77,8 +84,24 @@ return
                     require("telescope.builtin").lsp_document_symbols()
                 end
             end,
-            desc = "Search symbols (telescope plugin)",
-        }
+            desc = "Search symbols (telescope plugin)"
+        },
+
+        {
+            '<leader>/',
+            function()
+            require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {winblend = 10,previewer = false,})
+            end,
+            desc = '[/] Fuzzily search in current buffer'
+        },
+
+        {
+            '<leader>gf',
+            function ()
+                require('telescope.builtin').git_files()
+            end,
+            desc = 'Search [G]it [F]iles'
+        },
     },
 
     opts = function()
@@ -115,13 +138,13 @@ return
                         ["<down>"] = actions.cycle_history_next,
                         ["<up>"] = actions.cycle_history_prev,
 
+                        ['<C-u>'] = actions.preview_scrolling_up, --上下滚动预览窗口中的内容
+                        ['<C-d>'] = actions.preview_scrolling_down,
+
                         ["<C-j>"] = actions.move_selection_next,
                         ["<C-k>"] = actions.move_selection_previous,
 
                         ['<C-c>'] = actions.close,
-
-                        ['<C-u>'] = actions.preview_scrolling_up,
-                        ['<C-d>'] = actions.preview_scrolling_down,
                     },
                     n = { q = actions.close },
                 },
@@ -132,6 +155,9 @@ return
     config = function(plugin, opts)
         local telescope = require "telescope"
         telescope.setup(opts)
+
+        local err, ret = pcall(telescope.load_extension, "fzf")
+        if err then vim.notify("telescope.load_extension(fzf) failed", "warn", {title = "telescope"}) end
 
         local conditional_func = function(condition, func, ...)
             if condition and type(func) == "function"

@@ -1,3 +1,4 @@
+-- 通过快捷键gc，为代码块添加注释
 return
 {
     "numToStr/Comment.nvim",

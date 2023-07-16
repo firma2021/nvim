@@ -1,4 +1,5 @@
---显示缩进线
+--显示缩进线,即使在空行上也可以显示
+--see :help indent_blankline.txt
 return
 {
     "lukas-reineke/indent-blankline.nvim",
@@ -7,8 +8,7 @@ return
 
     opts =
     {
-        -- char = "▏",
-        char = "│",
+        char = "┊",
         filetype_exclude =
         {
             "null-ls-info",
@@ -16,12 +16,10 @@ return
             "alpha",
             "dashboard",
             "neo-tree",
-            "Trouble",
             "lazy",
             "mason",
             "notify",
             "toggleterm",
-            "lazyterm",
             "terminal",
             "lspinfo",
             "toggleterm",
