@@ -49,8 +49,8 @@ return
             ensure_installed =
             {
                 "pyright",
-                "mypy",
-                "ruff",
+                "mypy", --静态类型检查
+                "ruff", --静态代码分析，由Rust语言编写，高性能
                 "black",
                 "debugpy",
 

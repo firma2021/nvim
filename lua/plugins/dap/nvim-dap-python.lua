@@ -1,4 +1,5 @@
 --与python调试器debugpy进行通信
+
 return
 {
     "mfussenegger/nvim-dap-python",
@@ -18,8 +19,8 @@ return
         }
     },
 
-    config = function()
+    config = function(plugin, opts)
         local path = "~/.local/share/nvim/mason/packages/debugpy/venv/bin/python"
-        require("dap-python").setup(path)
+        require("dap-python").setup(path, opts)
     end,
 }

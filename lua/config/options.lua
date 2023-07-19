@@ -148,7 +148,7 @@ vim.opt.shell = "zsh"
 
 --ui设置--
 vim.opt.winblend = 0         --设置窗口透明度，100为全透明
-vim.opt.background = "light" --设置高亮行的背景色, 可设置为light或dark
+vim.opt.background = "dark" --设置高亮行的背景色, 可设置为light或dark
 vim.opt.wildoptions = "pum"  --命令行补全时用弹出菜单显示候选项
 
 --vim.opt.foldmethod=indent --根据代码的缩进层级自动折叠和展开代码块
