@@ -12,7 +12,7 @@
 
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true }) --将空格映射为不执行任何操作
 
---处理单词折行：
+--如果设置了wrap选项，很长的一行将被折回成多行显示。此时按下j/k后，将在逻辑行中上下移动，而不是物理行
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
