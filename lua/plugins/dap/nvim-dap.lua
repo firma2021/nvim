@@ -6,8 +6,9 @@ return
 
     dependencies =
     {
+        --绚丽的debugger UI
         {
-            "rcarriga/nvim-dap-ui", --绚丽的debugger UI
+            "rcarriga/nvim-dap-ui",
             keys =
             {
                 { "<leader>du", function() require("dapui").toggle({}) end, desc = "Dap UI" },
@@ -31,7 +32,7 @@ return
             end,
         },
 
-        -- virtual text for the debugger
+        -- 在debug界面中，用虚拟文本显示变量的值
         {
             "theHamsta/nvim-dap-virtual-text",
             opts =
@@ -110,7 +111,7 @@ return
         },
 
         {
-            "<leader>dr",
+            "<leader>dc",
             function() require("dap").continue() end,
             desc = "start or continue the debugger"
         },

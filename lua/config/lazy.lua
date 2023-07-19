@@ -23,7 +23,7 @@ require("lazy").setup(
     {
         spec =                      --规格，说明(specification)
         {
-            { import = "plugins" }, --引入lua/plugins下的所有lua文件
+            --{ import = "plugins" }, --引入lua/plugins下的所有lua文件
             { import = "plugins.ui" },
             { import = "plugins.lsp" },
             { import = "plugins.dap" },
@@ -31,6 +31,7 @@ require("lazy").setup(
             { import = "plugins.editor" },
             { import = "plugins.edit" },
             { import = "plugins.util" },
+            { import = "plugins.code_runner" },
         },
 
         defaults =
