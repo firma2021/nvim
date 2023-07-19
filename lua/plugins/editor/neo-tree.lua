@@ -254,5 +254,6 @@ return
                 end,
             }
         )
+        vim.notify("press ? to show keymaps", "info", {title = "neo-tree"})
     end,
 }
