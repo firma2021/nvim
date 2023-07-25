@@ -1,6 +1,17 @@
---neovim LSP客户端的配置文件
+--提供LSP的默认启动配置，如 require 'lspconfig'.pyright.setup{}，就加载了pyright的默认启动配置
 
-return {
+--您也可以像下面这样，使用原生的API挨个配置LSP，见https://neovim.io/doc/user/lsp.html
+-- 启动LSP：
+-- vim.lsp.start({
+--   name = 'my-server-name',
+--   cmd = {'name-of-language-server-executable'},
+--   root_dir = vim.fs.dirname(vim.fs.find({'setup.py', 'pyproject.toml'}, { upward = true })[1]),
+-- })
+-- 使用LSP提供的能力：
+-- vim.lsp.buf.references()
+
+return
+{
     "neovim/nvim-lspconfig",
 
     event = { "BufReadPre", "BufNewFile" },
@@ -15,6 +26,8 @@ return {
     },
 
     config = function(plugin, opts)
+
+
         --texthl ：标志文本的高亮组; numhl ：标志行号的高亮组
         vim.fn.sign_define("DiagnosticSignError", { text = " ", texthl = "DiagnosticSignError", numhl = "" })
         vim.fn.sign_define("DiagnosticSignWarn", { text = " ", texthl = "DiagnosticSignWarn", numhl = "" })
@@ -52,9 +65,7 @@ return {
 
         vim.diagnostic.config(diagnostics_on)
 
-        -- see :help vim.lsp.*
-        --see :help vim.diagnostic.*
-
+		--see :help vim.diagnostic.*
         vim.keymap.set(
             "n",
             "[d",

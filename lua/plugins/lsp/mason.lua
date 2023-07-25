@@ -22,9 +22,10 @@ return
         { "<leader>pM", "<cmd>MasonUpdateAll<cr>", desc = "Mason update all" }
     },
 
-    opts =
+
+    opts = --大部分使用默认配置，稍微修改了ui
     {
-        ui =
+		ui =
         {
             icons =
             {
@@ -32,31 +33,6 @@ return
                 package_pending = "➜",
                 package_uninstalled = "✗"
             },
-
-            keymaps =
-            {
-                toggle_package_expand = "<CR>",
-                install_package = "i",
-                update_package = "u",
-                check_package_version = "c",
-                update_all_packages = "U",
-                check_outdated_packages = "C",
-                uninstall_package = "X",
-                cancel_installation = "<C-c>",
-                apply_language_filter = "<C-f>",
-            },
-
-            ensure_installed =
-            {
-                "pyright",
-                "mypy", --静态类型检查
-                "ruff", --静态代码分析，由Rust语言编写，高性能
-                "black",
-                "debugpy",
-
-                "clangd",
-                "codelldb",
-            }
         }
     }
 }

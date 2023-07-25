@@ -1,5 +1,8 @@
---补全引擎插件。补全源需要从外部仓库安装。
+--补全引擎。补全源需要从外部仓库安装
 --see :help cmp
+
+--nvim本身提供了较完备但不太好用的补全功能，见 :help ins-completion
+--因此需要安装这个插件
 
 return
 {
@@ -9,7 +12,7 @@ return
 
     event = "InsertEnter",
 
-    dependencies = --补全引擎和与之关联的补全源
+    dependencies = --补全源
     {
         "hrsh7th/cmp-nvim-lsp",
         "hrsh7th/cmp-buffer",
@@ -19,31 +22,32 @@ return
         "f3fora/cmp-spell",     --在拼写检查模式下提供补全
         "hrsh7th/cmp-calc",     --数学表达式补全
 
-        "saadparwaiz1/cmp_luasnip", --snippets补全源
-        {
-            "L3MON4D3/LuaSnip", --snippets补全引擎
-            dependencies =
-            {
-                { "rafamadriz/friendly-snippets" },
-            },
+		{
+			"saadparwaiz1/cmp_luasnip", --将luasnip作为补全源
 
-            config = function()
-                local luasnip_loader = require("luasnip.loaders.from_vscode")
-                luasnip_loader.lazy_load()
-                luasnip_loader.lazy_load({ paths = { "~/.config/nvim/snippets/" } })
+			dependencies =
+			{
+				"L3MON4D3/LuaSnip", --snippets补全引擎
+				dependencies =
+				{
+					{ "rafamadriz/friendly-snippets" }, --补全源
+				},
 
-                local luasnip = require("luasnip")
-                luasnip.config.setup(
-                    {
-                        region_check_events = "CursorHold,InsertLeave,InsertEnter",
-                        delete_check_events = "TextChanged,InsertEnter",
-                    }
-                )
-            end,
-        },
+				config = function()
+					local luasnip_loader = require("luasnip.loaders.from_vscode")
+					luasnip_loader.lazy_load()
+					luasnip_loader.lazy_load({ paths = { "~/.config/nvim/snippets/" } })
 
-
-
+					local luasnip = require("luasnip")
+					luasnip.config.setup(
+						{
+							region_check_events = "CursorHold,InsertLeave,InsertEnter",
+							delete_check_events = "TextChanged,InsertEnter",
+						}
+					)
+				end,
+        	},
+		}
     },
 
     opts = function()
@@ -80,6 +84,7 @@ return
                 completeopt = "menu,menuone,noinsert",
             },
 
+            -- see Wiki: example mappings
             mapping = cmp.mapping.preset.insert(
                 {
                     --cmp.SelectBehavior.Select 选择补全项
@@ -257,7 +262,7 @@ return
             }
         )
 
-        -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
+        -- 该功能与flash.lua冲突
         cmp.setup.cmdline(
             { "/", "?" },
             {
@@ -269,12 +274,12 @@ return
             }
         )
 
-        -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+        -- 该功能与noice.lua冲突
         cmp.setup.cmdline(":",
             {
                 mapping = cmp.mapping.preset.cmdline(),
                 sources = cmp.config.sources(
-                    {
+                    { --分组
                         { name = "path" },
                     },
                     {

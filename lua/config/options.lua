@@ -23,6 +23,7 @@ vim.opt.termencoding = "utf-8"                       --终端的编码
 
 
 --编辑设置--
+vim.opt.backspace = { "indent", "eol", "start"}
 vim.opt.number = true                 --显示行号
 vim.opt.relativenumber = false        --虽然显示相对行号后方便跳转，但显示绝对行号更自然
 vim.opt.cursorline = true             --高亮当前行
@@ -73,11 +74,13 @@ vim.opt.autoread = true              --文件被外部程序修改后, 自动重
 vim.opt.autowrite = true             --切换缓冲区或退出Vim时, 自动保存当前文件
 vim.opt.confirm = true               --在用户执行一些可能会导致数据丢失或不可逆操作时，提示用户进行确认
 vim.opt.writebackup = true           --在写入文件前创建备份文件(以~结尾，包含了文件的上一次保存状态)
-vim.opt.backup = false               --成功写入后删除备份文件
+vim.opt.backup = false               --如果为false, 成功写入后删除备份文件
 vim.opt.backupskip = "/tmp/*, *.log" --这些文件将不被备份
 vim.opt.swapfile = false             --禁止创建交换文件，它通常以.swp结尾, 在编辑器正常关闭时自动删除, 在Vim崩溃或编辑器意外关闭时恢复文件
 vim.opt.undofile = true
 vim.opt.undolevels = 1000
+vim.opt.undodir = vim.fn.expand("$HOME/.local/share/nvim/undodir")
+
 
 --缓冲区--
 vim.opt.hidden = true                                                   --切换缓冲区时，隐藏而不是关闭旧缓冲区

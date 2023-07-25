@@ -10,21 +10,24 @@ return {
 	{
 		"williamboman/mason.nvim",
 		"neovim/nvim-lspconfig",
+		"folke/neodev.nvim",
 	},
 
 	config = function()
+		require("neodev").setup({}) --提供对 neovim lua API 的函数签名帮助、文档、自动补全
+
 		--nvim-cmp提供了额外的补全能力,将它广播到其它语言服务器
 		local capabilities = vim.lsp.protocol.make_client_capabilities()
 		capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
-		local lspconfig = require('lspconfig')
-		local mason_lspconfig = require('mason-lspconfig')
-
-		local servers = {}
-		mason_lspconfig.setup({ensure_installed = vim.tbl_keys(servers),automatic_installation = true, })
-
+		-- 您也可以通过创建自动命令,来绑定快捷键,如 vim.api.nvim_create_autocmd('LspAttach',...)
 		local on_attach = function(client, bufnr)
+			-- 设置当前缓冲区（buffer）的自动补全函数（omnifunc）为LSP的自动补全函数
+			-- "omni" 是 "omniscient" 的缩写，意思是 无所不知的
+			-- 按下 <c-x> <c-o> 后, 弹出补全菜单。这个补全功能很弱，基本不会使用
+			vim.bo[bufnr].omnifunc = "v:lua.vim.lsp.omnifunc"
 
+			-- see :help vim.lsp.*
 			if client.supports_method("textDocument/rename") then
 			  vim.keymap.set("n", "<leader>lr",  vim.lsp.buf.rename, {buffer = bufnr, desc = "rename current symbol"})
 			end
@@ -124,7 +127,14 @@ return {
 			end
 
 		  end
-		--See :h mason-lspconfig.setup_handlers()
+
+
+
+		local lspconfig = require('lspconfig')
+		local mason_lspconfig = require('mason-lspconfig')
+
+
+		--see :h mason-lspconfig.setup_handlers()
 		mason_lspconfig.setup_handlers(
 		{
 		  function(server_name)
@@ -138,9 +148,11 @@ return {
 			lspconfig.clangd.setup
 			{
 				filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
+
+				-- see clangd --help-hidden
 				cmd =
 				{
-					"clangd", --clangd --help-hidden
+					"clangd",
 					"--query-driver=/usr/bin/**/clang-*,/usr/bin/gcc,/usr/bin/g++",
 					"--background-index",
 					"--background-index-priority=background",
