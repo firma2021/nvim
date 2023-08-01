@@ -30,19 +30,19 @@ return
 				"L3MON4D3/LuaSnip", --snippets补全引擎
 				dependencies =
 				{
-					{ "rafamadriz/friendly-snippets" }, --补全源
+					{ "rafamadriz/friendly-snippets" }, --补全源, 一个预设的VS Code风格的snippets
 				},
 
 				config = function()
 					local luasnip_loader = require("luasnip.loaders.from_vscode")
-					luasnip_loader.lazy_load()
-					luasnip_loader.lazy_load({ paths = { "~/.config/nvim/snippets/" } })
+					luasnip_loader.lazy_load() --加快启动速度
+					luasnip_loader.lazy_load({ paths = { "~/.config/nvim/snippets/" } }) --加载自定义snippets
 
 					local luasnip = require("luasnip")
 					luasnip.config.setup(
 						{
-							region_check_events = "CursorHold,InsertLeave,InsertEnter",
-							delete_check_events = "TextChanged,InsertEnter",
+							region_check_events = "CursorHold,InsertLeave,InsertEnter", --跳转到snippets结尾的事件
+							delete_check_events = "TextChanged,InsertEnter", --清除snippets的事件
 						}
 					)
 				end,
