@@ -9,6 +9,7 @@
 --   term_mode = "t",
 --   command_mode = "c",
 
+-- "<cmd>...<cr>"不会在命令栏中显示执行的命令，而":...<cr>"可能显示，可以指定silent = true选项禁止显示。
 
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true }) --将空格映射为不执行任何操作
 
@@ -39,3 +40,8 @@ vim.keymap.set("n", "<c-q>", "<cmd>q!<cr>", {desc = "force quit"})
 
 vim.keymap.set("n", "|", "<cmd>vsplit<cr>", {desc = "vertical split"})
 vim.keymap.set("n", "\\", "<cmd>split<cr>", {desc = "horizontal split"})
+
+vim.keymap.set("v", "J", "<cmd>m >+1<cr>gv=gv", {desc = "move the block upwards"})
+vim.keymap.set("v", "K", "<cmd>m '<-2<cr>gv=gv", {desc = "move the block downwards"})
+
+-- vim.keymap.set("n", "<c-A-Tab>", "<Cmd>bNext<CR>", { noremap = true, silent = true, desc="buffer next"})

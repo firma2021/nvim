@@ -1,8 +1,6 @@
 -- see :help vim.o
 --vim.opt是比vim.o更方便的lua接口
 
-
-
 --前导键--
 --在加载lazy插件前，必须设置 mapleader，以确保键位映射是正确的
 --See :help mapleader
@@ -30,7 +28,7 @@ vim.opt.cursorline = true             --高亮当前行
 vim.opt.scrolloff = 8                 --如果光标的置移出了窗口，那么它会带动窗口的内容移动几行，即上下文的行数
 vim.opt.sidescrolloff = 8             --如果光标位置移出了窗口，那么它会带动窗口的内容移动几列
 vim.opt.signcolumn = "yes"            --始终显示 sign column（最左侧的提示性图标）
-vim.opt.whichwrap = "h,l,<,>,[,]"     --当光标在文本行的开头或结尾时，按下这些键可以换行。
+vim.opt.whichwrap = "h,l"     --当光标在文本行的开头或结尾时，按下这些键可以换行。
 vim.opt.matchpairs:append { "<:>" }   --将<和>作为一对匹配的括号字符, 高亮显示之
 vim.opt.virtualedit = "block,onemore" --可以将光标移动到行末的下一个位置
 vim.wo.colorcolumn = "80"             --在第80列显示垂直辅助线
