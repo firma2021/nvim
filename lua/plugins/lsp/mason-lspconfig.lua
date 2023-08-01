@@ -173,7 +173,7 @@ return {
 
 					"--enable-config",
 
-					"--fallback-style=~/.config/clangd/.clang-format"
+					-- "--fallback-style=~/.config/clangd/.clang-format"
 				},
 				capabilities = capabilities,
 			  	on_attach = on_attach,

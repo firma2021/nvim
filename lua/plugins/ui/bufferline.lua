@@ -2,7 +2,9 @@
 return
 {
     "akinsho/bufferline.nvim",
+
     version = "*",
+    
     dependencies =
     {
         {

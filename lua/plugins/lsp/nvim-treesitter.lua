@@ -2,7 +2,8 @@
 --see :help nvim-treesitter
 --use plugin: nvim-treesitter/playground to show concrete syntax tree
 
-return {
+return
+{
     "nvim-treesitter/nvim-treesitter",
 
     version = false,
@@ -25,9 +26,11 @@ return {
 
     main = "nvim-treesitter.configs",
 
-    opts = {
+    opts =
+	{
         --表中列出的解析器应当总是已安装；可以填all
-        ensure_installed = {
+        ensure_installed =
+		{
             "c",
             "cpp",
             "make",
