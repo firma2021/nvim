@@ -113,7 +113,7 @@ vim.opt.list = true
 --补全--
 vim.opt.wildmenu = true                       -- 在命令模式中输出命令时，按Tab键自动补全命令和参数
 vim.opt.wildmode = "longest:full,full"        --启动wildmenu；补全下一个匹配项
-vim.opt.completeopt = "menu,menuone,noselect" --显示一个菜单列出可选的补全项，如果只有一个补全项，Vim会自动选择该项，但不会自动插入补全项
+vim.opt.completeopt = {"menuone","noselect"} --只有一个选项，也显示弹出式菜单；用户需要手动选择项 see :h completeopt
 
 
 

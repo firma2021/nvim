@@ -23,8 +23,7 @@ require("lazy").setup(
     {
         spec =                      --规格，说明(specification)
         {
-            --{ import = "plugins" }, --引入lua/plugins下的所有lua文件
-            { import = "plugins.ui" },
+            { import = "plugins.ui" }, --引入lua/plugins下的所有lua文件
             { import = "plugins.lsp" },
             { import = "plugins.dap" },
             { import = "plugins.git" },
@@ -40,7 +39,7 @@ require("lazy").setup(
             version = false, --使用最近的git提交，而不是带版本号的release版本，因为release版本可能是老旧的
         },
 
-        install = { colorscheme = { "tokyonight", "habamax" } },
+        install = { colorscheme = { "catppuccin", } },
 
         checker = { enabled = true }, --自动检查插件更新
 
