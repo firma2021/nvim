@@ -58,10 +58,10 @@ return
       end
 
       --vim.keymap.set(mode, keymap, cmd, keymap_opts)
-      if vim.fn.executable "lazygit" == 1
+      if vim.fn.executable "gitui" == 1
       then
-       vim.keymap.set( "n", "<leader>gg", function() toggle_term_cmd("lazygit") end, { desc = "ToggleTerm lazygit"})
-       vim.keymap.set( "n", "<leader>tl", function() toggle_term_cmd("lazygit") end, { desc = "ToggleTerm lazygit"})
+       vim.keymap.set( "n", "<leader>gg", function() toggle_term_cmd("gitui") end, { desc = "ToggleTerm gitui"})
+       vim.keymap.set( "n", "<leader>tl", function() toggle_term_cmd("lazygit") end, { desc = "ToggleTerm gitui"})
       end
 
       if vim.fn.executable "node" == 1

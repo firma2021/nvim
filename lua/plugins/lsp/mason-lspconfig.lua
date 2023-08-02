@@ -56,7 +56,7 @@ return {
 			end
 
 			if client.supports_method("textDocument/signatureHelp") then
-			  vim.keymap.set("n", "<c-k>",  vim.lsp.buf.signature_help, {buffer = bufnr, desc = "signature documentation"})
+			  vim.keymap.set("i", "<c-k>",  vim.lsp.buf.signature_help, {buffer = bufnr, desc = "signature documentation"})
 			end
 
 			--less use

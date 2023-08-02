@@ -72,8 +72,14 @@ return
 
     config = function(plugin, opts)
         require("bufferline").setup(opts)
+		vim.keymap.set("n", "<S-h>", "<cmd>BufferLineCyclePrev<cr>", { desc = "prev buffer (cycle)" })
+  		vim.keymap.set("n", "<S-l>", "<cmd>BufferLineCycleNext<cr>", { desc = "next buffer (cycle)" })
+		vim.keymap.set("n", "[b", "<cmd>BufferLineCyclePrev<cr>", { desc = "prev buffer (cycle)" })
+  		vim.keymap.set("n", "]b", "<cmd>BufferLineCycleNext<cr>", { desc = "next buffer (cycle)" })
+
         vim.keymap.set("n", "<leader>bo", "<Cmd>BufferLinePick<CR>", { noremap = true, desc="buffer pick"})
         vim.keymap.set("n", "<leader>bc", "<Cmd>BufferLinePickClose<CR>", { noremap = true, desc="buffer pick close" })
+
         vim.keymap.set("n", "<leader>1", "<Cmd>BufferLineGoToBuffer 1<CR>", { noremap = true, desc="goto buffer 1" })
         vim.keymap.set("n", "<leader>2", "<Cmd>BufferLineGoToBuffer 2<CR>", { noremap = true, desc="goto buffer 2" })
         vim.keymap.set("n", "<leader>3", "<Cmd>BufferLineGoToBuffer 3<CR>", { noremap = true, desc="goto buffer 3" })

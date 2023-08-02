@@ -78,7 +78,7 @@ require("lazy").setup(
 )
 
 vim.keymap.set("n", "<leader>pi", function() require("lazy").install() end, {desc = "lazy install missing plugins"})
-vim.keymap.set("n", "<leader>ph", function() require("lazy").home() end, {desc = "lazy plugin list"})
+vim.keymap.set("n", "<leader>pl", function() require("lazy").home() end, {desc = "lazy plugin manager"})
 vim.keymap.set("n", "<leader>ps", function() require("lazy").sync() end, {desc = "lazy sync (install, clean, update)"})
 vim.keymap.set("n", "<leader>pu", function() require("lazy").update() end, {desc = "lazy update plugins"})
 vim.keymap.set("n", "<leader>pU", function() require("lazy").check() end, {desc = "lazy check for updates, show git log"})
