@@ -86,3 +86,12 @@ vim.keymap.set("n", "<leader><tab><tab>", "<cmd>tabnew<cr>", { desc = "New Tab" 
 vim.keymap.set("n", "<leader><tab>]", "<cmd>tabnext<cr>", { desc = "Next Tab" })
 vim.keymap.set("n", "<leader><tab>d", "<cmd>tabclose<cr>", { desc = "Close Tab" })
 vim.keymap.set("n", "<leader><tab>[", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
+
+-- 在可视模式下，按<向左缩进，按>向右缩进
+vim.keymap.set("v", "<", "<gv", { desc = "add left indent" })
+vim.keymap.set("v", ">", ">gv", { desc = "add right indent" })
+
+-- 在插入模式下，输入, . ; 后更新文本的撤销历史，撤销时将撤消到上一个, . ;处
+vim.keymap.set("i", ",", ",<c-g>u")
+vim.keymap.set("i", ".", ".<c-g>u")
+vim.keymap.set("i", ";", ";<c-g>u")
