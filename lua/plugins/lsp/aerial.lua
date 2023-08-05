@@ -1,47 +1,43 @@
 --显示代码大纲
-return {
+return
+{
     {
         "stevearc/aerial.nvim",
 
         event = { "BufReadPost", "BufNewFile" },
+
         dependencies =
 		{
             "nvim-treesitter/nvim-treesitter",
             "nvim-tree/nvim-web-devicons",
         },
-        keys = {
+
+        keys =
+		{
             {
-                "<leader>lS",
+                "<leader>lo",
                 function()
                     require("aerial").toggle()
                 end,
-                desc = "Symbols outline",
+                desc = "symbols outline",
             },
         },
 
-        opts = {
-            attach_mode = "global",
-            backends = { "lsp", "treesitter", "markdown", "man" },
-            layout = { min_width = 28 },
-            show_guides = true,
-            filter_kind = false,
-            guides = {
-                mid_item = "├ ",
-                last_item = "└ ",
-                nested_top = "│ ",
-                whitespace = "  ",
-            },
+		--大部分配置使用默认值，下面只重写了少量自定义配置
+        opts =
+		{
+            --只显示一个全局的代码大纲
+			attach_mode = "global",
 
-            keymaps = {
-                ["[y"] = "actions.prev",
-                ["]y"] = "actions.next",
-                ["[Y"] = "actions.prev_up",
-                ["]Y"] = "actions.next_up",
-                ["{"] = false,
-                ["}"] = false,
-                ["[["] = false,
-                ["]]"] = false,
-            },
+            backends = { "lsp", "treesitter", "markdown", "man" },
+
+			default_direction = "prefer_left",
+
+			-- Show box drawing characters for the tree hierarchy
+            show_guides = true,
+
+			-- Set to false to display all symbols
+            filter_kind = false,
         },
     },
 }

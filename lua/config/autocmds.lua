@@ -15,11 +15,38 @@ vim.api.nvim_create_autocmd("InsertLeave", { pattern = "*", command = "set nopas
 --
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
 vim.api.nvim_create_autocmd(
-    'TextYankPost',
-    {
+	'TextYankPost',
+	{
 		group = highlight_group,
 		pattern = '*',
 		callback = function() vim.highlight.on_yank() end,
 		desc = "highlight when yank",
-    }
+	}
+)
+
+
+vim.api.nvim_create_autocmd(
+	"FileType",
+	{
+		pattern =
+		{
+			"qf",
+			"help",
+			"man",
+			"notify",
+			"nofile",
+			"lspinfo",
+			"terminal",
+			"prompt",
+			"toggleterm",
+			"copilot",
+			"startuptime",
+			"tsplayground",
+			"PlenaryTestPopup",
+		},
+		callback = function(event)
+			vim.bo[event.buf].buflisted = false
+			vim.api.nvim_buf_set_keymap(event.buf, "n", "q", "<CMD>close<CR>", { silent = true })
+		end,
+	}
 )

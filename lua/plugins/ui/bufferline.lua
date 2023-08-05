@@ -8,13 +8,17 @@ return
     dependencies =
     {
         {
+			"catppuccin/nvim",
+		},
+		{
             "nvim-tree/nvim-web-devicons",
             lzay = true,
-        }
+        },
     },
 
     event = "VeryLazy",
 
+	-- see :h bufferline-configuration
     opts =
     {
         options =
@@ -71,7 +75,9 @@ return
     },
 
     config = function(plugin, opts)
+		opts.highlights = require("catppuccin.groups.integrations.bufferline").get()
         require("bufferline").setup(opts)
+
 		vim.keymap.set("n", "<S-h>", "<cmd>BufferLineCyclePrev<cr>", { desc = "prev buffer (cycle)" })
   		vim.keymap.set("n", "<S-l>", "<cmd>BufferLineCycleNext<cr>", { desc = "next buffer (cycle)" })
 		vim.keymap.set("n", "[b", "<cmd>BufferLineCyclePrev<cr>", { desc = "prev buffer (cycle)" })

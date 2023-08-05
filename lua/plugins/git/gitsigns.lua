@@ -9,6 +9,7 @@ return
 
     enabled = vim.fn.executable "git" == 1,
 
+	-- 大部分配置使用默认值，只设置了图标和快捷键
     opts =
     {
         signs =
@@ -43,7 +44,7 @@ return
 
           vim.keymap.set("n", "<leader>ghd", gs.diffthis, { buffer = buffer, desc = "Diff This" })
           vim.keymap.set("n", "<leader>ghD", function() gs.diffthis("~") end, { buffer = buffer, desc = "Diff This ~" })
-          
+
           vim.keymap.set({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", { buffer = buffer, desc = "GitSigns Select Hunk" }) --text对象
         end,
     }

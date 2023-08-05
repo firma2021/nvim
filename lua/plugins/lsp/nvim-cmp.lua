@@ -32,7 +32,7 @@ return
 				{
 					{ "rafamadriz/friendly-snippets" }, --补全源, 一个预设的VS Code风格的snippets
 				},
-
+				
 				opts =
 				{
     				history = true,
