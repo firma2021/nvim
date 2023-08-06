@@ -161,3 +161,5 @@ vim.opt.wildoptions = "pum" --命令行补全时用弹出菜单显示候选项
 
 --vim.opt.showmatch 输入右括号后，光标跳到左括号，持续0.5秒
 --vim.opt.matchtime=5
+
+--neovim的gui版本可以设置字体，而终端版本不能
