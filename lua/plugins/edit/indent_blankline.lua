@@ -3,11 +3,12 @@
 
 return
 {
-    "lukas-reineke/indent-blankline.nvim",
-	
-    event = { "BufReadPost", "BufNewFile" },
+	"lukas-reineke/indent-blankline.nvim",
 
-    opts = function()
+
+	event = { "BufReadPost", "BufNewFile" },
+
+	opts = function()
 		vim.cmd [[highlight IndentBlanklineIndent1 guifg=#E06C75 gui=nocombine]]
 		vim.cmd [[highlight IndentBlanklineIndent2 guifg=#E5C07B gui=nocombine]]
 		vim.cmd [[highlight IndentBlanklineIndent3 guifg=#98C379 gui=nocombine]]
@@ -18,8 +19,9 @@ return
 		return
 		{
 			char = "┊",
-			 char_highlight_list =
-			 {
+
+			char_highlight_list =
+			{
 				"IndentBlanklineIndent1",
 				"IndentBlanklineIndent2",
 				"IndentBlanklineIndent3",
@@ -27,23 +29,26 @@ return
 				"IndentBlanklineIndent5",
 				"IndentBlanklineIndent6",
 			},
+
 			filetype_exclude =
 			{
-				"null-ls-info",
+				"", -- for those which without a file type
+
 				"help",
-				"alpha",
-				"dashboard",
-				"neo-tree",
-				"lazy",
-				"mason",
-				"notify",
-				"toggleterm",
-				"terminal",
-				"lspinfo",
-				"toggleterm",
-				"TelescopePrompt",
 				"log",
+				"txt",
+
+				"json",
+
+				"git",
+				"gitcommit",
+
 				"markdown",
+
+				"alpha",
+				"neo-tree",
+				"undotree",
+				"TelescopePrompt",
 			},
 
 
@@ -60,6 +65,12 @@ return
 				"^table",
 				"block",
 				"arguments",
+				"if_statement",
+				"import",
+				"list_literal",
+				"selector",
+				"type",
+				"var",
 			},
 
 			-- 调用vim.opt.listchars:append "eol:↴"显示换行符后，如果缩进线上有换行符，是否将缩进线char替换为换行符

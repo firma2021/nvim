@@ -21,21 +21,23 @@ vim.opt.termencoding = "utf-8"                       --终端的编码
 
 
 --编辑设置--
-vim.opt.backspace = { "indent", "eol", "start"}
-vim.opt.number = true                 --显示行号
-vim.opt.relativenumber = false        --虽然显示相对行号后方便跳转，但显示绝对行号更自然
-vim.opt.cursorline = true             --高亮当前行
-vim.opt.scrolloff = 8                 --如果光标的置移出了窗口，那么它会带动窗口的内容移动几行，即上下文的行数
-vim.opt.sidescrolloff = 8             --如果光标位置移出了窗口，那么它会带动窗口的内容移动几列
-vim.opt.signcolumn = "yes"            --始终显示 sign column（最左侧的提示性图标）
-vim.opt.whichwrap = "h,l"     --当光标在文本行的开头或结尾时，按下这些键可以换行。
-vim.opt.matchpairs:append { "<:>" }   --将<和>作为一对匹配的括号字符, 高亮显示之
-vim.opt.virtualedit = "block,onemore" --可以将光标移动到行末的下一个位置
-vim.wo.colorcolumn = "80"             --在第80列显示垂直辅助线
+vim.opt.backspace = { "indent", "eol", "start" } --在插入模式下可以用退格键删除: 自动缩进，换行符，删除到当前行的开头
+vim.opt.number = true                            --显示行号
+vim.opt.relativenumber = false                   --虽然显示相对行号后方便跳转，但显示绝对行号更自然
+vim.opt.cursorline = true                        --高亮当前行
+vim.opt.scrolloff = 8                            --如果光标的置移出了窗口，那么它会带动窗口的内容移动几行，即上下文的行数
+vim.opt.sidescrolloff = 8                        --如果光标位置移出了窗口，那么它会带动窗口的内容移动几列
+vim.opt.signcolumn = "yes"                       --始终显示 sign column（最左侧的提示性图标）
+vim.opt.whichwrap:append({ h = true, l = true }) --当光标在文本行的开头或结尾时，按下这些键可以换行。
+vim.opt.matchpairs:append { "<:>" }              --将<和>作为一对匹配的括号字符, 高亮显示之scrolloff
+vim.opt.virtualedit = "block,onemore"            --可以将光标移动到行末的下一个位置
+vim.wo.colorcolumn = "80"                        --在第80列显示垂直辅助线
+-- vim.opt.iskeyword:append({ "-" }) 			 --在识别单词时作为单词分隔符的字符集
+
 
 --折行--
-vim.opt.wrap = false    --全局设置：文本超出屏幕宽度时不换行；之后我们会设置某些类型的文件换行
-vim.opt.textwidth = 0   --文本超出80个字符时不换行
+vim.opt.wrap = false --全局设置：文本超出屏幕宽度时不换行；之后我们会设置某些类型的文件换行
+vim.opt.textwidth = 0 --文本超出80个字符时不换行
 vim.opt_local_wrap = true
 vim.opt.showbreak = "↪" --在折行时显示一个可见的断行符
 
@@ -77,8 +79,11 @@ vim.opt.backupskip = "/tmp/*, *.log" --这些文件将不被备份
 vim.opt.swapfile = false             --禁止创建交换文件，它通常以.swp结尾, 在编辑器正常关闭时自动删除, 在Vim崩溃或编辑器意外关闭时恢复文件
 vim.opt.undofile = true
 vim.opt.undolevels = 1000
-vim.opt.undodir = vim.fn.expand("$HOME/.local/share/nvim/undodir")
+vim.opt.undodir = vim.fn.expand("$HOME/.config/nvim/undodir")
 
+-- 文件目录vim.opt.iskeyword.append("-")
+
+vim.opt.autochdir = true -- 自动将当前工作目录更改为当前编辑的文件所在的目录
 
 --缓冲区--
 vim.opt.hidden = true                                                   --切换缓冲区时，隐藏而不是关闭旧缓冲区
@@ -109,9 +114,9 @@ vim.opt.list = true
 
 
 --补全--
-vim.opt.wildmenu = true                       -- 在命令模式中输出命令时，按Tab键自动补全命令和参数
-vim.opt.wildmode = "longest:full,full"        --启动wildmenu；补全下一个匹配项
-vim.opt.completeopt = {"menuone","noselect"} --只有一个选项，也显示弹出式菜单；用户需要手动选择项 see :h completeopt
+vim.opt.wildmenu = true                         -- 在命令模式中输出命令时，按Tab键自动补全命令和参数
+vim.opt.wildmode = "longest:full,full"          --启动wildmenu；补全下一个匹配项
+vim.opt.completeopt = { "menuone", "noselect" } --只有一个选项，也显示弹出式菜单；用户需要手动选择项 see :h completeopt
 
 
 
@@ -148,9 +153,9 @@ vim.opt.titlestring = "%<%F%=%l/%L - nvim" --尽可能多得显示文件名、�
 vim.opt.shell = "zsh"
 
 --ui设置--
-vim.opt.winblend = 0         --设置窗口透明度，100为全透明
+vim.opt.winblend = 0        --设置窗口透明度，100为全透明
 vim.opt.background = "dark" --设置高亮行的背景色, 可设置为light或dark
-vim.opt.wildoptions = "pum"  --命令行补全时用弹出菜单显示候选项
+vim.opt.wildoptions = "pum" --命令行补全时用弹出菜单显示候选项
 
 --vim.opt.foldmethod=indent --根据代码的缩进层级自动折叠和展开代码块
 
