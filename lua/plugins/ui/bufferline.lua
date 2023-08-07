@@ -1,93 +1,97 @@
 --一个漂亮时髦的bufferline, 集成tabpage
+-- see :h bufferline-configuration
+
 return
 {
-    "akinsho/bufferline.nvim",
+	"akinsho/bufferline.nvim",
 
-    version = "*",
+	lazy = true,
+	event = { "BufReadPost", "BufNewFile" },
 
-    dependencies =
-    {
-        {
+	version = "*", -- 使用最新的稳定版本
+
+	dependencies =
+	{
+		{
 			"catppuccin/nvim",
 		},
 		{
-            "nvim-tree/nvim-web-devicons",
-            lzay = true,
-        },
-    },
+			"nvim-tree/nvim-web-devicons",
+			lzay = true,
+			enent = "VeryLazy",
+		},
+	},
 
-    event = "VeryLazy",
-
+	-- 大部分配置使用默认值，下面列出的是自定义了的值
 	-- see :h bufferline-configuration
-    opts =
-    {
-        options =
-        {
-            always_show_bufferline = true,
+	opts =
+	{
+		options =
+		{
+			always_show_bufferline = true, -- use default value
 
-            numbers = function(opts) return string.format('%s-%s', opts.ordinal, opts.id) end,
+			modified_icon = "",
+			buffer_close_icon = "",
 
-            -- close_command = 'Bdelete! %d',
-            -- right_mouse_command = 'Bdelete! %d',
+			-- buffer序号，buffer id
+			numbers = function(opts) return string.format('%s-%s', opts.ordinal, opts.id) end,
 
-            diagnostics = "nvim_lsp",
+			diagnostics = "nvim_lsp",
 
-            separator_style = "thin", --"slant","slope","thick","thin", 右下倾斜，右上倾斜，厚竖线，瘦竖线
+			separator_style = "thin", --"slant","slope","thick","thin", 右下倾斜，右上倾斜，厚竖线，瘦竖线
 
-            --LSP indicators
-            --count：整数，表示错误的总数
-            --level：字符串，"error" | "warning"
-            --diagnostics_dict：字典，
-            diagnostics_indicator = function(count, level, diagnostics_dict, context)
-                local icons =
-                {
-                    Error = " ",
-                    Warn = " ",
-                    Hint = " ",
-                    Info = " ",
-                }
+			--LSP indicators
+			--count：整数，表示错误的总数
+			--level：字符串，"error" | "warning"
+			--diagnostics_dict：字典，
+			diagnostics_indicator = function(count, level, diagnostics_dict, context)
+				local icons =
+				{
+					Error = " ",
+					Warn = " ",
+					Hint = " ",
+					Info = " ",
+				}
 
-                local ret = (diagnostics_dict.error and icons.Error .. diagnostics_dict.error .. " " or "") ..
-                    (diagnostics_dict.warning and icons.Warn .. diagnostics_dict.warning or "")
+				-- 相当于C中的 diagnostics_dict.error ? icons.Error .. diagnostics_dict.error .. " " : ""
+				local ret = (diagnostics_dict.error and icons.Error .. diagnostics_dict.error .. " " or "") ..
+					(diagnostics_dict.warning and icons.Warn .. diagnostics_dict.warning or "")
 
-                return vim.trim(ret)
-            end,
+				return vim.trim(ret)
+			end,
 
-            --鼠标悬停到标签上时，隐藏关闭图标
-            hover =
-            {
-                enabled = true,
-                delay = 200,
-                reveal = { 'close' },
-            },
+			--为下面打开侧边栏的插件，添加 buffer line
+			offsets =
+			{
+				{
+					filetype = "neo-tree",
+					text = "neo-tree",
+					highlight = "Directory",
+					text_align = "center",
+				},
+				{
+					filetype = "aerial",
+					text = "symbol outline",
+					text_align = "center",
+				},
+			},
+		},
+	},
 
-            --为左侧的文件浏览器留出空间
-            offsets =
-            {
-                {
-                    filetype = "neo-tree",
-                    text = "neo-tree",
-                    highlight = "Directory",
-                    text_align = "center",
-                },
-            },
-        },
-    },
-
-    config = function(plugin, opts)
+	config = function(plugin, opts)
 		opts.highlights = require("catppuccin.groups.integrations.bufferline").get()
-        require("bufferline").setup(opts)
+		require("bufferline").setup(opts)
 
 		vim.keymap.set("n", "<S-h>", "<cmd>BufferLineCyclePrev<cr>", { desc = "prev buffer (cycle)" })
-  		vim.keymap.set("n", "<S-l>", "<cmd>BufferLineCycleNext<cr>", { desc = "next buffer (cycle)" })
+		vim.keymap.set("n", "<S-l>", "<cmd>BufferLineCycleNext<cr>", { desc = "next buffer (cycle)" })
 		vim.keymap.set("n", "[b", "<cmd>BufferLineCyclePrev<cr>", { desc = "prev buffer (cycle)" })
-  		vim.keymap.set("n", "]b", "<cmd>BufferLineCycleNext<cr>", { desc = "next buffer (cycle)" })
+		vim.keymap.set("n", "]b", "<cmd>BufferLineCycleNext<cr>", { desc = "next buffer (cycle)" })
 
-        vim.keymap.set("n", "<leader>bo", "<Cmd>BufferLinePick<CR>", { noremap = true, desc="buffer pick"})
-        vim.keymap.set("n", "<leader>bc", "<Cmd>BufferLinePickClose<CR>", { noremap = true, desc="buffer pick close" })
+		vim.keymap.set("n", "<leader>bo", "<Cmd>BufferLinePick<CR>", { noremap = true, desc = "buffer pick" })
+		vim.keymap.set("n", "<leader>bc", "<Cmd>BufferLinePickClose<CR>", { noremap = true, desc = "buffer pick close" })
 
-        vim.keymap.set("n", "<leader>1", "<Cmd>BufferLineGoToBuffer 1<CR>", { noremap = true, desc="goto buffer 1" })
-        vim.keymap.set("n", "<leader>2", "<Cmd>BufferLineGoToBuffer 2<CR>", { noremap = true, desc="goto buffer 2" })
-        vim.keymap.set("n", "<leader>3", "<Cmd>BufferLineGoToBuffer 3<CR>", { noremap = true, desc="goto buffer 3" })
-    end
+		vim.keymap.set("n", "<leader>1", "<Cmd>BufferLineGoToBuffer 1<CR>", { noremap = true, desc = "goto buffer 1" })
+		vim.keymap.set("n", "<leader>2", "<Cmd>BufferLineGoToBuffer 2<CR>", { noremap = true, desc = "goto buffer 2" })
+		vim.keymap.set("n", "<leader>3", "<Cmd>BufferLineGoToBuffer 3<CR>", { noremap = true, desc = "goto buffer 3" })
+	end
 }

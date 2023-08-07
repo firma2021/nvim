@@ -1,25 +1,34 @@
 --状态栏
 --see :help lualine.txt
 
-return {
+return
+{
 	"nvim-lualine/lualine.nvim",
 
-	event = "VeryLazy",
+	lazy = true,
+	event =  { "BufReadPost", "BufNewFile" },
 
-	dependencies = {
+    dependencies =
+	{
 		"arkav/lualine-lsp-progress",
 		"stevearc/aerial.nvim",
 	},
 
-	opts = function()
+    opts = function()
+
+        local function has_dot_git_dir()
+            local gitdir = vim.fs.find(".git", {limit = 1, upward = true, type = "directory", path = vim.fn.expand("%:p:h"),})
+            return #gitdir > 0
+        end
+
 		return
 		{
 			options =
 			{
 				theme = "catppuccin",
 
-				component_separators = { left = "|", right = "|" },
-				section_separators = { left = "", right = "" },
+				component_separators = { left = "", right = "" },
+				section_separators = { left = "", right = "" },
 
 				disabled_filetypes =
 				{
@@ -43,12 +52,18 @@ return {
 			{
 				lualine_a =
 				{
-					"mode",
+                    "mode",
+					{ "datetime", style = " " .. "%H:%M" },
 				},
 
 				lualine_b =
 				{
-					"branch",
+                    {
+                        "branch",
+                        icon = "",
+						color = {fg = "#04A5E5", gui = "bold"},
+						cond = has_dot_git_dir,
+					},
 					{
 						"diff",
 						symbols =
@@ -56,7 +71,14 @@ return {
 							added = " ",
 							modified = " ",
 							removed = " ",
-						},
+                        },
+                        -- source =
+                        -- {
+						-- 	added = vim.b.gitsigns_status_dict.added,
+						-- 	modified = vim.b.gitsigns_status_dict.changed,
+                        --     removed = vim.b.gitsigns_status_dict.removed,
+						-- },
+						cond = has_dot_git_dir,
 					},
 				},
 
@@ -64,8 +86,10 @@ return {
 				{
 					{
 						"diagnostics",
-						sources = { "nvim_diagnostic" },
-						symbols = {
+                        sources = { "nvim_diagnostic" },
+						sections = { 'error', 'warn', 'info', 'hint' }, -- use default value
+                        symbols =
+						{
 							error = " ",
 							warn = " ",
 							info = " ",
@@ -98,11 +122,13 @@ return {
 							return msg
 						end,
 
-						icon = " LSP",
+						icon = " ",
 
 						color = { fg = "#ec5f67", gui = "bold" },
 					},
-					"lsp_progress",
+                    {
+						"lsp_progress",
+					},
 					{
 						function()
 							return "  " .. require("dap").status()
@@ -117,11 +143,29 @@ return {
 							local fg = hl and hl.fg
 							return fg and { fg = string.format("#%06x", fg) } --如果fg不为空，返回6位16进制字符串
 						end,
-					},
+                    },
+                    {
+                        function()
+                            local path = os.getenv("VIRTUAL_ENV") -- python virtual env
+							if path then
+								return " " .. path:sub(path:match(".*/()"))
+							end
+							path = os.getenv("CONDA_DEFAULT_ENV") --python conda virtual env
+                            if path then
+                                return " " .. path:sub(path:match(".*/()"))
+                            end
+							return " " .."invalid venv"
+						end,
+						cond = function ()
+							return vim.api.nvim_buf_get_option(0, "filetype") == "python" and (os.getenv("VIRTUAL_ENV") or os.getenv("CONDA_DEFAULT_ENV"))
+                        end,
+
+						color = { "#F28FAD", gui = "bold" },
+					}
 				},
 
-				lualine_x = {
-
+                lualine_x =
+				{
 					{
 						function()
 							return require("noice").api.status.command.get()
@@ -169,37 +213,68 @@ return {
 					{
 						"filetype",
 						icon_only = true,
-						separator = " ",
-						padding = { left = 1, right = 0 },
                     },
-					
-					"filesize",
-					{ "encoding",   separator = " ",                  padding = { left = 1, right = 0 } },
-					{ "fileformat", padding = { left = 0, right = 1 } },
+                    {
+						"filename",
+						file_status = true, --显示文件状态
+						newfile_status = true, --显示新文件(创建后未写入的文件)的状态
+                        symbols =
+						{
+							modified = "[+]",
+							readonly = "[ro]",
+							unnamed = "[no name]",
+							newfile = "[new]",
+						},
+					},
+                    {
+						"filesize",
+                    },
+                    {
+						function()
+                            return " " .. vim.api.nvim_buf_get_option(0, "shiftwidth")
+						end,
+					},
+                    {
+                        "encoding",
+					},
+                    {
+                        "fileformat",
+                        symbols =
+						{
+							unix = " ".."LF",
+							dos = " ".."CRLF",
+							mac = " ".."CR",
+						},
+					},
 				},
                 lualine_z =
 				{
-					{ "location", separator = " ",                  padding = { left = 1, right = 0 } },
-					{ "progress", padding = { left = 0, right = 1 } },
-					{ "datetime", style = "%H:%M" },
+                    {
+						"location",
+				 	},
+                    {
+						"progress",
+					},
 				},
 			},
 
 			--非活动窗口的状态栏。在之前的配置中，我们规定只使用一个全局状态栏，因此这项配置是多余的。
-			inactive_sections = {
+            inactive_sections =
+			{
 				lualine_a = {},
 				lualine_b = {},
-				lualine_c = {
+                lualine_c =
+				{
 					{
 						"filename",
 						file_status = true, --显示文件状态
-						newfile_status = false, --不显示新文件(创建后未写入的文件)的状态
-						path = 3, --绝对路径，使用波浪号表示家目录
-						symbols = {
+						newfile_status = true, --显示新文件(创建后未写入的文件)的状态
+                        symbols =
+						{
 							modified = "[+]",
 							readonly = "[-]",
-							unnamed = "[No Name]",
-							newfile = "[New]",
+							unnamed = "[no name]",
+							newfile = "[new]",
 						},
 					},
 				},
@@ -208,23 +283,15 @@ return {
 				lualine_z = {},
 			},
 
-			winbar = {
-				lualine_a = {
+            winbar =
+			{
+                lualine_a =
+				{
 					{
 						"filename",
-						file_status = true, --显示文件状态
+						file_status = false, --不显示文件状态
 						newfile_status = false, --不显示新文件(创建后未写入的文件)的状态
 						path = 3, --绝对路径，使用波浪号表示家目录
-						symbols = {
-							modified = "[+]",
-							readonly = "[-]",
-							unnamed = "[No Name]",
-							newfile = "[New]",
-						},
-
-						cond = function()
-							return not package.loaded["lspsaga"]
-						end,
 					},
 				},
 				lualine_b =
@@ -240,10 +307,12 @@ return {
 				lualine_z = {},
 			},
 
-			inactive_winbar = {
+            inactive_winbar =
+			{
 				lualine_a = {},
 				lualine_b = {},
-				lualine_c = {
+                lualine_c =
+				{
 					{
 						"filename",
 						path = 3, --绝对路径，使用波浪号表示家目录
@@ -255,25 +324,18 @@ return {
 			},
 
 			--这些插件可以改变状态栏的样式
-			extensions = {
+            extensions =
+			{
+                "aerial",
+                "lazy",
+				"man",
 				"neo-tree",
-				"lazy",
-				"nvim-dap-ui",
-				"toggleterm",
-				"nvim-dap-ui",
-				"trouble",
-				"aerial",
+                "nvim-dap-ui",
+                "overseer",
+				"quickfix",
+                "toggleterm",
+				{ sections= { lualine_a = { "filetype" }, }, filetypes = { "DiffviewFiles" }, },
 			},
-
-			-- tabline =
-			-- {
-			--     lualine_a = { "buffers" },
-			--     lualine_b = { "branch" },
-			--     lualine_c = { "" },
-			--     lualine_x = {},
-			--     lualine_y = {},
-			--     lualine_z = { "tabs" },
-			-- },
 		}
 	end,
 }
