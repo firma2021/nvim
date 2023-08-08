@@ -8,6 +8,20 @@ return
 {
     "mfussenegger/nvim-dap",
 
+    lazy = true,
+    cmd =
+	{
+		"DapSetLogLevel",
+		"DapShowLog",
+		"DapContinue",
+		"DapToggleBreakpoint",
+		"DapToggleRepl",
+		"DapStepOver",
+		"DapStepInto",
+		"DapStepOut",
+		"DapTerminate",
+	},
+
     dependencies =
     {
         --绚丽的debugger UI
@@ -20,29 +34,45 @@ return
                 { "<leader>de", function() require("dapui").eval() end,     desc = "eval dapui",  mode = { "n", "v" } },
             },
 
-            opts = { },
+            opts =
+            {
+                controls =
+                {
+                    enabled = true,
+					element = "repl",
+					icons =
+					{
+						pause = "" ,
+						play = "",
+						step_into = "",
+						step_over = "",
+						step_out = "",
+						step_back = "",
+						run_last = "↻",
+						terminate = "󰝤",
+					},
+      			}
+			},
 
-            config = function(_, opts)
-                local dap = require("dap")
-                local dapui = require("dapui")
+			config = function(_, opts)
+				local dap = require("dap")
+				local dapui = require("dapui")
 
-                dapui.setup(opts)
+				dapui.setup(opts)
 
-                --在DAP启动后，自动打开UI；DAP关闭前，自动关闭UI
-                dap.listeners.after.event_initialized["dapui_config"] =function() dapui.open({})end
-                dap.listeners.before.event_terminated["dapui_config"] = function()dapui.close({}) end
-                dap.listeners.before.event_exited["dapui_config"] = function() dapui.close({}) end
+				--在DAP启动后，自动打开UI；DAP关闭前，自动关闭UI
+				dap.listeners.after.event_initialized["dapui_config"] =function() dapui.open({})end
+				dap.listeners.before.event_terminated["dapui_config"] = function()dapui.close({}) end
+				dap.listeners.before.event_exited["dapui_config"] = function() dapui.close({}) end
 
-            end,
+			end,
         },
-
 
         {
             "theHamsta/nvim-dap-virtual-text", -- 在debug界面中，用虚拟文本显示变量的值
             opts = {},
         },
 
-        -- which key integration
         {
             "folke/which-key.nvim",
             optional = true,
@@ -50,8 +80,8 @@ return
 			{
                 defaults =
 				{
-                    ["<leader>d"] = { name = "+debug" },
-                    ["<leader>da"] = { name = "+adapters" },
+                    ["<leader>d"] = { name = "debug" },
+                    ["<leader>da"] = { name = "adapters" },
                 },
             },
         },
@@ -81,7 +111,7 @@ return
 
 
     keys =
-    {
+	{
         {
             "<leader>db",
             function() require("dap").toggle_breakpoint() end,

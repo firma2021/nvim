@@ -1,42 +1,51 @@
 return
 {
     "akinsho/toggleterm.nvim",
+	version = "*", -- install the latest stable version of plugins that support Semver
 
-    version = "*", -- install the latest stable version of plugins that support Semver
+	lazy = true,
 
-    cmd = { "ToggleTerm", "TermExec" }, --usage: TermExec cmd="ls -lh"
+    cmd =
+	{
+        "ToggleTerm",
+        "TermExec", --usage: TermExec cmd="ls -lh"
+		"ToggleTermSetName",
+		"ToggleTermToggleAll",
+		"ToggleTermSendVisualLines",
+		"ToggleTermSendCurrentLine",
+		"ToggleTermSendVisualSelection",
+	},
 
     opts =
     {
         size = 10, --终端的大小
 
         on_create = function() --终端第一次创建时执行的函数
-          vim.opt.foldcolumn = "0"
-          vim.opt.signcolumn = "no"
+          vim.opt.foldcolumn = "0" --隐藏折叠列
+          vim.opt.signcolumn = "no" --隐藏标记列
         end,
 
-        open_mapping = [[<F7>]], --<c-\>
-
-        shading_factor = 2, --使终端背景变亮的百分比
+        open_mapping = [[<F7>]],
 
         direction = "float",
+        persist_mode = false, -- if set to true (default) the previous terminal mode will be remembered
 
         float_opts =
         {
           border = "curved", --弧形
-          highlights = { border = "Normal", background = "Normal" },
         },
 
-        start_in_insert = false,
+		start_in_insert = true,
     },
 
     --count是终端的id,用来触发终端。
     --输入:5ToggleTerm<CR> 触发5号终端，且vim.v.count的值被设置为5。
     config = function(plugin, opts)
+		print("hello world!!!!")
       require("toggleterm").setup(opts)
-
-      function toggle_term_cmd(cmd_string)
-        global_terms = {}
+	  print("hello world!")
+      local function toggle_term_cmd(cmd_string)
+        local global_terms = {}
 
         opts = { cmd = cmd_string, hidden = false } --hidden为true时，该终端不能被 :ToggleTerm命令打开
 

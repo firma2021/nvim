@@ -1,15 +1,14 @@
 --根据文件名或文件中的内容，模糊搜索文件；会调用ripgrep程序
 --see :help telescope and :help telescope.setup()
 
-return {
+return
+{
     "nvim-telescope/telescope.nvim",
 
-    tag = "0.1.2",
+    dependencies =
+	{
+        { "nvim-lua/plenary.nvim" },
 
-    version = false, --使用最新的提交
-
-    dependencies = {
-        "nvim-lua/plenary.nvim",
         {
             "nvim-telescope/telescope-fzf-native.nvim", --安装这个模糊搜索算法，显著提高性能
             cond = function()
@@ -17,11 +16,31 @@ return {
             end,
             build = "make",
         },
+		{ "debugloop/telescope-undo.nvim" }, -- fuzzy find undo history
+		{
+			"ahmedkhalf/project.nvim", --superior project management solution
+			event = { "CursorHold", "CursorHoldI" },
+			config = function ()
+				require("project_nvim").setup({ignore_lsp = { "null-ls", "codeium" }, })
+			end,
+		},
+        {
+            "nvim-telescope/telescope-frecency.nvim",
+            dependencies =
+			{
+				{ "kkharji/sqlite.lua" },
+            },
+		},
+		{ "jvgrootveld/telescope-zoxide" },
+		{ "nvim-telescope/telescope-live-grep-args.nvim" },
     },
+
+    lazy = true,
 
     cmd = "Telescope",
 
-    keys = {
+    keys =
+	{
         --git
         { "<leader>gb", "<cmd>Telescope git_branches<CR>",                  desc = "Git branches" },
         { "<leader>gc", "<cmd>Telescope git_commits<CR>",                   desc = "Git commits" },
@@ -98,18 +117,31 @@ return {
     opts = function()
         local actions = require("telescope.actions")
 
-        return {
-            defaults = {
-                initial_mode = "insert", --insert
+        return
+		{
+            defaults =
+			{
+                vimgrep_arguments =
+				{
+				"rg",
+				"--no-heading", -- Don't group matches by each file.
+				"--with-filename", --Display the file path for matches. This is the default when more than one file is searched.
+				"--line-number", -- Show line numbers (1-based). This is enabled by default when searching in aterminal.
+				"--column", -- Show column numbers (1-based). This only shows the column numbers for the first match on each line. This does not try to account for Unicode. One byte is equal to one column.This implies --line-number.
+				"--smart-case", -- 如果pattern全为小写字母，则大小写不敏感
+                },
 
-                prompt_prefix = "❯",
+				initial_mode = "insert", --insert
+
+                prompt_prefix = "  ",
                 selection_caret = "❯",
 
-                path_display = { "smart" }, --"truncate"
+                path_display = { "absolute" },
 
                 sorting_strategy = "ascending", --上升
 
-                layout_config = {
+                layout_config =
+				{
                     horizontal = { prompt_position = "top", preview_width = 0.55 },
                     vertical = { mirror = false },
                     width = 0.87,
@@ -117,8 +149,10 @@ return {
                     preview_cutoff = 120,
                 },
 
-                mappings = {
-                    i = {
+                mappings =
+				{
+                    i =
+					{
                         ["<C-n>"] = actions.cycle_history_next,
                         ["<C-p>"] = actions.cycle_history_prev,
                         ["<down>"] = actions.cycle_history_next,
@@ -135,6 +169,52 @@ return {
                     n = { q = actions.close },
                 },
             },
+
+			extensions =
+            {
+                fzf =
+				{
+					fuzzy = false,
+					override_generic_sorter = true,
+					override_file_sorter = true,
+					case_mode = "smart_case",
+				},
+				frecency =
+				{
+					show_scores = true,
+					show_unindexed = true,
+					ignore_patterns = { "*.git/*", "*/tmp/*" },
+                },
+                live_grep_args =
+				{
+					auto_quoting = true, -- enable/disable auto-quoting
+					-- define mappings, e.g.
+						mappings =
+					{ -- extend mappings
+						i = {
+							["<C-k>"] = require("telescope-live-grep-args.actions").quote_prompt(),
+							["<C-i>"] = require("telescope-live-grep-args.actions").quote_prompt({ postfix = " --iglob " }),
+						},
+					},
+                },
+                undo =
+				{
+					side_by_side = true,
+                    mappings =
+					{ -- this whole table is the default
+                        i =
+						{
+							-- IMPORTANT: Note that telescope-undo must be available when telescope is configured if
+							-- you want to use the following actions. This means installing as a dependency of
+							-- telescope in it's `requirements` and loading this extension from there instead of
+							-- having the separate plugin definition as outlined above. See issue #6.
+							["<cr>"] = require("telescope-undo.actions").yank_additions,
+							["<S-cr>"] = require("telescope-undo.actions").yank_deletions,
+							["<C-cr>"] = require("telescope-undo.actions").restore,
+						},
+					},
+				},
+			},
         }
     end,
 
@@ -142,19 +222,13 @@ return {
         local telescope = require("telescope")
         telescope.setup(opts)
 
-        local conditional_func = function(condition, func, ...)
-            if condition and type(func) == "function" then
-                return func(...)
-            end
-        end
-
-        local is_available = function(plug)
-            local status, lazy_config = pcall(require, "lazy.core.config")
-            return status and lazy_config.plugins[plug] ~= nil
-        end
-
-        conditional_func(pcall(require, "notify"), telescope.load_extension, "notify")
-        conditional_func(pcall(require, "aerial"), telescope.load_extension, "aerial")
-        conditional_func(is_available("telescope-fzf-native.nvim"), telescope.load_extension, "fzf")
+		telescope.load_extension("aerial")
+		telescope.load_extension("frecency")
+		telescope.load_extension("fzf")
+		telescope.load_extension("live_grep_args")
+		telescope.load_extension("notify")
+		telescope.load_extension("projects")
+		telescope.load_extension("undo")
+		telescope.load_extension("zoxide")
     end,
 }
