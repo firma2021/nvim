@@ -14,19 +14,24 @@ return
 {
     "neovim/nvim-lspconfig",
 
-    event = { "BufReadPre", "BufNewFile" },
+	lazy = true,
+    event = { "BufReadPost", "BufNewFile" },
 
-    keys = {
+    keys =
+	{
         { "<leader>li", "<cmd>LspInfo<cr>", desc = "LSP information" },
     },
 
-    dependencies = {
+    dependencies =
+	{
         "williamboman/mason.nvim",
         "williamboman/mason-lspconfig.nvim",
     },
 
     config = function(plugin, opts)
 
+		-- 将LspInfo面板的边框改为圆形
+		require("lspconfig.ui.windows").default_options.border = "rounded"
 
         --texthl ：标志文本的高亮组; numhl ：标志行号的高亮组
         vim.fn.sign_define("DiagnosticSignError", { text = " ", texthl = "DiagnosticSignError", numhl = "" })
@@ -47,13 +52,16 @@ return
         vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
             border = "rounded",
         })
-        local diagnostics_on = {
+
+        local diagnostics_on =
+		{
             virtual_text = true, --在诊断范围旁边显示虚拟文本
             severity_sort = true, --按照严重程度排序
-            signs = { active = signs }, --左侧显示诊断标志
+            signs = { active = "signs" }, --左侧显示诊断标志
             update_in_insert = true,
             underline = true,  --在诊断范围下方显示下划线
-            float = {
+            float =
+			{
                 focused = false,
                 style = "minimal",
                 border = "rounded",

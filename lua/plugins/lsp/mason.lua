@@ -23,15 +23,16 @@ return
     },
 
 
-    opts = --大部分使用默认配置，稍微修改了ui
+    opts = --基本使用默认配置，只稍微修改了ui
     {
 		ui =
         {
-            icons =
+            border = "rounded",
+			icons =
             {
-                package_installed = "✓",
-                package_pending = "➜",
-                package_uninstalled = "✗"
+                package_installed = "󰄳",
+                package_pending = "",
+                package_uninstalled = "󰊠"
             },
         }
     }
