@@ -15,11 +15,11 @@ return
         keys =
 		{
             {
-                "<leader>lo",
+                "go",
                 function()
                     require("aerial").toggle()
                 end,
-                desc = "symbols outline",
+                desc = "goto symbols outline",
             },
         },
 

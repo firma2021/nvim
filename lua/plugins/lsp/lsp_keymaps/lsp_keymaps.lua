@@ -8,23 +8,23 @@ local on_attach = function(client, bufnr)
 
 	-- see :help vim.lsp.*
 	if client.supports_method("textDocument/rename") then
-		vim.keymap.set("n", "<leader>lr",  vim.lsp.buf.rename, {buffer = bufnr, desc = "rename current symbol"})
+		vim.keymap.set("n", "gr",  vim.lsp.buf.rename, {buffer = bufnr, desc = "rename current symbol"})
 	end
 
 	if client.supports_method "textDocument/codeAction" then
-		vim.keymap.set({"n", "v"}, "<leader>la",  vim.lsp.buf.code_action, {buffer = bufnr, desc = "LSP code action"})
+		vim.keymap.set({"n", "v"}, "ga",  vim.lsp.buf.code_action, {buffer = bufnr, desc = "LSP code action"})
 	end
 
 	if client.supports_method("textDocument/definition") then
-		vim.keymap.set("n", "gd",  vim.lsp.buf.definition, {buffer = bufnr, desc = "goto definition of current symbol"})
+		vim.keymap.set("n", "gd", vim.lsp.buf.definition, {buffer = bufnr, desc = "goto definition of current symbol"})
 	end
 
 	if client.supports_method("textDocument/implementation") then
-		vim.keymap.set("n", "gI",   vim.lsp.buf.implementation, {buffer = bufnr, desc = "goto implementation of current symbol"})
+		vim.keymap.set("n", "gI", vim.lsp.buf.implementation, {buffer = bufnr, desc = "goto implementation of current symbol"})
 	end
 
 	if client.supports_method("textDocument/typeDefinition") then
-		vim.keymap.set("n", "gT",  vim.lsp.buf.type_definition, {buffer = bufnr, desc = "goto definition of current type"})
+		vim.keymap.set("n", "gT", vim.lsp.buf.type_definition, {buffer = bufnr, desc = "goto definition of current type"})
 	end
 
 	-- see :help K for why this keymap
@@ -34,8 +34,12 @@ local on_attach = function(client, bufnr)
 		vim.keymap.set("n", "K",  vim.lsp.buf.hover, {buffer = bufnr, desc = "hover symbol details"})
 	end
 
-	if client.supports_method("textDocument/signatureHelp") then
-		vim.keymap.set("i", "<c-k>",  vim.lsp.buf.signature_help, {buffer = bufnr, desc = "signature documentation"})
+    if client.supports_method("textDocument/signatureHelp") then
+        vim.keymap.set("i", "<c-k>", vim.lsp.buf.signature_help, { buffer = bufnr, desc = "signature documentation" })
+    end
+
+	if client.supports_method("textDocument/switchSourceHeader") then
+		vim.keymap.set("n", "gh", vim.lsp.buf.switch_source_header, {buffer = bufnr, desc = "switch source header"})
 	end
 
 	--less use

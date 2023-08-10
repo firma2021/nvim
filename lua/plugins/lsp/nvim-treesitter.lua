@@ -31,8 +31,6 @@ return
         --表中列出的解析器应当总是已安装；可以填all
         ensure_installed =
 		{
-            "c",
-            "cpp",
             "make",
             "cmake",
             --"cuda",
@@ -44,7 +42,6 @@ return
             "luadoc", --用于生成Lua代码文档的工具
             "luap", --在Lua中进行模式匹配的库
 
-            "bash",
 
             "vim",
             "vimdoc",

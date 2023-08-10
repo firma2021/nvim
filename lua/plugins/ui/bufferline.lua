@@ -82,10 +82,8 @@ return
 		opts.highlights = require("catppuccin.groups.integrations.bufferline").get()
 		require("bufferline").setup(opts)
 
-		vim.keymap.set("n", "<S-h>", "<cmd>BufferLineCyclePrev<cr>", { desc = "prev buffer (cycle)" })
-		vim.keymap.set("n", "<S-l>", "<cmd>BufferLineCycleNext<cr>", { desc = "next buffer (cycle)" })
-		vim.keymap.set("n", "[b", "<cmd>BufferLineCyclePrev<cr>", { desc = "prev buffer (cycle)" })
-		vim.keymap.set("n", "]b", "<cmd>BufferLineCycleNext<cr>", { desc = "next buffer (cycle)" })
+		vim.keymap.set("n", "<tab>", "<cmd>BufferLineCyclePrev<cr>", { desc = "prev buffer (cycle)" })
+		vim.keymap.set("n", "<S-tab>", "<cmd>BufferLineCycleNext<cr>", { desc = "next buffer (cycle)" })
 
 		vim.keymap.set("n", "<leader>bo", "<Cmd>BufferLinePick<CR>", { noremap = true, desc = "buffer pick" })
 		vim.keymap.set("n", "<leader>bc", "<Cmd>BufferLinePickClose<CR>", { noremap = true, desc = "buffer pick close" })

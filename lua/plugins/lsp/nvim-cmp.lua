@@ -10,6 +10,7 @@ return
 
     version = false,
 
+	lazy = true,
     event = "InsertEnter",
 
     dependencies = --补全源
@@ -32,7 +33,7 @@ return
 				{
 					{ "rafamadriz/friendly-snippets" }, --补全源, 一个预设的VS Code风格的snippets
 				},
-				
+
 				opts =
 				{
     				history = true,
@@ -74,12 +75,14 @@ return
         local cmp = require("cmp")
         local luasnip = require("luasnip")
 
-        local border_opts =
-        {
-            border = "rounded",                                                                   --圆边框，single为方边框
-            winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:Visual,Search:None", --高亮样式
-        }
-
+        local char_exists = function() --检查光标前是否存在非空白字符
+            local line_and_col = vim.api.nvim_win_get_cursor(0)
+            local line = line_and_col[1]
+            local col = line_and_col[2]
+            return col ~= 0 and --列不为0
+                vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") ==
+                nil    --取当前光标位置所在行的文本内容，然后使用  sub  函数提取指定列位置的字符
+        end
 
         return
         {
@@ -94,13 +97,21 @@ return
 
             window =
             {
-                completion = cmp.config.window.bordered(border_opts), --显示补全菜单的边框
-                documentation = cmp.config.window.bordered(border_opts),
+                completion =
+                {
+					border = "rounded",
+					winhighlight = "Normal:CmpPmenu,FloatBorder:FloatBorder,CursorLine:Visual,Search:PmenuSel",
+				},
+                documentation =
+				{
+					border = "rounded",                                                                   --圆边框，single为方边框
+					winhighlight = "Normal:CmpDoc", --高亮样式
+        		},
             },
 
             completion =
             {
-                completeopt = "menu,menuone,noinsert",
+                completeopt = "menu,menuone",
             },
 
             -- see Wiki: example mappings
@@ -110,28 +121,18 @@ return
                     --cmp.SelectBehavior.Insert 选择补全项并插入
                     --cmp.SelectBehavior.Replace 选择补全项，并用补全项替换原有的文本
 
-                    ["<Up>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
-                    ["<Down>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
-
-                    ["<CR>"] = cmp.mapping.confirm({ select = true, behavior = cmp.ConfirmBehavior.Replace, }),
-
-                    ["<C-d>"] = cmp.mapping.scroll_docs(-4),
+                    ["<C-p>"] = cmp.mapping.select_prev_item(),
+                    ["<C-n>"] = cmp.mapping.select_next_item(),
+					["<C-d>"] = cmp.mapping.scroll_docs(-4),
                     ["<C-u>"] = cmp.mapping.scroll_docs(4),
 
+                    ["<CR>"] = cmp.mapping.confirm({ select = true, behavior = cmp.ConfirmBehavior.Insert, }),
+
                     ["<C-Space>"] = cmp.mapping.complete(), --弹出补全框
-                    ["<C-c>"] = cmp.mapping.abort(),    --中止补全，不显示补全框
+                    ["<C-e>"] = cmp.mapping.close(),    --关闭补全框
 
                     ["<tab>"] = cmp.mapping(
                     function(fallback)
-                        local char_exists = function() --检查光标前是否存在非空白字符
-                            local line_and_col = vim.api.nvim_win_get_cursor(0)
-                            local line = line_and_col[1]
-                            local col = line_and_col[2]
-                            return col ~= 0 and --列不为0
-                                vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") ==
-                                nil             --取当前光标位置所在行的文本内容，然后使用  sub  函数提取指定列位置的字符
-                        end
-
                         if cmp.visible() then
                             cmp.select_next_item()
                         elseif luasnip.expand_or_locally_jumpable() then
@@ -159,11 +160,10 @@ return
 
             sources = cmp.config.sources(
                 {
-                    { name = "nvim_lsp", priority = 1000 },
-                    { name = "luasnip",  priority = 900 },
+                    { name = "nvim_lsp", },
+                    { name = "luasnip", },
                     {
                         name = "buffer",
-                        priority = 800,
                         option =
                         {
                             get_bufnrs = function()
@@ -171,84 +171,24 @@ return
                             end
                         }
                     },
-                    { name = "treesitter", priority = 700 },
-                    { name = "path",       priority = 600 },
-                    { name = "calc",       priority = 500 },
-                    { name = "nvim_lua",   priority = 400 },
-                    { name = "spell",      priority = 300 },
+                    { name = "treesitter",  },
+                    { name = "path",        },
+                    { name = "calc",        },
+                    { name = "nvim_lua",    },
+                    { name = "spell", 		},
                 }
             ),
 
             formatting =
             {
-                fields =
-                {
-                    cmp.ItemField.Abbr,
-                    cmp.ItemField.Kind,
-                    cmp.ItemField.Menu,
-                },
+                fields = { "abbr", "kind", "menu" },
 
                 format = function(entry, item)
-                    local kind_icons =
-                    {
-                        Array = " ",
-                        Boolean = " ",
-                        Class = " ",
-                        Color = " ",
-                        Constant = " ",
-                        Constructor = " ",
-                        Copilot = " ",
-                        Enum = " ",
-                        EnumMember = " ",
-                        Event = " ",
-                        Field = " ",
-                        File = " ",
-                        Folder = " ",
-                        Function = " ",
-                        Interface = " ",
-                        Key = " ",
-                        Keyword = " ",
-                        Method = " ",
-                        Module = " ",
-                        Namespace = " ",
-                        Null = " ",
-                        Number = " ",
-                        Object = " ",
-                        Operator = " ",
-                        Package = " ",
-                        Property = " ",
-                        Reference = " ",
-                        Snippet = " ",
-                        String = " ",
-                        Struct = " ",
-                        Text = " ",
-                        TypeParameter = " ",
-                        Unit = " ",
-                        Value = " ",
-                        Variable = " ",
-                    }
+					local kind_icons = {}
+                    local source_icons = {}
 
-                    local source_icons =
-                    {
-                        nvim_lsp = "ﲳ",
-                        nvim_lua = "",
-                        treesitter = "",
-                        path = "ﱮ",
-                        buffer = "﬘",
-                        zsh = "",
-                        luasnip = "",
-                        spell = "",
-                    }
-
-                    if kind_icons[item.kind] --将Class修改为   Class [nvim-lsp]
-                    then
-                        item.kind = kind_icons[item.kind] .. item.kind
-                    end
-
-                    if source_icons[entry.source.name]
-                    then
-                        item.menu = source_icons[entry.source.name] .. " " .. entry.source.name
-                    end
+					item.kind = string.format("%s %s", " " .. kind_icons[item.kind] .. " ", item.kind)
+                    item.menu = source_icons[entry.source.name] .. " " .. entry.source.name
                     return item
                 end,
             },

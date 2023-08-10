@@ -20,6 +20,7 @@ return
     keys =
 	{
         { "<leader>li", "<cmd>LspInfo<cr>", desc = "LSP information" },
+        { "<leader>lr", "<cmd>LspRestart<cr>", desc = "LSP restart" },
     },
 
     dependencies =

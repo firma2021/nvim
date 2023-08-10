@@ -22,7 +22,6 @@ return
         { "<leader>pM", "<cmd>MasonUpdateAll<cr>", desc = "Mason update all" }
     },
 
-
     opts = --基本使用默认配置，只稍微修改了ui
     {
 		ui =
@@ -32,8 +31,10 @@ return
             {
                 package_installed = "󰄳",
                 package_pending = "",
-                package_uninstalled = "󰊠"
+                package_uninstalled = "󰊠" --" 󰚌"
             },
-        }
+        },
+
+		max_concurrent_installers = 10, --默认值为4。同时要安装的包的最大数量，超过此值的包将被放入队列中等待。
     }
 }
