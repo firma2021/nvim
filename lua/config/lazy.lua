@@ -29,7 +29,6 @@ require("lazy").setup(
             { import = "plugins.git" },
             { import = "plugins.editor" },
             { import = "plugins.edit" },
-            { import = "plugins.util" },
             { import = "plugins.code_runner" },
         },
 

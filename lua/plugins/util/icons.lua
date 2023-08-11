@@ -1,60 +1,87 @@
-local kind_icons =
+local M = {}
+
+M.widget =
 {
-	Namespace = "󰌗",
-	Text = "󰉿",
-	Method = "󰆧",
-	Function = "󰆧",
-	Constructor = "",
-	Field = "󰜢",
-	Variable = "󰀫",
-	Class = "󰠱",
-	Interface = "",
-	Module = "",
-	Property = "󰜢",
-	Unit = "󰑭",
-	Value = "󰎠",
-	Enum = "",
-	Keyword = "󰌋",
-	Snippet = "",
-	Color = "󰏘",
-	File = "󰈚",
-	Reference = "󰈇",
-	Folder = "󰉋",
-	EnumMember = "",
-	Constant = "󰏿",
-	Struct = "󰙅",
-	Event = "",
-	Operator = "󰆕",
-	TypeParameter = "󰊄",
-	Table = "",
-	Object = "󰅩",
-	Tag = "",
-	Array = "[]",
-	Boolean = "",
-	Number = "",
-	Null = "󰟢",
-	String = "󰉿",
 	Calendar = "",
 	Watch = "󰥔",
-	Package = "",
-	Copilot = "",
-	Codeium = "",
-	TabNine = "",
 }
 
-local source_icons =
+M.kind =
 {
-	nvim_lsp = "ﲳ",
-	nvim_lua = "",
-	treesitter = "",
-	path = "ﱮ",
-	buffer = "﬘",
-	zsh = "",
-	luasnip = "",
-	spell = "",
+    Class = "󰠱",
+	Color = "󰏘",
+    Constant = "󰏿",
+    Constructor = "",
+
+	Enum = "",
+    EnumMember = "",
+    Event = "",
+
+    Field = "󰜢",
+    File = "󰈚",
+    Folder = "󰉋",
+	Fragment = "",
+    Function = "󰆧",
+
+    Interface = "",
+    Implementation = "",
+
+    Keyword = "󰌋",
+
+    Method = "󰆧",
+    Module = "",
+	Namespace = "󰌗",
+    Number = "",
+
+    Operator = "󰆕",
+
+    Package = "",
+    Property = "󰜢",
+
+    Reference = "",
+
+    Snippet = "",
+    Struct = "",
+
+	Text = "󰉿",
+	Table = "",
+    Tag = "",
+	TypeParameter = "󰊄",
+
+    Unit = "󰑭",
+
+	Value = "󰎠",
+	Variable = "󰀫",
+
+    Object = "󰅩",
+	String = "󰉿",
+	Array = "[]",
+	Boolean = "",
+	Null = "󰟢",
 }
 
-local lang_icons =
+M.cmp_source =
+{
+    nvim_lua = "",
+	nvim_lsp = "",
+	treesitter = "",
+	path = "",
+	spell = "󰓆",
+	buffer = "",
+	zsh = "",
+    luasnip = "󰃐",
+
+	Copilot = "",
+	copilot = "",
+    Codeium = "",
+	codeium = "",
+    TabNine = "",
+	cmp_tabnine = "",
+}
+
+M.undefined = ""
+
+M.lang =
 {
 	default_icon = {
     icon = "󰈚",
@@ -201,3 +228,5 @@ local lang_icons =
     name = "zip",
   },
 }
+
+return M
