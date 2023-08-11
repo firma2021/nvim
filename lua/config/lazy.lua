@@ -30,6 +30,7 @@ require("lazy").setup(
             { import = "plugins.editor" },
             { import = "plugins.edit" },
             { import = "plugins.code_runner" },
+			{ import = "plugins.languages" },
         },
 
         defaults =

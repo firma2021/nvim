@@ -1,17 +1,19 @@
 return
 {
 	{
-		"nvim-treesitter/nvim-treesitter",
-		opts = function(_, opts)
-		if type(opts.ensure_installed) == "table" then
+        "nvim-treesitter/nvim-treesitter",
+
+		opts = function(plugin, opts)
 			vim.list_extend(opts.ensure_installed, { "c", "cpp" })
-		end
 		end,
 	},
 
 	{
-		"neovim/nvim-lspconfig",
-        opts =
+        "neovim/nvim-lspconfig",
+
+        opts = function()
+			vim.notify("hello world!")
+			return
 		{
             servers =
 			{
@@ -19,37 +21,39 @@ return
 				{
                     keys =
 					{
-						{ "<leader>cR", "<cmd>ClangdSwitchSourceHeader<cr>", desc = "Switch Source/Header (C/C++)" },
+						{ "<leader>cR", "<cmd>ClangdSwitchSourceHeader<cr>", desc = "switch source/header (C/C++)" },
                     },
-
-					root_dir = function(fname)
-					return require("lspconfig.util").root_pattern(
-					"Makefile",
-					"configure.ac",
-					"configure.in",
-					"config.h.in",
-					"meson.build",
-					"meson_options.txt",
-					"build.ninja"
-					)(fname) or require("lspconfig.util").root_pattern("compile_commands.json", "compile_flags.txt")(
-					fname
-					) or require("lspconfig.util").find_git_ancestor(fname)
-                    end,
 
                     capabilities =
 					{
 						offsetEncoding = { "utf-16" },
                     },
 
-                    cmd =
+					cmd =
 					{
 						"clangd",
+
+						"--query-driver=/usr/bin/**/clang-*,/usr/bin/gcc,/usr/bin/g++",
+
 						"--background-index",
-						"--clang-tidy",
-						"--header-insertion=iwyu",
+						"--background-index-priority=background",
+
+						"--all-scopes-completion",
 						"--completion-style=detailed",
 						"--function-arg-placeholders",
-						"--fallback-style=llvm",
+						"--header-insertion=iwyu",
+						"--header-insertion-decorators",
+						"--all-scopes-completion",
+
+						"-j=12",
+
+						"--pch-storage=memory",
+
+						"--pretty",
+
+						"--clang-tidy",
+
+						"--enable-config",
                     },
 
                     init_options =
@@ -60,65 +64,15 @@ return
 					},
 				},
             },
-
-            setup =
-			{
-				clangd = function(_, opts)
-				local clangd_ext_opts = require("lazyvim.util").opts("clangd_extensions.nvim")
-				require("clangd_extensions").setup(vim.tbl_deep_extend("force", clangd_ext_opts or {}, { server = opts }))
-				return true
-				end,
-			},
-    	},
+    	}end,
     },
-
-  {
-    "p00f/clangd_extensions.nvim",
-    lazy = true,
-    config = function() end,
-    opts = {
-      extensions = {
-        inlay_hints = {
-          inline = false,
-        },
-        ast = {
-          --These require codicons (https://github.com/microsoft/vscode-codicons)
-          role_icons = {
-            type = "",
-            declaration = "",
-            expression = "",
-            specifier = "",
-            statement = "",
-            ["template argument"] = "",
-          },
-          kind_icons = {
-            Compound = "",
-            Recovery = "",
-            TranslationUnit = "",
-            PackExpansion = "",
-            TemplateTypeParm = "",
-            TemplateTemplateParm = "",
-            TemplateParamObject = "",
-          },
-        },
-      },
-    },
-  },
-
-
-
-  {
-    "nvim-cmp",
-    opts = function(_, opts)
-      table.insert(opts.sorting.comparators, 1, require("clangd_extensions.cmp_scores"))
-    end,
-  },
 
   {
     "mfussenegger/nvim-dap",
     optional = true,
-    dependencies = {
-      -- Ensure C/C++ debugger is installed
+    dependencies =
+	{
+
       "williamboman/mason.nvim",
       optional = true,
       opts = function(_, opts)

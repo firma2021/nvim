@@ -1,8 +1,9 @@
 --补全引擎。补全源需要从外部仓库安装
 --see :help cmp
 
---nvim本身提供了较完备但不太好用的补全功能，见 :help ins-completion
---因此需要安装这个插件
+-- nvim本身提供了较完备但不太好用的补全功能，因此需要安装这个插件。见 :help ins-completion
+-- 可以通过vim.bo[bufnr].omnifunc = "v:lua.vim.lsp.omnifunc"设置当前缓冲区（buffer）的自动补全函数（omnifunc）为LSP的自动补全函数
+-- "omni" 是 "omniscient" 的缩写，意思是 无所不知的; 按下 <c-x> <c-o> 后, 弹出补全菜单。这个补全功能很弱，基本不会使用
 
 return
 {

@@ -74,30 +74,8 @@ return
 
         vim.diagnostic.config(diagnostics_on)
 
-		--see :help vim.diagnostic.*
-        vim.keymap.set(
-            "n",
-            "[d",
-            vim.diagnostic.goto_prev,
-            { noremap = true, silent = true, desc = "goto previous diagnostic" }
-        )
-        vim.keymap.set(
-            "n",
-            "]d",
-            vim.diagnostic.goto_next,
-            { noremap = true, silent = true, desc = "goto next diagnostic" }
-        )
-        vim.keymap.set(
-            "n",
-            "gl",
-            vim.diagnostic.open_float,
-            { noremap = true, silent = true, desc = "open floating diagnostic message" }
-        ) --将光标定位到出错处后，按下此快捷键，在浮动窗口中显示错误信息
-        vim.keymap.set(
-            "n",
-            "<leader>ld",
-            vim.diagnostic.setloclist,
-            { noremap = true, silent = true, desc = "open diagnostics list" }
-        ) --在列表中显示所有错误信息
+		local buffer = vim.api.nvim_get_current_buf()
+        require("plugins.util.lsp_keymaps").set_buffer_lsp_keymaps(buffer)
+		require("plugins.util.lsp_keymaps").set_global_lsp_keymaps()
     end,
 }
