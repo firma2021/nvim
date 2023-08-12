@@ -18,7 +18,7 @@ return
 
 		return
 		{
-			char = "┊",
+            char = "│",
 
 			char_highlight_list =
 			{
@@ -48,29 +48,13 @@ return
 				"alpha",
 				"neo-tree",
 				"undotree",
-				"TelescopePrompt",
-			},
+                "TelescopePrompt",
 
-
-			context_patterns =
-			{
-				"class",
-				"function",
-				"method",
-				"element",
-				"^if",
-				"^while",
-				"^for",
-				"^object",
-				"^table",
-				"block",
-				"arguments",
-				"if_statement",
-				"import",
-				"list_literal",
-				"selector",
-				"type",
-				"var",
+				"lazy",
+				"mason",
+				"notify",
+				"toggleterm",
+				"lazyterm",
 			},
 
 			-- 调用vim.opt.listchars:append "eol:↴"显示换行符后，如果缩进线上有换行符，是否将缩进线char替换为换行符

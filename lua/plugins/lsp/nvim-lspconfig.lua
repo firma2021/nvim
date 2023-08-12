@@ -15,7 +15,7 @@ return
     "neovim/nvim-lspconfig",
 
 	lazy = true,
-    event = { "BufReadPost", "BufNewFile" },
+    event = { "BufReadPre", "BufNewFile" },
 
     keys =
 	{
@@ -25,34 +25,77 @@ return
 
     dependencies =
 	{
-        "williamboman/mason.nvim",
-        "williamboman/mason-lspconfig.nvim",
+        {
+            "folke/neodev.nvim", --提供对 neovim lua API 的函数签名帮助、文档、自动补全
+			opts = {},
+		},
+        {
+			"williamboman/mason.nvim",
+		},
+        {
+            "williamboman/mason-lspconfig.nvim",
+		},
+		{
+        "hrsh7th/cmp-nvim-lsp",
+      	},
     },
 
+	opts =
+	{
+		diagnostics =
+		{
+			underline = true,
+			update_in_insert = true,
+			virtual_text =  --在诊断范围旁边显示虚拟文本
+			{
+				spacing = 4,
+				source = "if_many",
+				prefix = "●", -- "icons" if neovim version >= 0.10.0
+			},
+			severity_sort = true, --按照严重程度排序
+        },
+
+        inlay_hints =
+		{
+      		enabled = true, -- Neovim >= 0.10.0
+        },
+
+        capabilities = {},
+
+		servers =
+		{
+      		jsonls = {},
+			lua_ls =
+			{
+				settings =
+				{
+					Lua =
+					{
+						workspace =
+						{
+							checkThirdParty = false,
+						},
+						completion =
+						{
+							callSnippet = "Replace",
+						},
+					},
+				},
+			},
+        },
+
+		-- you can do any additional lsp server setup here
+      	-- return true if you don't want this server to be setup with lspconfig
+		setup = {},
+	},
+
     config = function(plugin, opts)
+        local function make_handler(server)
+            local capabilities = vim.vim.tbl_deep_extend("force", {}, vim.lsp.protocol.make_client_capabilities(),require("cmp_nvim_lsp").default_capabilities(), opts.capabilities or {})
+            local server_opts = vim.tbl_deep_extend("force", { capabilities = vim.deepcopy(capabilities) }, opts.servers[server] or {})
+			require("lspconfig")[server].setup(server_opts)
+		end
 
-		-- 将LspInfo面板的边框改为圆形
-		require("lspconfig.ui.windows").default_options.border = "rounded"
-
-        --texthl ：标志文本的高亮组; numhl ：标志行号的高亮组
-        vim.fn.sign_define("DiagnosticSignError", { text = " ", texthl = "DiagnosticSignError", numhl = "" })
-        vim.fn.sign_define("DiagnosticSignWarn", { text = " ", texthl = "DiagnosticSignWarn", numhl = "" })
-        vim.fn.sign_define("DiagnosticSignHint", { text = " ", texthl = "DiagnosticSignHint", numhl = "" })
-        vim.fn.sign_define("DiagnosticSignInfo", { text = " ", texthl = "DiagnosticSignInfo", numhl = "" })
-
-        vim.fn.sign_define("DapStopped", { text = "󰁕 ", texthl = "DiagnosticWarn", numhl = "" })
-        vim.fn.sign_define("DapBreakpoint", { text = " ", texthl = "DiagnosticInfo", numhl = "" })
-        vim.fn.sign_define("DapBreakpointRejected", { text = " ", texthl = "DiagnosticError", numhl = "" })
-        vim.fn.sign_define("DapBreakpointCondition", { text = " ", texthl = "DiagnosticInfo", numhl = "" })
-        vim.fn.sign_define("DapLogPoint", { text = ".>", texthl = "DiagnosticInfo", numhl = "" })
-
-        vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-            border = "rounded",
-        })
-
-        vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-            border = "rounded",
-        })
 
         local diagnostics_on =
 		{
@@ -74,8 +117,6 @@ return
 
         vim.diagnostic.config(diagnostics_on)
 
-		local buffer = vim.api.nvim_get_current_buf()
-        require("plugins.util.lsp_keymaps").set_buffer_lsp_keymaps(buffer)
-		require("plugins.util.lsp_keymaps").set_global_lsp_keymaps()
+        require("plugins.util.lsp_keymaps")()
     end,
 }

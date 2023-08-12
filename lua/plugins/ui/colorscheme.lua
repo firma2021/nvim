@@ -238,7 +238,7 @@ return
 				dashboard = false,
 				flash = true,
 				gitsigns = true,
-				indent_blankline = { enabled = true, colored_indent_levels = true, },
+				indent_blankline = { enabled = true, },
 				markdown = true,
 				mason = true,
 				neotree = { enabled = true, show_root = true, transparent_panel = true },

@@ -14,7 +14,6 @@ return
 	{
 		"williamboman/mason.nvim",
 		"neovim/nvim-lspconfig",
-		"folke/neodev.nvim",
 	},
 
 	opts =
@@ -30,9 +29,5 @@ return
 			-- "gopls",
 		},
     },
-
-    config = function()
-		require("neodev").setup({}) --提供对 neovim lua API 的函数签名帮助、文档、自动补全
-	end
 }
 --capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities()), -- nvim-cmp提供了额外的补全能力,将它广播到其它语言服务器

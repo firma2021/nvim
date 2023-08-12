@@ -7,7 +7,7 @@
 
 local M = {}
 
-M.set_buffer_lsp_keymaps = function(bufnr)
+local function set_buffer_lsp_keymaps(bufnr)
 
 	vim.keymap.set("n", "gd", vim.lsp.buf.definition, {buffer = bufnr, desc = "goto definition"})
 	vim.keymap.set("n", "gD",  vim.lsp.buf.declaration, { buffer = bufnr, desc = "goto declaration"})
@@ -26,11 +26,25 @@ M.set_buffer_lsp_keymaps = function(bufnr)
 	vim.keymap.set({"n", "v"}, "<leader>wl",  function()print(vim.inspect(vim.lsp.buf.list_workspace_folders()))end, {buffer = bufnr, desc = "list workspace folders"})
 end
 
-M.set_global_lsp_keymaps = function()
+local function set_global_lsp_keymaps()
 	vim.keymap.set("n", "g[", function ()vim.diagnostic.goto_prev({ float = { border = "rounded" } }) end, { noremap = true, silent = true, desc = "goto previous diagnostic" })
 	vim.keymap.set("n", "g]", function ()vim.diagnostic.goto_next({ float = { border = "rounded" } }) end, { noremap = true, silent = true, desc = "goto next diagnostic" })
 	vim.keymap.set("n", "gl", function () vim.diagnostic.open_float({border = "rounded"}) end, { noremap = true, silent = true, desc = "open floating diagnostic message" }) --将光标定位到出错处后，按下此快捷键，在浮动窗口中显示错误信息
 	vim.keymap.set("n", "<leader>ld", vim.diagnostic.setloclist, { noremap = true, silent = true, desc = "open diagnostics list" }) --在列表中显示所有错误信息
 end
 
-return M
+local function set_lsp_key_maps()
+
+	vim.api.nvim_create_autocmd("LspAttach",
+	{
+		callback = function(args)
+			local buffer = args.buf
+			local client = vim.lsp.get_client_by_id(args.data.client_id)
+			set_buffer_lsp_keymaps(buffer)
+			set_global_lsp_keymaps()
+		end,
+    }
+	)
+end
+
+return set_lsp_key_maps

@@ -7,8 +7,8 @@ return
 
     keys =
     {
-      { "]]", desc = "Next Reference" },
-      { "[[", desc = "Prev Reference" },
+      { "]]", desc = "next word reference" },
+      { "[[", desc = "prev word reference" },
     },
 
     opts =
@@ -21,7 +21,7 @@ return
       },
     },
 
-    config = function(_, opts)
+    config = function(plugin, opts)
       require("illuminate").configure(opts)
 
       local function map(key, dir, buffer)
