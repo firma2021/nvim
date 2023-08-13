@@ -4,16 +4,14 @@ return
         "nvim-treesitter/nvim-treesitter",
 
 		opts = function(plugin, opts)
-			vim.list_extend(opts.ensure_installed, { "c", "cpp" })
+			vim.list_extend(opts.ensure_installed, { "c", "cpp" }) --" cuda","proto", (Protobuf)
 		end,
 	},
 
 	{
         "neovim/nvim-lspconfig",
 
-        opts = function()
-			vim.notify("hello world!")
-			return
+        opts =
 		{
             servers =
 			{
@@ -64,7 +62,7 @@ return
 					},
 				},
             },
-    	}end,
+    	},
     },
 
   {

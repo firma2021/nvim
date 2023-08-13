@@ -1,9 +1,10 @@
 return
 {
+
 	{
 		"nvim-treesitter/nvim-treesitter",
 		opts = function(_, opts)
-			vim.list_extend(opts.ensure_installed, { "ninja", "python", "rst", "toml" })
+			vim.list_extend(opts.ensure_installed, { "ninja", "python",  })
 		end,
 	},
 
