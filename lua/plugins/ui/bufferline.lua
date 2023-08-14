@@ -17,11 +17,21 @@ return
 		},
 		{
 			"nvim-tree/nvim-web-devicons",
-			lzay = true,
-			enent = "VeryLazy",
 		},
 	},
 
+	keys =
+    {
+		{ "<tab>", "<cmd>BufferLineCyclePrev<cr>", desc = "prev buffer (cycle)" },
+		{ "<S-tab>", "<cmd>BufferLineCycleNext<cr>", desc = "next buffer (cycle)" },
+
+		{ "<leader>bo", "<Cmd>BufferLinePick<CR>",  desc = "buffer pick" },
+		{ "<leader>bc", "<Cmd>BufferLinePickClose<CR>",  desc = "buffer pick close" },
+
+		{ "<leader>1", "<Cmd>BufferLineGoToBuffer 1<CR>",  desc = "goto buffer 1" },
+		{ "<leader>2", "<Cmd>BufferLineGoToBuffer 2<CR>",  desc = "goto buffer 2"},
+		{ "<leader>3", "<Cmd>BufferLineGoToBuffer 3<CR>",  desc = "goto buffer 3" },
+	},
 	-- 大部分配置使用默认值，下面列出的是自定义了的值
 	-- see :h bufferline-configuration
 	opts =
@@ -45,13 +55,7 @@ return
 			--level：字符串，"error" | "warning"
 			--diagnostics_dict：字典，
 			diagnostics_indicator = function(count, level, diagnostics_dict, context)
-				local icons =
-				{
-					Error = " ",
-					Warn = " ",
-					Hint = " ",
-					Info = " ",
-				}
+				local icons = require("util.icons").diagnostics
 
 				-- 相当于C中的 diagnostics_dict.error ? icons.Error .. diagnostics_dict.error .. " " : ""
 				local ret = (diagnostics_dict.error and icons.Error .. diagnostics_dict.error .. " " or "") ..
@@ -67,7 +71,7 @@ return
 					filetype = "neo-tree",
 					text = "neo-tree",
 					highlight = "Directory",
-					text_align = "center",
+					text_align = "left",
 				},
 				{
 					filetype = "aerial",
@@ -81,15 +85,5 @@ return
 	config = function(plugin, opts)
 		opts.highlights = require("catppuccin.groups.integrations.bufferline").get()
 		require("bufferline").setup(opts)
-
-		vim.keymap.set("n", "<tab>", "<cmd>BufferLineCyclePrev<cr>", { desc = "prev buffer (cycle)" })
-		vim.keymap.set("n", "<S-tab>", "<cmd>BufferLineCycleNext<cr>", { desc = "next buffer (cycle)" })
-
-		vim.keymap.set("n", "<leader>bo", "<Cmd>BufferLinePick<CR>", { noremap = true, desc = "buffer pick" })
-		vim.keymap.set("n", "<leader>bc", "<Cmd>BufferLinePickClose<CR>", { noremap = true, desc = "buffer pick close" })
-
-		vim.keymap.set("n", "<leader>1", "<Cmd>BufferLineGoToBuffer 1<CR>", { noremap = true, desc = "goto buffer 1" })
-		vim.keymap.set("n", "<leader>2", "<Cmd>BufferLineGoToBuffer 2<CR>", { noremap = true, desc = "goto buffer 2" })
-		vim.keymap.set("n", "<leader>3", "<Cmd>BufferLineGoToBuffer 3<CR>", { noremap = true, desc = "goto buffer 3" })
 	end
 }

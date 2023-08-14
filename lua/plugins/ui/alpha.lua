@@ -63,7 +63,7 @@ return
 				button.opts.hl_shortcut = "AlphaShortcut"
 			end
 
-			dashboard.opts.layout[1].val = 8
+            dashboard.opts.layout[1].val = 5 --设置上边距
 
 			return dashboard
 		end,
@@ -88,7 +88,7 @@ return
 						dashboard_opts.section.footer.val = make_footer()
 						pcall(vim.cmd.AlphaRedraw) -- 重新绘制 Alpha dashboard
 					end,
-					desc = "Add Alpha dashboard footer",
+					desc = "add Alpha dashboard footer",
 				}
 			)
 		end,

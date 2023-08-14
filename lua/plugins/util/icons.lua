@@ -1,11 +1,5 @@
 local M = {}
 
-M.widget =
-{
-	Calendar = "",
-	Watch = "󰥔",
-}
-
 M.kind =
 {
     Class = "󰠱",
@@ -87,6 +81,48 @@ M.diagnostics =
 	Warn = " ",
 	Hint = " ",
 	Info = " ",
+}
+
+M.component =
+{
+    LSP = " ",
+	DAP = " ",
+}
+
+M.widget =
+{
+	Calendar = "",
+	Watch = " ", -- 󰥔
+}
+
+M.git =
+{
+	branch = "",
+	added = " ",
+	modified = " ",
+	removed = " ",
+}
+
+M.lang=
+{
+	python = " ",
+}
+
+M.file_status =
+{
+	modified = "[+]",
+	readonly = "[ro]",
+	unnamed = "[no name]",
+	newfile = "[new]",
+}
+
+M.dap =
+{
+	Stopped = { "󰁕 ", "DiagnosticWarn", "DapStoppedLine" },
+	Breakpoint = " ",
+	BreakpointCondition = " ",
+	BreakpointRejected = { " ", "DiagnosticError" },
+	LogPoint = ".>",
 }
 
 return M

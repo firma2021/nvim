@@ -21,6 +21,14 @@ return
             return #gitdir > 0
         end
 
+        local icons = require("plugins.util.icons")
+		local watch =icons.widget.Watch
+        local diag = icons.diagnostics
+		local git = icons.git
+        local com = icons.component
+        local py = icons.lang.python
+        local fs = icons.file_status
+
 		return
 		{
 			options =
@@ -32,7 +40,7 @@ return
 
 				disabled_filetypes =
 				{
-					statusline = { "alpha", },
+					statusline = { "alpha", "lazy", },
 					winbar = {},
 				},
 
@@ -53,14 +61,14 @@ return
 				lualine_a =
 				{
                     "mode",
-					{ "datetime", style = " " .. "%H:%M" },
+					{ "datetime", style = watch .. "%H:%M" },
 				},
 
 				lualine_b =
 				{
                     {
                         "branch",
-                        icon = "",
+                        icon = git.branch,
 						color = {fg = "#04A5E5", gui = "bold"},
 						cond = has_dot_git_dir,
 					},
@@ -68,15 +76,15 @@ return
 						"diff",
 						symbols =
 						{
-							added = " ",
-							modified = " ",
-							removed = " ",
+							added = git.added,
+							modified = git.modified,
+							removed = git.removed,
                         },
                         -- source =
                         -- {
 						-- 	added = vim.b.gitsigns_status_dict.added,
 						-- 	modified = vim.b.gitsigns_status_dict.changed,
-                        --     removed = vim.b.gitsigns_status_dict.removed,
+                        --  removed = vim.b.gitsigns_status_dict.removed,
 						-- },
 						cond = has_dot_git_dir,
 					},
@@ -90,10 +98,10 @@ return
 						sections = { 'error', 'warn', 'info', 'hint' }, -- use default value
                         symbols =
 						{
-							error = " ",
-							warn = " ",
-							info = " ",
-							hint = " ",
+							error =diag.Error,
+							warn = diag.Warn,
+							info = diag.Info,
+							hint = diag.Hint,
 						},
 					},
 					{
@@ -122,7 +130,7 @@ return
 							return msg
 						end,
 
-						icon = " ",
+						icon = com.LSP,
 
 						color = { fg = "#ec5f67", gui = "bold" },
 					},
@@ -131,7 +139,7 @@ return
 					},
 					{
 						function()
-							return "  " .. require("dap").status()
+							return com.DAP .. require("dap").status()
 						end,
 
 						cond = function()
@@ -148,13 +156,13 @@ return
                         function()
                             local path = os.getenv("VIRTUAL_ENV") -- python virtual env
 							if path then
-								return " " .. path:sub(path:match(".*/()"))
+								return py .. path:sub(path:match(".*/()"))
 							end
 							path = os.getenv("CONDA_DEFAULT_ENV") --python conda virtual env
                             if path then
-                                return " " .. path:sub(path:match(".*/()"))
+                                return py .. path:sub(path:match(".*/()"))
                             end
-							return " " .."invalid venv"
+							return py .."invalid venv"
 						end,
 						cond = function ()
 							return vim.api.nvim_buf_get_option(0, "filetype") == "python" and (os.getenv("VIRTUAL_ENV") or os.getenv("CONDA_DEFAULT_ENV"))
@@ -167,45 +175,23 @@ return
                 lualine_x =
 				{
 					{
-						function()
-							return require("noice").api.status.command.get()
-						end,
-
-						cond = function()
-							return package.loaded["noice"] and require("noice").api.status.command.has()
-						end,
-
-						color = function()
-							local hl = vim.api.nvim_get_hl(0, { name = "Statement" })
-							local fg = hl and hl.fg
-							return fg and { fg = string.format("#%06x", fg) }
-						end,
+						function() return "msg" .. require("noice").api.status.message.get_hl() end,
+						cond = package.loaded["noice"] and require("noice").api.status.message.has,
+          			},
+					{
+						function() return "cmd" .. require("noice").api.status.command.get() end,
+						cond = package.loaded["noice"] and require("noice").api.status.command.has,
+						color = { fg = "#ff9e64" },
 					},
 					{
-						function()
-							return require("noice").api.status.mode.get()
-						end,
-
-						cond = function()
-							return package.loaded["noice"] and require("noice").api.status.mode.has()
-						end,
-
-						color = function()
-							local hl = vim.api.nvim_get_hl(0, { name = "Constant" })
-							local fg = hl and hl.fg
-							return fg and { fg = string.format("#%06x", fg) }
-						end,
+						function() return "mode" .. require("noice").api.status.mode.get() end,
+						cond = package.loaded["noice"] and require("noice").api.status.mode.has,
+						color = { fg = "#ff9e64" },
 					},
 					{
-						require("lazy.status").updates,
-
+						function() return "lazy" .. require("lazy.status").updates() end,
 						cond = require("lazy.status").has_updates,
-
-						color = function()
-							local hl = vim.api.nvim_get_hl(0, { name = "Special" })
-							local fg = hl and hl.fg
-							return fg and { fg = string.format("#%06x", fg) }
-						end,
+						color = { fg = "#ff9e64" },
 					},
 				},
                 lualine_y =
@@ -220,10 +206,10 @@ return
 						newfile_status = true, --显示新文件(创建后未写入的文件)的状态
                         symbols =
 						{
-							modified = "[+]",
-							readonly = "[ro]",
-							unnamed = "[no name]",
-							newfile = "[new]",
+							modified = fs.modified,
+							readonly = fs.readonly,
+							unnamed = fs.unnamed,
+							newfile = fs.newfile,
 						},
 					},
                     {
@@ -334,7 +320,7 @@ return
                 "overseer",
 				"quickfix",
                 "toggleterm",
-				{ sections= { lualine_a = { "filetype" }, }, filetypes = { "DiffviewFiles" }, },
+				{ sections = { lualine_a = { "filetype" }, }, filetypes = { "DiffviewFiles" }, }, --自定义插件
 			},
 		}
 	end,
