@@ -6,16 +6,18 @@ return
 
 	dependencies = { "nvim-lua/plenary.nvim" },
 
-	lazy = false, --fixme： 该插件不能懒加载？
+	lazy = false,
 	enent = { "BufReadPost", "BufNewFile" },
+
+    cmd = { "TodoTelescope", },
 
 	keys =
 	{
 		{ "]t", function() require("todo-comments").jump_next() end, desc = "next error/warning todo comment" },
 		{ "[t", function() require("todo-comments").jump_prev() end, desc = "prev error/warning todo comment" },
-	},
 
-	cmd = { "TodoQuickFix", "TodoLocList", "TodoTelescope", },
+		{ "<leader>st", "<cmd>TodoTelescope<cr>", desc = "todo" },
+	},
 
 	--使用默认配置，额外指定了一些关键字
 	opts =

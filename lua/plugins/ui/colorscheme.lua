@@ -242,7 +242,7 @@ return
 				markdown = true,
 				mason = true,
 				neotree = { enabled = true, show_root = true, transparent_panel = true },
-				mini = true,
+				mini = false,
 				noice = true,
 				cmp = true, -- nvim-cmp
 				dap =
@@ -273,7 +273,7 @@ return
 					},
 				},
 				notify = true, -- nvim-notify
-				nvimtree = false, -- nvim-tree.lua
+				nvimtree = true, -- nvim-tree.lua
 				treesitter = true,
 				treesitter_context = true,
 				overseer = true,
@@ -283,9 +283,9 @@ return
 					--style = "nvchad" 无边框，不好看
 				},
 				illuminate = true,
-				which_key = true,
+                which_key = true,
 
-
+				semantic_tokens = true,
 			},
 
 			--Catppuccin can pre compute the results of your configuration and store the results in a compiled lua file.

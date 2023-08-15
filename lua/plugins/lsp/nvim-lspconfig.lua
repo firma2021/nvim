@@ -36,6 +36,13 @@ return
         require("plugins.util.diagnostics_config")()
         require("plugins.util.lsp_ui")()
 
+	-- 	local capabilities = vim.tbl_deep_extend(
+    --     "force",
+    --     {},
+    --     vim.lsp.protocol.make_client_capabilities(),
+    --     has_cmp and cmp_nvim_lsp.default_capabilities() or {},
+    --     opts.capabilities or {}
+    --   )
 		local cap = require('cmp_nvim_lsp').default_capabilities()
             require('lspconfig').clangd.setup(
 			{

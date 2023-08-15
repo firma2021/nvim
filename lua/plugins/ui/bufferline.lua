@@ -68,8 +68,8 @@ return
 			offsets =
 			{
 				{
-					filetype = "neo-tree",
-					text = "neo-tree",
+					filetype = "nvim-tree",
+					text = "nvim-tree", -- fixme
 					highlight = "Directory",
 					text_align = "left",
 				},

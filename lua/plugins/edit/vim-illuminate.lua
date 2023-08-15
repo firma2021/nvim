@@ -3,6 +3,7 @@ return
 {
     "RRethy/vim-illuminate",
 
+	lazy = true,
     event = { "BufReadPost", "BufNewFile" },
 
     keys =
@@ -24,15 +25,8 @@ return
     config = function(plugin, opts)
       require("illuminate").configure(opts)
 
-      local function map(key, dir, buffer)
-        vim.keymap.set("n", key, function()
-          require("illuminate")["goto_" .. dir .. "_reference"](false)
-        end, { desc = dir:sub(1, 1):upper() .. dir:sub(2) .. " Reference", buffer = buffer })
-      end
-
-      map("]]", "next")
-      map("[[", "prev")
-
+      vim.keymap.set("n", "]]", function() require("illuminate")["goto_next_reference"](false) end, { desc = "goto_next_reference (vim-illuminate)", })
+	  vim.keymap.set("n", "[[", function() require("illuminate")["goto_prev_reference"](false) end, { desc = "goto prev reference (vim-illuminate)", })
     end,
 
 }
