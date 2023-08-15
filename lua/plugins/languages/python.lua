@@ -9,6 +9,13 @@ return
 	},
 
 	{
+    	"williamboman/mason-lspconfig.nvim",
+        opts = function(_, opts)
+			vim.list_extend(opts.ensure_installed, {"pylsp",})
+		end,
+    },
+	
+	{
         "neovim/nvim-lspconfig",
 
         opts =

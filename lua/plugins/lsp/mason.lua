@@ -5,7 +5,7 @@
 
 --尽管许多包可以在NeoVim中直接使用，但推荐使用第三方插件进一步集成这些包。
 --推荐安装的第三方插件有：
---mason-lspconfig.nvim (LSP)
+--mason-lspconfig.nvim (LSP), 尤其推荐在windows平台上使用
 --nvim-dap-ui (DAP)
 --null-ls.nvim (linter, formatter)
 

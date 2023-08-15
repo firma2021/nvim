@@ -4,67 +4,63 @@ return
         "nvim-treesitter/nvim-treesitter",
 
 		opts = function(plugin, opts)
-			vim.list_extend(opts.ensure_installed, { "c", "cpp" }) --" cuda","proto", (Protobuf)
+			vim.list_extend(opts.ensure_installed, { "c", "cpp", }) --" cuda","proto", (Protobuf)
 		end,
-	},
-
-	{
-        "neovim/nvim-lspconfig",
-
-        opts =
-		{
-            servers =
-			{
-                clangd =
-				{
-                    keys =
-					{
-						{ "<leader>cR", "<cmd>ClangdSwitchSourceHeader<cr>", desc = "switch source/header (C/C++)" },
-                    },
-
-                    capabilities =
-					{
-						offsetEncoding = { "utf-16" },
-                    },
-
-					cmd =
-					{
-						"clangd",
-
-						"--query-driver=/usr/bin/**/clang-*,/usr/bin/gcc,/usr/bin/g++",
-
-						"--background-index",
-						"--background-index-priority=background",
-
-						"--all-scopes-completion",
-						"--completion-style=detailed",
-						"--function-arg-placeholders",
-						"--header-insertion=iwyu",
-						"--header-insertion-decorators",
-						"--all-scopes-completion",
-
-						"-j=12",
-
-						"--pch-storage=memory",
-
-						"--pretty",
-
-						"--clang-tidy",
-
-						"--enable-config",
-                    },
-
-                    init_options =
-					{
-						usePlaceholders = true,
-						completeUnimported = true,
-						clangdFileStatus = true,
-					},
-				},
-            },
-    	},
     },
 
+	{
+    "williamboman/mason-lspconfig.nvim",
+        opts = function(_, opts)
+            vim.list_extend(opts.ensure_installed, { "clangd" })
+
+			opts.handlers["clangd"] =
+            {
+				keys =
+				{
+					{ "<leader>cR", "<cmd>ClangdSwitchSourceHeader<cr>", desc = "switch source/header (C/C++)" },
+				},
+
+				capabilities =
+				{
+					offsetEncoding = { "utf-16" },
+				},
+
+				cmd =
+				{
+					"clangd",
+
+					"--query-driver=/usr/bin/**/clang-*,/usr/bin/gcc,/usr/bin/g++",
+
+					"--background-index",
+					"--background-index-priority=background",
+
+					"--all-scopes-completion",
+					"--completion-style=detailed",
+					"--function-arg-placeholders",
+					"--header-insertion=iwyu",
+					"--header-insertion-decorators",
+					"--all-scopes-completion",
+
+					"-j=12",
+
+					"--pch-storage=memory",
+
+					"--pretty",
+
+					"--clang-tidy",
+
+					"--enable-config",
+				},
+
+				init_options =
+				{
+					usePlaceholders = true,
+					completeUnimported = true,
+					clangdFileStatus = true,
+				},
+			}
+		end,
+    },
   {
     "mfussenegger/nvim-dap",
     optional = true,
