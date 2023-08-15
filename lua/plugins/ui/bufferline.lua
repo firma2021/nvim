@@ -55,7 +55,7 @@ return
 			--level：字符串，"error" | "warning"
 			--diagnostics_dict：字典，
 			diagnostics_indicator = function(count, level, diagnostics_dict, context)
-				local icons = require("util.icons").diagnostics
+				local icons = require("plugins.util.icons").diagnostics
 
 				-- 相当于C中的 diagnostics_dict.error ? icons.Error .. diagnostics_dict.error .. " " : ""
 				local ret = (diagnostics_dict.error and icons.Error .. diagnostics_dict.error .. " " or "") ..

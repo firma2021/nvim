@@ -27,12 +27,59 @@ return
 	{
         inlay_hints =
 		{
-      		enabled = true, -- Neovim >= 0.10.0
+      		enabled = true,
         },
 	},
 
     config = function(plugin, opts)
         require("plugins.util.lsp_keymaps")()
-		require("plugins.util.diagnostics_config")()
+        require("plugins.util.diagnostics_config")()
+        require("plugins.util.lsp_ui")()
+
+		local cap = require('cmp_nvim_lsp').default_capabilities()
+            require('lspconfig').clangd.setup(
+			{
+				keys =
+				{
+					{ "<leader>cR", "<cmd>ClangdSwitchSourceHeader<cr>", desc = "switch source/header (C/C++)" },
+				},
+
+				capabilities = vim.list_extend(cap, { offsetEncoding = { "utf-16" },}),
+
+				cmd =
+				{
+					"clangd",
+
+					"--query-driver=/usr/bin/**/clang-*,/usr/bin/gcc,/usr/bin/g++",
+
+					"--background-index",
+					"--background-index-priority=background",
+
+					"--all-scopes-completion",
+					"--completion-style=detailed",
+					"--function-arg-placeholders",
+					"--header-insertion=iwyu",
+					"--header-insertion-decorators",
+					"--all-scopes-completion",
+
+					"-j=12",
+
+					"--pch-storage=memory",
+
+					"--pretty",
+
+					"--clang-tidy",
+
+					"--enable-config",
+				},
+
+				init_options =
+				{
+					usePlaceholders = true,
+					completeUnimported = true,
+					clangdFileStatus = true,
+				},
+			}
+            )
     end,
 }

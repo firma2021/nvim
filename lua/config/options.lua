@@ -17,7 +17,7 @@ vim.opt.updatetime = 250 --这个时间内光标没有移动，会触发CursorHo
 vim.opt.encoding = "utf-8"                           --vim内部使用的字符编码。可以在vim中输入:set encoding命令来查看当前编码
 vim.opt.fileencodings = { "utf-8", "gbk", "utf-16" } --打开文件时, 尝试识别这些编码格式
 vim.opt.fileencoding = "utf-8"                       --文件保存时的字符编码
-vim.opt.termencoding = "utf-8"                       --终端的编码
+--vim.opt.termencoding = "utf-8"                       --终端的编码
 
 
 --编辑设置--
