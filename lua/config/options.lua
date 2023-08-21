@@ -1,3 +1,4 @@
+-- see :h nvim-default
 -- see :help vim.o
 --vim.opt是比vim.o更方便的lua接口
 
@@ -21,7 +22,6 @@ vim.opt.fileencoding = "utf-8"                       --文件保存时的字符�
 
 
 --编辑设置--
-vim.opt.backspace = { "indent", "eol", "start" } --在插入模式下可以用退格键删除: 自动缩进，换行符，删除到当前行的开头
 vim.opt.number = true                            --显示行号
 vim.opt.relativenumber = false                   --虽然显示相对行号后方便跳转，但显示绝对行号更自然
 vim.opt.cursorline = true                        --高亮当前行

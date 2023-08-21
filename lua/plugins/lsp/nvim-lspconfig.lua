@@ -29,6 +29,8 @@ return
 		{
       		enabled = true,
         },
+
+		capabilities = {},
 	},
 
     config = function(plugin, opts)
@@ -36,13 +38,6 @@ return
         require("plugins.util.diagnostics_config")()
         require("plugins.util.lsp_ui")()
 
-	-- 	local capabilities = vim.tbl_deep_extend(
-    --     "force",
-    --     {},
-    --     vim.lsp.protocol.make_client_capabilities(),
-    --     has_cmp and cmp_nvim_lsp.default_capabilities() or {},
-    --     opts.capabilities or {}
-    --   )
 		local cap = require('cmp_nvim_lsp').default_capabilities()
             require('lspconfig').clangd.setup(
 			{
@@ -87,6 +82,16 @@ return
 					clangdFileStatus = true,
 				},
 			}
-            )
+        )
+
+        local lspconfig = require("lspconfig")
+        local servers = opts.servers
+
+		local capabilities = vim.tbl_deep_extend("force",{},vim.lsp.protocol.make_client_capabilities(), require("cmp_nvim_lsp").default_capabilities(), opts.capabilities or {})
+
+        for server, config in pairs(servers) do
+			local conf = vim.tbl_deep_extend("error", { capabilities = vim.deepcopy(capabilities), }, servers[server] or {})
+			lspconfig[server].setup(conf)
+		end
     end,
 }

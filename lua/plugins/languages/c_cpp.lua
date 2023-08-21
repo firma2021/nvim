@@ -19,6 +19,10 @@ return
 
     {
         "neovim/nvim-lspconfig",
+        opts = function(plugin, opts)
+            opts.servers = opts.servers or {}
+			
+		end,
     },
 
 	{
