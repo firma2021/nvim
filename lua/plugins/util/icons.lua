@@ -97,10 +97,42 @@ M.widget =
 
 M.git =
 {
-	branch = "",
+    branch = "",
+
 	added = " ",
 	modified = " ",
-	removed = " ",
+    removed = " ",
+
+	unstaged = "✗",
+    staged = "✓",
+
+    unmerged = "",
+
+    renamed = "➜",
+
+    untracked = "★",
+
+    deleted = "",
+
+	ignored = "◌",
+}
+
+M.file_type =
+{
+    file_default = "󰈚",
+    file_symlink = "",
+
+	folder_default = "",
+    open = "",
+
+	empty = "",
+	empty_open = "",
+
+	folder_symlink = "",
+    symlink_open = "",
+
+	arrow_open = "",
+	arrow_closed = "",
 }
 
 M.lang=
@@ -124,5 +156,7 @@ M.dap =
 	BreakpointRejected = { " ", "DiagnosticError" },
 	LogPoint = ".>",
 }
+
+M.bookmark = "󰃃"
 
 return M

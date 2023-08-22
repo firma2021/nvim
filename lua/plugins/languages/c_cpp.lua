@@ -21,7 +21,51 @@ return
         "neovim/nvim-lspconfig",
         opts = function(plugin, opts)
             opts.servers = opts.servers or {}
-			
+
+            opts.servers.clangd =
+			{
+				keys =
+				{
+					{ "<leader>cR", "<cmd>ClangdSwitchSourceHeader<cr>", desc = "switch source/header (C/C++)" },
+				},
+
+				capabilities = { offsetEncoding = { "utf-16" }, },
+
+				cmd =
+				{
+					"clangd",
+
+					"--query-driver=/usr/bin/**/clang-*,/usr/bin/gcc,/usr/bin/g++",
+
+					"--background-index",
+					"--background-index-priority=background",
+
+					"--all-scopes-completion",
+					"--completion-style=detailed",
+					"--function-arg-placeholders",
+					"--header-insertion=iwyu",
+					"--header-insertion-decorators",
+					"--all-scopes-completion",
+
+					"-j=12",
+
+					"--pch-storage=memory",
+
+					"--pretty",
+
+					"--clang-tidy",
+
+					"--enable-config",
+				},
+
+				init_options =
+				{
+					usePlaceholders = true,
+					completeUnimported = true,
+					clangdFileStatus = true,
+				},
+		}
+
 		end,
     },
 

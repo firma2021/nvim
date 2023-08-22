@@ -36,26 +36,20 @@ local function config_diagnostics()
 
     vim.diagnostic.config(diagnostics)
 
-    local inlay_hint = vim.lsp.buf.inlay_hint or vim.lsp.inlay_hint
+    if not vim.fn.has("nvim-0.10.0") then return end
 
-    local make_inlay_hint = function(client, buffer)
-        if client.supports_method('textDocument/inlayHint') then
-            inlay_hint(buffer, true)
-        end
-    end
-
-
-    if inlay_hint then
-        vim.api.nvim_create_autocmd("LspAttach",
-            {
-                callback = function(args)
-                    local buffer = args.buf
-                    local client = vim.lsp.get_client_by_id(args.data.client_id)
-                    make_inlay_hint(client, buffer)
-                end,
-            }
-        )
-    end
+	vim.api.nvim_create_autocmd("LspAttach",
+		{
+			callback = function(args)
+				local buffer = args.buf
+				local client = vim.lsp.get_client_by_id(args.data.client_id)
+				local inlay_hint = vim.lsp.buf.inlay_hint or vim.lsp.inlay_hint
+				if client.supports_method('textDocument/inlayHint') then
+					inlay_hint(buffer, true)
+				end
+			end,
+		}
+	)
 end
 
 return config_diagnostics
