@@ -5,7 +5,8 @@ local function config_diagnostics()
         {
             spacing = 4,
             source = "if_many",
-            prefix = function(diagnostic)
+            prefix = vim.fn.has("nvim-0.10.0") == 0 and "●" or
+			function(diagnostic)
                 local icons = require("plugins.util.icons").diagnostics
                 for d, icon in pairs(icons) do
                     if diagnostic.severity == vim.diagnostic.severity[d:upper()] then
@@ -36,9 +37,8 @@ local function config_diagnostics()
 
     vim.diagnostic.config(diagnostics)
 
-    if not vim.fn.has("nvim-0.10.0") then return end
-
-	vim.api.nvim_create_autocmd("LspAttach",
+    if vim.fn.has("nvim-0.10.0") ~= 0 then
+    	vim.api.nvim_create_autocmd("LspAttach",
 		{
 			callback = function(args)
 				local buffer = args.buf
@@ -50,6 +50,8 @@ local function config_diagnostics()
 			end,
 		}
 	)
+    end
+
 end
 
 return config_diagnostics

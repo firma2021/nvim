@@ -9,6 +9,8 @@ return
 	lazy = true,
 	event = { "BufReadPost", "BufNewFile" },
 
+    enable = false,
+
 	cmd = { "LspInstall", "LspUninstall" }, --mason-lspconfig内置命令
 
 	dependencies =

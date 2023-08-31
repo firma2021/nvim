@@ -17,7 +17,7 @@ return
 
         lazy = true,
 
-        init = function()
+        init = function() --init选项会破坏懒加载
 			local lazy = require("lazy")
 			vim.ui.select = function(...)
 				lazy.load({ plugins = { "dressing.nvim" } })

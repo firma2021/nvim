@@ -10,6 +10,7 @@
 --   command_mode = "c",
 --   select_mode = "s",
 
+-- <cmd> 可以在插入模式中使用
 -- "<cmd>...<cr>"不会在命令栏中显示执行的命令，而":...<cr>"可能显示，可以指定silent = true选项禁止显示。
 --
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true }) --将空格映射为不执行任何操作
@@ -36,7 +37,6 @@ vim.keymap.set("n", "<c-a>", "gg<s-v>G")
 vim.keymap.set("n", "<leader>n", "<cmd>enew<cr>", {desc = "edit new file"})
 vim.keymap.set("n", "<leader>w", "<cmd>w<cr>", {desc = "save"})
 
-vim.keymap.set("n", "<c-s>", "<cmd>w!<cr>", {desc = "force save"})
 vim.keymap.set("n", "<c-q>", "<cmd>q!<cr>", {desc = "force quit"})
 
 vim.keymap.set("n", "|", "<cmd>vsplit<cr>", {desc = "vertical split"})
@@ -95,3 +95,7 @@ vim.keymap.set("v", ">", ">gv", { desc = "add right indent" })
 vim.keymap.set("i", ",", ",<c-g>u")
 vim.keymap.set("i", ".", ".<c-g>u")
 vim.keymap.set("i", ";", ";<c-g>u")
+
+vim.keymap.set({"n", "i"}, "<c-s>", "<cmd>w!<cr>", {desc = "force save"}) --save
+vim.keymap.set("v", "<C-c>", '"+y', {desc = "yank (copy)"}) -- copy
+vim.keymap.set("v", "<C-x>", '"+d', {desc = "delete (cut)"}) -- cut

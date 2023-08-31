@@ -21,7 +21,7 @@ return
 			"ahmedkhalf/project.nvim", --superior project management solution
 			event = { "CursorHold", "CursorHoldI" },
 			config = function ()
-				require("project_nvim").setup({ignore_lsp = { "null-ls", "codeium" }, })
+				require("project_nvim").setup({ignore_lsp = { "codeium" }, })
 			end,
 		},
         {
@@ -152,7 +152,7 @@ return
                 },
 
                 file_ignore_patterns = { "node_modules" },
-				
+
                 mappings =
 				{
                     i =
